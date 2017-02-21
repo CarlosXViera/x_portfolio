@@ -17,16 +17,11 @@ module.exports = {
   	],
   output: {
     path: __dirname + '/public',
-    filename: 'pressing-game.js'
+    filename: 'bundle.js'
   },
 	resolve: {
     modules: [path.resolve(__dirname, "./src"), "node_modules"],
-		alias: {
-			utils: path.resolve(__dirname, './src/components/utils.js'),
-			Vertex: path.resolve(__dirname, './src/components/Vertex.js'),
-			Edge: path.resolve(__dirname, './src/components/Edge.js'),
-			Graph: path.resolve(__dirname, './src/components/Graph.js')
-		},
+		alias: {'Background': path.resolve(__dirname, "./src/components/Background.js")},
     extensions: ['.js']
   },
 	module: {

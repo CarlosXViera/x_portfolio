@@ -1,13 +1,5 @@
-var ouuid = require('utils').ouuid;
-var contains = require('utils').contains;
-import Vertex from 'Vertex';
-import Edge from 'Edge';
-import Graph from 'Graph';
-
-
-
+var Background = require('Background');
 
 window.onload = function(){
-window.graph = new Graph();
-
+  window.bg = new Background();
 }

@@ -1,8 +1,0 @@
-.disable_highlight {
-  -webkit-touch-callout: none; /* iOS Safari disable highlight */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera disable highlight */
-  -moz-user-select: none;      /* Firefox disable highlight*/
-  -ms-user-select: none;       /* Internet Explorer/Edge  disable highlight */
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-           
-}
