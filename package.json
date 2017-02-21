@@ -1,0 +1,36 @@
+{
+  "name": "pressing_game",
+  "version": "1.0.0",
+  "description": "application used to demonstrate the pressing-game conjectures.",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm run build && npm run webdriver-launch",
+    "build": "webpack & node server.js & BUILD=$!",
+    "webdriver-launch": "./node_modules/.bin/wdio wdio.conf.js & WEBDRIVER=$!"
+  },
+  "author": "NYCCT-Emerging Media Technology Department",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^4.0.0",
+    "d3-selection": "^0.9.0",
+    "d3-selection-multi": "^0.3.0",
+    "express": "^4.14.1",
+    "node-uuid": "^1.4.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-loader": "^6.3.1",
+    "babel-preset-env": "^1.1.8",
+    "babel-preset-es2017": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0",
+    "script-loader": "^0.7.0",
+    "selenium-standalone": "^6.0.1",
+    "wdio-mocha-framework": "^0.5.8",
+    "wdio-selenium-standalone-service": "0.0.8",
+    "wdio-spec-reporter": "0.0.5",
+    "webdriverio": "^4.6.2",
+    "webpack": "^2.2.1"
+  }
+}
