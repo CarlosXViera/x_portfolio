@@ -1,5 +1,5 @@
-var Background = require('Background');
+import Hexagon from 'Hexagon';
 
 window.onload = function(){
-  window.bg = new Background();
+  window.bg = new Hexagon();
 }

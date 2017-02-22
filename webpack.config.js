@@ -21,7 +21,7 @@ module.exports = {
   },
 	resolve: {
     modules: [path.resolve(__dirname, "./src"), "node_modules"],
-		alias: {'Background': path.resolve(__dirname, "./src/components/Background.js")},
+		alias: {'Hexagon': path.resolve(__dirname, "./src/components/Hexagon.js")},
     extensions: ['.js']
   },
 	module: {
