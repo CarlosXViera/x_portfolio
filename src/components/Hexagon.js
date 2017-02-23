@@ -21,29 +21,27 @@ export default class Hexagon {
         this.create();
     }
     duplicate(sel, data, remove) {
-      let content = d3.select(`#${sel.attr('id')}`).html();
+        let content = d3.select(`#${sel.attr('id')}`).html();
 
-      data.forEach((d) =>{
-        let newSel = d3.select('svg')
-            .append('g')
-            .html(content)
-            .attr('class', 'hexagon')
-            .attr('transform', `translate${d}`)
-            .on('click', () => {
-                console.log(this);
-            });
-      })
+        data.forEach((d) => {
+            let newSel = d3.select('svg')
+                .append('g')
+                .html(content)
+                .attr('class', 'hexagon')
+                .attr('transform', `translate${d}`)
+                .on('click', this.pop);
+        })
 
-      if(remove){
-        sel.remove();
-      }
+        if (remove) {
+            sel.remove();
+        }
 
     }
 
     generatePositions(choice) {
         let collection = [];
         if (choice === 'normal') {
-          console.log('in normal');
+            console.log('in normal');
 
             for (var i = 1; i < 19; i++) {
                 var x = -30;
@@ -79,6 +77,26 @@ export default class Hexagon {
 
     }
 
+    pop() {
+        let popLocation = [
+            "-15, -15",
+            "15, -15",
+            "-15, 0",
+            "15, 0",
+            "15, 15",
+            "-15, 15"
+        ]
+
+        for(var j = 0; j < this.children.length; j++){
+          d3.select(this.children[j]).transition()
+              .attr('transform', `translate(${popLocation[j]})`)
+              .transition()
+              .attr('transform', 'translate(0,0)')
+              .duration(600);
+        }
+
+    }
+
     create() {
         let svg = d3.select('body')
             .append('svg')
@@ -94,11 +112,13 @@ export default class Hexagon {
             .data(this.hexagonAttr)
             .enter()
             .append('polygon')
-            .attr("points", (d) => {
-                return d;
+            .attrs({
+                id: (d, i) => `triangle-${i + 1}`,
+                points: (d, i) => d
             });
-
-
+        // .attr("points", (d) => {
+        //     return d;
+        // });
 
         this.duplicate(hexagon, this.hexPositions);
         this.duplicate(hexagon, this.hexPositions2, 'remove');
