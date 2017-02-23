@@ -29,7 +29,8 @@ export default class Hexagon {
                 .html(content)
                 .attr('class', 'hexagon')
                 .attr('transform', `translate${d}`)
-                .on('click', this.pop);
+                .on('click', this.pop)
+                .on('mouseover', this.pop);
         })
 
         if (remove) {
@@ -87,12 +88,12 @@ export default class Hexagon {
             "-15, 15"
         ]
 
-        for(var j = 0; j < this.children.length; j++){
-          d3.select(this.children[j]).transition()
-              .attr('transform', `translate(${popLocation[j]})`)
-              .transition()
-              .attr('transform', 'translate(0,0)')
-              .duration(600);
+        for (var j = 0; j < this.children.length; j++) {
+            d3.select(this.children[j]).transition()
+                .attr('transform', `translate(${popLocation[j]})`)
+                .transition()
+                .attr('transform', 'translate(0,0)')
+                .duration(600);
         }
 
     }
@@ -103,10 +104,7 @@ export default class Hexagon {
             .attrs(this.svg_attrs);
 
         let hexagon = svg.append('g')
-            .attr('id', 'hexagon')
-            .on('click', () => {
-                console.log('clicked');
-            });
+            .attr('id', 'hexagon');
 
         hexagon.selectAll('polygon')
             .data(this.hexagonAttr)
@@ -116,9 +114,6 @@ export default class Hexagon {
                 id: (d, i) => `triangle-${i + 1}`,
                 points: (d, i) => d
             });
-        // .attr("points", (d) => {
-        //     return d;
-        // });
 
         this.duplicate(hexagon, this.hexPositions);
         this.duplicate(hexagon, this.hexPositions2, 'remove');
