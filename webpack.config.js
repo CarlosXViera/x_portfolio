@@ -21,7 +21,10 @@ module.exports = {
   },
 	resolve: {
     modules: [path.resolve(__dirname, "./src"), "node_modules"],
-		alias: {'Hexagon': path.resolve(__dirname, "./src/components/Hexagon.js")},
+		alias: {
+      'Hexagon': path.resolve(__dirname, "./src/components/Hexagon.js"),
+      applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
+    },
     extensions: ['.js']
   },
 	module: {

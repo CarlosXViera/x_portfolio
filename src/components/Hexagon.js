@@ -1,33 +1,80 @@
 export default class Hexagon {
     constructor() {
         this.hexagonAttr = [
-            "30 0 0 18 30 33 30 0",
-            "60 18 30 0 30 33 60 18",
-            "0 18 0 48 30 33 0 18",
-            "30 33 60 48 60 18 30 33",
-            "30 66 60 48 30 33 30 66",
-            "0 48 30 66 30 33 0 48"
+            "0 -33 -30 -12 0 0 0 -33",
+            "30 -12 0 -33 0 0 30 -12",
+            "-30 -12 -30 15 0 0 -30 -12",
+            "0 0 30 15 30 -12 0 0",
+            "0 33 30 15 0 0 0 33",
+            "-30 15 0 33 0 0 -33 15"
         ];
+
         this.svg_attrs = {
             // Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
             "viewBox": "0 0 " + 1440 + " " + 2560,
             "preserveAspectRatio": "xMinYMin meet",
         };
 
+        this.hexPositions = this.generatePositions('normal');
+        this.hexPositions2 = this.generatePositions();
+
         this.create();
     }
-    duplicate(sel, i) {
+    duplicate(sel, data, remove) {
+      let content = d3.select(`#${sel.attr('id')}`).html();
 
-        for (let j = 0; j < i; j++) {
-            let content = d3.select(`#${sel.attr('id')}`).html();
+      data.forEach((d) =>{
+        let newSel = d3.select('svg')
+            .append('g')
+            .html(content)
+            .attr('class', 'hexagon')
+            .attr('transform', `translate${d}`)
+            .on('click', () => {
+                console.log(this);
+            });
+      })
 
-            let newSel = d3.select('svg')
-                .append('g')
-                .html(content)
-                .attr('transform', `translate(${j * 100})`)
-                .on('click', () => {
-                    console.log(this);
-                });
+      if(remove){
+        sel.remove();
+      }
+
+    }
+
+    generatePositions(choice) {
+        let collection = [];
+        if (choice === 'normal') {
+          console.log('in normal');
+
+            for (var i = 1; i < 19; i++) {
+                var x = -30;
+                var y = -33;
+
+                var newX = (i * 80) + x;
+                collection.push('(' + newX + ',' + y + ')');
+
+                for (var j = 1; j < 20; j++) {
+                    var newY = (133 * j) + y;
+                    collection.push('(' + newX + ',' + newY + ')');
+                }
+
+            }
+            return collection;
+        } else {
+            console.log('in other')
+            for (var i = 0; i < 20; i++) {
+                var x = 10;
+                var y = 30;
+
+                var newX = (i * 80) + x;
+                collection.push('(' + newX + ',' + y + ')');
+
+                for (var j = 1; j < 20; j++) {
+                    var newY = (133 * j) + y;
+                    collection.push('(' + newX + ',' + newY + ')');
+                }
+
+            }
+            return collection;
         }
 
     }
@@ -47,13 +94,14 @@ export default class Hexagon {
             .data(this.hexagonAttr)
             .enter()
             .append('polygon')
-            .style('stroke', 'black')
-            .style('stroke-width', .3)
             .attr("points", (d) => {
                 return d;
             });
 
-        this.duplicate(hexagon, 5);
+
+
+        this.duplicate(hexagon, this.hexPositions);
+        this.duplicate(hexagon, this.hexPositions2, 'remove');
     }
 
 }
