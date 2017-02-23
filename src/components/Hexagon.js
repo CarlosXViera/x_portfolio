@@ -15,34 +15,29 @@ export default class Hexagon {
             "preserveAspectRatio": "xMinYMin meet",
         };
 
-        this.hexPositions = this.generatePositions('normal');
-        this.hexPositions2 = this.generatePositions();
+        this.hexPositions = this.generatePositions();
 
         this.create();
     }
     duplicate(sel, data, remove) {
         let content = d3.select(`#${sel.attr('id')}`).html();
 
-        data.forEach((d) => {
+        data.forEach((d, i) => {
             let newSel = d3.select('svg')
                 .append('g')
                 .html(content)
                 .attr('class', 'hexagon')
+                .attr('id', `hexagon-${i}`)
                 .attr('transform', `translate${d}`)
-                .on('click', this.pop)
-                .on('mouseover', this.pop);
+                .on('click', this.pop);
         })
-
-        if (remove) {
             sel.remove();
-        }
 
     }
 
     generatePositions(choice) {
         let collection = [];
-        if (choice === 'normal') {
-            console.log('in normal');
+
 
             for (var i = 1; i < 19; i++) {
                 var x = -30;
@@ -57,10 +52,8 @@ export default class Hexagon {
                 }
 
             }
-            return collection;
-        } else {
-            console.log('in other')
-            for (var i = 0; i < 20; i++) {
+
+            for (var i = 0; i < 19; i++) {
                 var x = 10;
                 var y = 30;
 
@@ -73,9 +66,8 @@ export default class Hexagon {
                 }
 
             }
-            return collection;
-        }
 
+            return collection;
     }
 
     pop() {
@@ -116,7 +108,6 @@ export default class Hexagon {
             });
 
         this.duplicate(hexagon, this.hexPositions);
-        this.duplicate(hexagon, this.hexPositions2, 'remove');
     }
 
 }
