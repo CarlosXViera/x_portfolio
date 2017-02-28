@@ -1,24 +1,26 @@
+
 export default class Hexagon {
     constructor() {
-        this.hexagonAttr = [
-            "0 -33 -30 -12 0 0 0 -33",
-            "30 -12 0 -33 0 0 30 -12",
-            "-30 -12 -30 15 0 0 -30 -12",
-            "0 0 30 15 30 -12 0 0",
-            "0 33 30 15 0 0 0 33",
-            "-30 15 0 33 0 0 -30 15"
-        ];
+      this.hexagonData = [
+        {x1: 0, y1: -30, x2: -30, y2: -12, x3: 0, y3: 3, x4: 0, y4: -30},
+        {x1: 30, y1: -12, x2: 0, y2: -30, x3: 0, y3: 3, x4: 30, y4: -12},
+        {x1: -30, y1: -12, x2: -30, y2:18, x3: 0, y3: 3, x4: -30, y4: -12},
+        {x1: 0, y1: 3, x2: 30, y2: 18, x3: 30, y3:-12, x4: 0, y4: 3},
+        {x1: 0, y1: 36, x2: 30, y2: 18, x3: 0, y3:-12, x4: 0, y4: 36},
+        {x1: -30, y1: 18, x2: 0, y2: 36, x3: 0, y3: 3, x4: -30, y4: 18}
+      ];
 
-        this.svg_attrs = {
+      this.svg_attrs = {
             // Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
             "viewBox": "0 0 " + 1440 + " " + 2560,
             "preserveAspectRatio": "xMinYMin meet",
         };
 
-        this.hexPositions = this.generatePositions();
+      // this.hexPositions = this.generatePositions();
 
-        this.create();
+      this.create();
     }
+
     duplicate(sel, data, remove) {
         let content = d3.select(`#${sel.attr('id')}`).html();
 
@@ -35,39 +37,37 @@ export default class Hexagon {
 
     }
 
-    generatePositions(choice) {
-        let collection = [];
+    generateData = function (data)
+
+    {
+      let actualHexData = [],
+      xOffset = 40,
+      yOffset = 63;
+
+      for(let i = 0; i < 19; i++){
+        let xSpacing = i * 80;
 
 
-            for (var i = 1; i < 19; i++) {
-                var x = -30;
-                var y = -33;
+        for(let j = 0; j < 20; j++){
+          let ySpacing = j * 133;
 
-                var newX = (i * 80) + x;
-                collection.push('(' + newX + ',' + y + ')');
+          actualHexData.push(data.map((datum) => {
+              return {x1: datum.x1 + xSpacing, y1: datum.y1 + ySpacing,
+                x2: datum.x2 + xSpacing, y2: datum.y2 + ySpacing,
+                x3: datum.x3 + xSpacing, y3: datum.y3 + ySpacing,
+                x4: datum.x4 + xSpacing, y4: datum.y4 + ySpacing}
+            }))
 
-                for (var j = 1; j < 20; j++) {
-                    var newY = (133 * j) + y;
-                    collection.push('(' + newX + ',' + newY + ')');
-                }
+          actualHexData.push(data.map((datum) => {
+              return {x1: datum.x1 + xSpacing + xOffset, y1: datum.y1 + ySpacing + yOffset,
+                x2: datum.x2 + xSpacing + xOffset, y2: datum.y2 + ySpacing + yOffset,
+                x3: datum.x3 + xSpacing + xOffset, y3: datum.y3 + ySpacing + yOffset,
+                x4: datum.x4 + xSpacing + xOffset, y4: datum.y4 + ySpacing + yOffset}
+            }))
+        }
+      }
+      return actualHexData;
 
-            }
-
-            for (var i = 0; i < 19; i++) {
-                var x = 10;
-                var y = 30;
-
-                var newX = (i * 80) + x;
-                collection.push('(' + newX + ',' + y + ')');
-
-                for (var j = 1; j < 20; j++) {
-                    var newY = (133 * j) + y;
-                    collection.push('(' + newX + ',' + newY + ')');
-                }
-
-            }
-
-            return collection;
     }
 
     pop() {
@@ -95,19 +95,39 @@ export default class Hexagon {
             .append('svg')
             .attrs(this.svg_attrs);
 
-        let hexagon = svg.append('g')
-            .attr('id', 'hexagon');
+        let coll = this.generateData(this.hexagonData);
 
-        hexagon.selectAll('polygon')
-            .data(this.hexagonAttr)
-            .enter()
-            .append('polygon')
-            .attrs({
-                id: (d, i) => `triangle-${i + 1}`,
-                points: (d, i) => d
-            });
+        // let hexagon = svg.append('g')
+        //     .attr('id', 'hexagons');
 
-        this.duplicate(hexagon, this.hexPositions);
+        coll.forEach((d, i) =>{
+          let group = svg.append('g').attr('id', `hex-${i}`);
+          let iter = 0;
+
+          for(let tri of d) {
+            ++iter
+            group.append('polygon')
+              .attrs({
+                id: `triangle-${iter}`,
+                points: `${tri.x1} ${tri.y1} ${tri.x2} ${tri.y2} ${tri.x3} ${tri.y3} ${tri.x4} ${tri.y4}`
+              })
+          }
+        })
+
+
+
+
+            // console.log(this.generateData(this.hexagonData));
+
+        // hexagon.selectAll('polygon')
+        //     .data(this.generateData(this.hexagonData))
+        //     .enter()
+        //     .append('polygon')
+        //     .attrs({
+        //         id: (d, i) => `triangle-${i + 1}`,
+        //         points: (d) => { return `${d.x1} ${d.y1} ${d.x2} ${d.y2} ${d.x3} ${d.y3} ${d.x4} ${d.y4}`}
+        //     });
+
     }
 
 }
