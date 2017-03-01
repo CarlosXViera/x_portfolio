@@ -1,8 +1,9 @@
 .hexagon {
-  transition: fill 2 ease;
+  transition: fill 4s ease;
   fill: $liohu4;
 }
 
 .hexagon:hover {
   fill:$sheDressedMe;
+  transition: fill .1s ease;
 }

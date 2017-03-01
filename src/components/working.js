@@ -68,7 +68,7 @@ followCursor(box, direction, mouse) {
 }
 
 if (mPos[0] < bBox.x) {
-  sel.attr('transform', 'translate(-10)').duration(1000);
+  sel.attr('transform', 'translate(10)').duration(1000);
   console.log('right!')
   return;
 }

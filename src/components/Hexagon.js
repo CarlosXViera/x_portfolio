@@ -47,7 +47,7 @@ export default class Hexagon {
 				x2: 30,
 				y2: 18,
 				x3: 0,
-				y3: -12,
+				y3: 3,
 				x4: 0,
 				y4: 36
 			},
@@ -77,6 +77,8 @@ export default class Hexagon {
 		let bBox = this.getBBox(),
 			mPos = d3.mouse(this);
 		bg.followCursor(this, bBox, mPos);
+
+		console.log(this.id);
 	}
 
 	generateData = function (data) {
@@ -122,6 +124,25 @@ export default class Hexagon {
 		return actualHexData;
 	}
 
+	pop() {
+	  let popLocation = [
+	    "-10, -10",
+	    "10, -10",
+	    "-10, 0",
+	    "10, 0",
+	    "10, 10",
+	    "-10, 10"
+	  ]
+
+	  for (var j = 0; j < this.children.length; j++) {
+	    d3.select(this.children[j]).transition()
+	      .attr('transform', `translate(${popLocation[j]})`)
+	      .transition()
+	      .attr('transform', 'translate(0,0)')
+	      .duration(1000).ease(d3.easeElasticIn);
+	  }
+	}
+
 	followCursor(selection, bBox, mPos) {
 		let sel = d3.select(selection);
 
@@ -151,8 +172,7 @@ export default class Hexagon {
 		if (mPos[1] > bBox.y + bBox.height) {
 			tBounce(selection, 0, 10);
 			// return;
-		}
-		if (mPos[0] > bBox.x + bBox.width) {
+		}else if (mPos[0] > bBox.x + bBox.width) {
 			tBounce(selection, 10, 0);
 			// return;
 		}
@@ -165,8 +185,10 @@ export default class Hexagon {
 		coll.forEach((d, i) => {
 			let group = svg.append('g')
 				.attr('id', `hex-${i}`)
+				.attr('class', 'hexagon')
 				.on('mouseenter', this.gravitate)
-				.on('mouseleave', this.gravitate);
+				.on('mouseleave', this.gravitate)
+				.on('click', this.pop);
 
 			let iter = 0;
 
