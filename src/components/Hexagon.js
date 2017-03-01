@@ -73,18 +73,11 @@ export default class Hexagon {
 	}
 
 
-	gravitate(self, mouse) {
-		let groups = document.getElementsByTagName('svg')[0].children;
-
-		for (let bBox of groups) {
-			if(self.intersectHex(mouse, bBox.getBoundingClientRect(), 10)){
-				self.followCursor(bBox, 'towards', mouse);
-			} else{
-				self.followCursor(bBox, 'reverse');
-			}
-		}
+	gravitate() {
+		let bBox = this.getBBox(),
+			mPos = d3.mouse(this);
+		bg.followCursor(this, bBox, mPos);
 	}
-
 
 	generateData = function (data) {
 		let actualHexData = [],
@@ -129,40 +122,51 @@ export default class Hexagon {
 		return actualHexData;
 	}
 
-	intersectHex(m, rect, offset) {
-		return (
-			(m[0] < rect.left && m[0] > rect.left - offset) ||
-			(m[1] > rect.bottom && m[1] < rect.bottom + offset) ||
-			(m[0] > rect.right && m[0] < rect.right + offset) ||
-			(m[1] < rect.top && m[1] > rect.top - offset)
-		)
-	}
+	followCursor(selection, bBox, mPos) {
+		let sel = d3.select(selection);
 
-	followCursor(box, direction, mouse) {
+		let tBounce = function (selection, x, y, n) {
+			let s = d3.select(selection);
 
-		switch (direction) {
-		case 'towards':
-			d3.select(box)
-				.transition()
-				.attr('transform', `translate(${mouse[0]},${mouse[1]})`)
-				.duration(5000);
-			break;
-		case 'reverse':
-			d3.select(box)
-				.transition()
-				.attr('transform', `translate(0,0)`)
-				.duration(300);
+			s.transition()
+				.duration(500)
+				.ease(d3.easeBounce)
+				.attr('transform', `translate(${x}, ${y})`)
+				.on('end', () => {
+					if (n) {
+						return;
+					}
+					tBounce(selection, 0, 0, 'stop');
+				})
 		}
 
-		return;
+		if (mPos[0] < bBox.x) {
+			tBounce(selection, -10, 0);
+			// return;
+		}
+		if (mPos[1] < bBox.y) {
+			tBounce(selection, 0, -10);
+			// return;
+		}
+		if (mPos[1] > bBox.y + bBox.height) {
+			tBounce(selection, 0, 10);
+			// return;
+		}
+		if (mPos[0] > bBox.x + bBox.width) {
+			tBounce(selection, 10, 0);
+			// return;
+		}
 	}
 
 	generateHex(svg) {
 		let coll = this.generateData(this.hexagonData);
+		let self = this;
 
 		coll.forEach((d, i) => {
 			let group = svg.append('g')
 				.attr('id', `hex-${i}`)
+				.on('mouseenter', this.gravitate)
+				.on('mouseleave', this.gravitate);
 
 			let iter = 0;
 
@@ -183,11 +187,7 @@ export default class Hexagon {
 		let self = this;
 		let svg = d3.select('body')
 			.append('svg')
-			.attrs(this.svg_attrs)
-			.on('mousemove', function () {
-				let mPos = d3.mouse(this);
-				self.gravitate(self, mPos);
-			});
+			.attrs(this.svg_attrs);
 
 		this.generateHex(svg)
 	}
