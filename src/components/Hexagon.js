@@ -1,5 +1,6 @@
 export default class Hexagon {
 	constructor() {
+		this.self = this;
 		this.hexagonData = [{
 				x1: 0,
 				y1: -30,
@@ -68,40 +69,24 @@ export default class Hexagon {
 			"preserveAspectRatio": "xMinYMin meet",
 		};
 
-		// this.hexPositions = this.generatePositions();
-
 		this.create();
 	}
 
-	gravitate() {
-    let mPos = d3.mouse(this);
-    console.log(mPos[0]);
-    let bBox = this.getBoundingClientRect();
-    let offset = 5;
-    if(mPos[0] > bBox.right - offset && mPos[0] < bBox.right){
-      console.log('To the right!');
-    }
+
+	gravitate(self, mouse) {
+		let groups = document.getElementsByTagName('svg')[0].children;
+
+		for (let bBox of groups) {
+			if(self.intersectHex(mouse, bBox.getBoundingClientRect(), 10)){
+				self.followCursor(bBox, 'towards', mouse);
+			} else{
+				self.followCursor(bBox, 'reverse');
+			}
+		}
 	}
 
-	duplicate(sel, data, remove) {
-		let content = d3.select(`#${sel.attr('id')}`).html();
 
-		data.forEach((d, i) => {
-			let newSel = d3.select('svg')
-				.append('g')
-				.html(content)
-				.attr('class', 'hexagon')
-				.attr('id', `hexagon-${i}`)
-				.attr('transform', `translate${d}`)
-				.on('click', this.pop);
-		})
-		sel.remove();
-
-	}
-
-	generateData = function(data)
-
-	{
+	generateData = function (data) {
 		let actualHexData = [],
 			xOffset = 40,
 			yOffset = 63;
@@ -140,41 +125,44 @@ export default class Hexagon {
 				}))
 			}
 		}
-		return actualHexData;
 
+		return actualHexData;
 	}
 
-	pop() {
-		let popLocation = [
-			"-15, -15",
-			"15, -15",
-			"-15, 0",
-			"15, 0",
-			"15, 15",
-			"-15, 15"
-		]
+	intersectHex(m, rect, offset) {
+		return (
+			(m[0] < rect.left && m[0] > rect.left - offset) ||
+			(m[1] > rect.bottom && m[1] < rect.bottom + offset) ||
+			(m[0] > rect.right && m[0] < rect.right + offset) ||
+			(m[1] < rect.top && m[1] > rect.top - offset)
+		)
+	}
 
-		for (var j = 0; j < this.children.length; j++) {
-			d3.select(this.children[j]).transition()
-				.attr('transform', `translate(${popLocation[j]})`)
+	followCursor(box, direction, mouse) {
+
+		switch (direction) {
+		case 'towards':
+			d3.select(box)
 				.transition()
-				.attr('transform', 'translate(0,0)')
-				.duration(600);
+				.attr('transform', `translate(${mouse[0]},${mouse[1]})`)
+				.duration(5000);
+			break;
+		case 'reverse':
+			d3.select(box)
+				.transition()
+				.attr('transform', `translate(0,0)`)
+				.duration(300);
 		}
 
+		return;
 	}
 
-	create() {
-		let svg = d3.select('body')
-			.append('svg')
-			.attrs(this.svg_attrs);
-
+	generateHex(svg) {
 		let coll = this.generateData(this.hexagonData);
 
 		coll.forEach((d, i) => {
 			let group = svg.append('g')
 				.attr('id', `hex-${i}`)
-				.on('mouseout', this.gravitate);
 
 			let iter = 0;
 
@@ -188,5 +176,19 @@ export default class Hexagon {
 			}
 		})
 
+		return coll;
+	}
+
+	create() {
+		let self = this;
+		let svg = d3.select('body')
+			.append('svg')
+			.attrs(this.svg_attrs)
+			.on('mousemove', function () {
+				let mPos = d3.mouse(this);
+				self.gravitate(self, mPos);
+			});
+
+		this.generateHex(svg)
 	}
 }
