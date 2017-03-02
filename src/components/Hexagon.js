@@ -1,6 +1,7 @@
 export default class Hexagon {
 	constructor() {
 		this.self = this;
+
 		this.hexagonData = [{
 				x1: 0,
 				y1: -30,
@@ -125,22 +126,22 @@ export default class Hexagon {
 	}
 
 	pop() {
-	  let popLocation = [
+		let popLocation = [
 	    "-10, -10",
 	    "10, -10",
-	    "-10, 0",
-	    "10, 0",
+	    "-12, 0",
+	    "12, 0",
 	    "10, 10",
 	    "-10, 10"
 	  ]
 
-	  for (var j = 0; j < this.children.length; j++) {
-	    d3.select(this.children[j]).transition()
-	      .attr('transform', `translate(${popLocation[j]})`)
-	      .transition()
-	      .attr('transform', 'translate(0,0)')
-	      .duration(1000).ease(d3.easeElasticIn);
-	  }
+		for (var j = 0; j < this.children.length; j++) {
+			d3.select(this.children[j]).transition()
+				.attr('transform', `translate(${popLocation[j]})`)
+				.transition()
+				.attr('transform', 'translate(0,0)')
+				.duration(1000).ease(d3.easeElasticIn);
+		}
 	}
 
 	followCursor(selection, bBox, mPos) {
@@ -172,7 +173,7 @@ export default class Hexagon {
 		if (mPos[1] > bBox.y + bBox.height) {
 			tBounce(selection, 0, 10);
 			// return;
-		}else if (mPos[0] > bBox.x + bBox.width) {
+		} else if (mPos[0] > bBox.x + bBox.width) {
 			tBounce(selection, 10, 0);
 			// return;
 		}
@@ -211,6 +212,30 @@ export default class Hexagon {
 			.append('svg')
 			.attrs(this.svg_attrs);
 
-		this.generateHex(svg)
+		this.generateHex(svg);
+
+		let glasses = svg.append('g').attr('id', 'glasses').attr('transform', 'translate(185,800)');
+
+		let legs = d3.select('#leg');
+		let content = legs.html();
+
+		glasses.append('g')
+			.attr('id', 'glasses')
+			.html(content);
+
+		legs.remove();
+
+		let frame = d3.select('#frame');
+		let extracontent = frame.html();
+
+		glasses.append('g')
+			.attr('id', 'frame')
+			.html(extracontent);
+
+		frame.remove();
+
+
+
+
 	}
 }
