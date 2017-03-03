@@ -75,6 +75,7 @@ export default class Hexagon {
 
 
 	gravitate() {
+    //remove access to global variable.
 		let bBox = this.getBBox(),
 			mPos = d3.mouse(this);
 		bg.followCursor(this, bBox, mPos);
@@ -82,7 +83,7 @@ export default class Hexagon {
 		console.log(this.id);
 	}
 
-	generateData = function (data) {
+	generateData = function(data) {
 		let actualHexData = [],
 			xOffset = 40,
 			yOffset = 63;
@@ -91,8 +92,8 @@ export default class Hexagon {
 			let xSpacing = i * 80;
 
 
-			for (let j = 0; j < 20; j++) {
-				let ySpacing = j * 133;
+			for (let j = 0; j < 21; j++) {
+				let ySpacing = j * 125;
 
 				actualHexData.push(data.map((datum) => {
 					return {
@@ -127,13 +128,13 @@ export default class Hexagon {
 
 	pop() {
 		let popLocation = [
-	    "-10, -10",
-	    "10, -10",
-	    "-12, 0",
-	    "12, 0",
-	    "10, 10",
-	    "-10, 10"
-	  ]
+			"-10, -10",
+			"10, -10",
+			"-12, 0",
+			"12, 0",
+			"10, 10",
+			"-10, 10"
+		]
 
 		for (var j = 0; j < this.children.length; j++) {
 			d3.select(this.children[j]).transition()
@@ -147,7 +148,7 @@ export default class Hexagon {
 	followCursor(selection, bBox, mPos) {
 		let sel = d3.select(selection);
 
-		let tBounce = function (selection, x, y, n) {
+		let tBounce = function(selection, x, y, n) {
 			let s = d3.select(selection);
 
 			s.transition()
@@ -187,7 +188,6 @@ export default class Hexagon {
 			let group = svg.append('g')
 				.attr('id', `hex-${i}`)
 				.attr('class', 'hexagon')
-				.on('mouseenter', this.gravitate)
 				.on('mouseleave', this.gravitate)
 				.on('click', this.pop);
 
@@ -206,6 +206,36 @@ export default class Hexagon {
 		return coll;
 	}
 
+	float(yCoord, direction) {
+    //remove duplication
+		let glasses = d3.select('#glasses');
+    let up = 'up';
+
+		if (direction && yCoord) {
+			glasses.transition()
+				.attr('transform', `translate(185,${yCoord})`)
+				.duration(1500)
+        .ease(d3.easeSinOut)
+				.on('end', () => {
+					this.float(yCoord + 100);
+				});
+
+        console.log(yCoord);
+		} else {
+      this.float(yCoord + 100, up);
+      console.log(yCoord);
+
+      // glasses.transition()
+			// 	.attr('transform', 'translate(185,)')
+			// 	.duration(1500).ease(d3.easeSinOut)
+			// 	.on('end', () => {
+			// 		this.float(up);
+			// 	})
+		}
+
+
+	}
+
 	create() {
 		let self = this;
 		let svg = d3.select('body')
@@ -214,7 +244,7 @@ export default class Hexagon {
 
 		this.generateHex(svg);
 
-		let glasses = svg.append('g').attr('id', 'glasses').attr('transform', 'translate(185,800)');
+		let glasses = svg.append('g').attr('id', 'glasses').attr('transform', 'translate(185,1000)');
 
 		let legs = d3.select('#leg');
 		let content = legs.html();
@@ -233,9 +263,7 @@ export default class Hexagon {
 			.html(extracontent);
 
 		frame.remove();
-
-
-
+		this.float(1000, 'down');
 
 	}
 }
