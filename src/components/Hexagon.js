@@ -1,3 +1,6 @@
+import Scream from 'scream';
+import Glasses from 'Glasses';
+
 export default class Hexagon {
 	constructor() {
 		this.self = this;
@@ -71,16 +74,15 @@ export default class Hexagon {
 		};
 
 		this.create();
+
+		this.frames = new Glasses(d3.select('svg'), 185, 1000);
 	}
 
+	gravitate(callback, context) {
 
-	gravitate() {
-    //remove access to global variable.
-		let bBox = this.getBBox(),
-			mPos = d3.mouse(this);
-		bg.followCursor(this, bBox, mPos);
-
-		console.log(this.id);
+		let bBox = context.getBBox(),
+			mPos = d3.mouse(context);
+		callback(context, bBox, mPos);
 	}
 
 	generateData = function(data) {
@@ -184,11 +186,13 @@ export default class Hexagon {
 		let coll = this.generateData(this.hexagonData);
 		let self = this;
 
+		console.log(self);
+
 		coll.forEach((d, i) => {
 			let group = svg.append('g')
 				.attr('id', `hex-${i}`)
 				.attr('class', 'hexagon')
-				.on('mouseleave', this.gravitate)
+				.on('mouseleave', () => self.gravitate(self.followCursor, group.node()))
 				.on('click', this.pop);
 
 			let iter = 0;
@@ -206,25 +210,6 @@ export default class Hexagon {
 		return coll;
 	}
 
-	showUpDown(sel, num){
-	  //have to keep translated x value constant
-	  return sel.transition()
-	    .attr('transform', `translate(185, ${num})`)
-	    .duration(1500)
-	    .ease(d3.easeSinOut);
-	}
-
-	float(sel, yCoord, toggling, callback) {
-		let self = this;
-	  if (toggling) {
-	    callback(sel, yCoord).on('end',
-			() => self.float(sel, yCoord, !toggling, callback));
-	  } else {
-		  callback(sel, (yCoord - 50)).on('end',
-			() => self.float(sel, yCoord, !toggling, callback))
-		}
-	}
-
 	create() {
 		let self = this;
 		let svg = d3.select('body')
@@ -232,31 +217,5 @@ export default class Hexagon {
 			.attrs(this.svg_attrs);
 
 		this.generateHex(svg);
-
-		let glasses = svg.append('g').attr('id', 'glasses').attr('transform', 'translate(185,1000)');
-
-		let legs = d3.select('#leg');
-		let content = legs.html();
-
-		glasses.append('g')
-			.attr('id', 'glasses')
-			.html(content);
-
-		legs.remove();
-
-		let frame = d3.select('#frame');
-		let extracontent = frame.html();
-
-		glasses.append('g')
-			.attr('id', 'frame')
-			.html(extracontent);
-
-		frame.remove();
-		this.float(d3.select('#glasses'), 1000, false, this.showUpDown);
-
-
-
 	}
-
-
 }

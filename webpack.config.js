@@ -23,6 +23,7 @@ module.exports = {
     modules: [path.resolve(__dirname, "./src"), "node_modules"],
 		alias: {
       'Hexagon': path.resolve(__dirname, "./src/components/Hexagon.js"),
+      'Glasses': path.resolve(__dirname, "./src/components/Glasses.js"),
       applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
     },
     extensions: ['.js']
