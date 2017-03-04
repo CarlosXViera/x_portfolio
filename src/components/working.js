@@ -86,3 +86,26 @@ if (mPos[1] < bBox.y) {
   sel.attr('transform', 'translate(0, -10)').duration(1000);
   return;
 }
+//updown
+
+showUpDown(sel, num){
+  //have to keep translated x value constant
+  sel.transition()
+    .attr('transform', `translate(185, ${num})`)
+    .duration(1500)
+    .ease(d3.easeSinOut);
+}
+
+float(sel, yCoord, toggling) {
+  if (toggling) {
+    toggling = !toggling; // becomes false
+    this.showUpDown(sel,yCoord); //animates down
+    this.float(sel, yCoord, toggling);//Passes the current coordinate
+  } else {
+    toggling = !toggling;//becomes true;
+    this.showUpdown(sel, (yCoord - 50));
+    this.float(sel, yCoord, toggling);
+  }
+
+
+}

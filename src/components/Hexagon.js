@@ -206,34 +206,23 @@ export default class Hexagon {
 		return coll;
 	}
 
-	float(yCoord, direction) {
-    //remove duplication
-		let glasses = d3.select('#glasses');
-    let up = 'up';
+	showUpDown(sel, num){
+	  //have to keep translated x value constant
+	  return sel.transition()
+	    .attr('transform', `translate(185, ${num})`)
+	    .duration(1500)
+	    .ease(d3.easeSinOut);
+	}
 
-		if (direction && yCoord) {
-			glasses.transition()
-				.attr('transform', `translate(185,${yCoord})`)
-				.duration(1500)
-        .ease(d3.easeSinOut)
-				.on('end', () => {
-					this.float(yCoord + 100);
-				});
-
-        console.log(yCoord);
-		} else {
-      this.float(yCoord + 100, up);
-      console.log(yCoord);
-
-      // glasses.transition()
-			// 	.attr('transform', 'translate(185,)')
-			// 	.duration(1500).ease(d3.easeSinOut)
-			// 	.on('end', () => {
-			// 		this.float(up);
-			// 	})
+	float(sel, yCoord, toggling, callback) {
+		let self = this;
+	  if (toggling) {
+	    callback(sel, yCoord).on('end',
+			() => self.float(sel, yCoord, !toggling, callback));
+	  } else {
+		  callback(sel, (yCoord - 50)).on('end',
+			() => self.float(sel, yCoord, !toggling, callback))
 		}
-
-
 	}
 
 	create() {
@@ -263,7 +252,11 @@ export default class Hexagon {
 			.html(extracontent);
 
 		frame.remove();
-		this.float(1000, 'down');
+		this.float(d3.select('#glasses'), 1000, false, this.showUpDown);
+
+
 
 	}
+
+
 }
