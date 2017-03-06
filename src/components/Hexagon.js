@@ -195,6 +195,15 @@ export default class Hexagon {
 		let coll = this.generateData(this.hexagonData, landscape);
 		let self = this;
 
+		let repelForce = d3.forceManyBody().strength(2).distanceMax(10).distanceMin(10);
+		let collisionForce = d3.forceCollide(25).strength(3).iterations(1);
+
+		let simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collisionForce', collisionForce)
+
+		console.log(simulation)
+
+
+
 		let nodes = svg.selectAll('g')
 			.data(coll)
 			.enter()
@@ -205,31 +214,52 @@ export default class Hexagon {
 				transform: (d) => d.transform
 			})
 			.on('click', this.pop)
-			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d));
+			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d))
+			.call(d3.drag()
+            .on("start",dragstarted)
+            .on("drag",dragged)
+            .on("end",dragended));
 
-			nodes.each((dt, i , a)=>{
-				d3.select(a[i]).selectAll('polygon').data(dt.data).enter().append('polygon').attrs({
+		nodes.each((dt, i, a) => {
+			dt.selector = d3.select(a[i]);
+			dt.selector.selectAll('polygon').data(dt.data).enter().append('polygon').attrs({
 				id: (d, i) => `triangle-${i}`,
 				points: (d) => `${d.x1} ${d.y1} ${d.x2} ${d.y2} ${d.x3} ${d.y3} ${d.x4} ${d.y4}`
-			})})
+			})
+		})
 
-		// .on('click', this.pop)
-		//
-		// .each(function (dt, i) {
-		//
-		// 	d3.select(this)
-		// 		.selectAll('polygon')
-		// 		.data(Object.keys(dt))
-		// 		.enter()
-		// 		.append('polygon')
-		// 		.attrs({
-		// 			id: (d, i) => `triangle-${i}`,
-		// 			points: (d, i) => `${dt[i].x1} ${dt[i].y1} ${dt[i].x2} ${dt[i].y2} ${dt[i].x3} ${dt[i].y3} ${dt[i].x4} ${dt[i].y4}`
-		// 		});
-		// });
-		//
-		// 	simulation.nodes(coll);
-		// console.log(coll);
+
+		function dragstarted(d) {
+			simulation.restart();
+			simulation.alpha(0.7);
+			d.fx = d.x;
+			d.fy = d.y;
+		}
+
+		function dragged(d) {
+			d.fx = d3.event.x;
+			d.fy = d3.event.y;
+		}
+
+		function dragended(d) {
+			simulation.stop();
+			coll.forEach(function (d) {
+				d.selector.transition().attr('transform', `translate(${d.tx}, ${d.ty})`).duration(500).ease(d3.easeCircleInOut).on('end', function () {
+					d.x = d.tx
+					d.y = d.ty
+				})
+
+			})
+			d.fx = null;
+			d.fy = null;
+			simulation.alphaTarget(0.1);
+		}
+
+		function ticked() {
+			nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
+		}
+
+		simulation.on("tick", ticked);
 
 		return coll;
 	}
