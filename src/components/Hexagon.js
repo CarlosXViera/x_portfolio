@@ -73,55 +73,54 @@ export default class Hexagon {
 			"preserveAspectRatio": "xMinYMin meet",
 		};
 
+		this.scream = Scream({
+			width: {
+				portrait: 1440,
+				landscape: 2560
+			}
+		});
+
 		this.create();
 
-		this.frames = new Glasses(d3.select('svg'), 185, 1000);
+		// this.frames = new Glasses(d3.select('svg'), 185, 1000);
 	}
 
-	gravitate(callback, context) {
+	gravitate(callback, context, data) {
 
 		let bBox = context.getBBox(),
 			mPos = d3.mouse(context);
-		callback(context, bBox, mPos);
+		callback(context, bBox, mPos, data);
 	}
 
-	generateData = function(data) {
+	generateData = function (data, landscape) {
 		let actualHexData = [],
 			xOffset = 40,
 			yOffset = 63;
+		//landscape or portrait
+		let maxX = landscape ? 33 : 19;
+		let maxY = landscape ? 12 : 21;
 
-		for (let i = 0; i < 19; i++) {
+
+		for (let i = 0; i < maxX; i++) {
 			let xSpacing = i * 80;
 
 
-			for (let j = 0; j < 21; j++) {
+			for (let j = 0; j < maxY; j++) {
 				let ySpacing = j * 125;
 
-				actualHexData.push(data.map((datum) => {
-					return {
-						x1: datum.x1 + xSpacing,
-						y1: datum.y1 + ySpacing,
-						x2: datum.x2 + xSpacing,
-						y2: datum.y2 + ySpacing,
-						x3: datum.x3 + xSpacing,
-						y3: datum.y3 + ySpacing,
-						x4: datum.x4 + xSpacing,
-						y4: datum.y4 + ySpacing
-					}
-				}))
+				actualHexData.push({
+					tx: xSpacing,
+					ty: ySpacing,
+					transform: `translate(${xSpacing}, ${ySpacing})`,
+					data
+				});
 
-				actualHexData.push(data.map((datum) => {
-					return {
-						x1: datum.x1 + xSpacing + xOffset,
-						y1: datum.y1 + ySpacing + yOffset,
-						x2: datum.x2 + xSpacing + xOffset,
-						y2: datum.y2 + ySpacing + yOffset,
-						x3: datum.x3 + xSpacing + xOffset,
-						y3: datum.y3 + ySpacing + yOffset,
-						x4: datum.x4 + xSpacing + xOffset,
-						y4: datum.y4 + ySpacing + yOffset
-					}
-				}))
+				actualHexData.push({
+					tx: xSpacing + xOffset,
+					ty: ySpacing + yOffset,
+					transform: `translate(${xSpacing + xOffset}, ${ySpacing + yOffset})`,
+					data
+				})
 			}
 		}
 
@@ -147,65 +146,90 @@ export default class Hexagon {
 		}
 	}
 
-	followCursor(selection, bBox, mPos) {
+	followCursor(selection, bBox, mPos, dt) {
+
 		let sel = d3.select(selection);
 
-		let tBounce = function(selection, x, y, n) {
+		let tBounce = function (selection, x, y, ox, oy, n) {
 			let s = d3.select(selection);
 
 			s.transition()
 				.duration(500)
 				.ease(d3.easeBounce)
-				.attr('transform', `translate(${x}, ${y})`)
+				.attr('transform', `translate(${ox + x}, ${oy + y})`)
 				.on('end', () => {
 					if (n) {
 						return;
 					}
-					tBounce(selection, 0, 0, 'stop');
+					tBounce(selection, 0, 0, ox, oy, 'stop');
 				})
 		}
 
 		if (mPos[0] < bBox.x) {
-			tBounce(selection, -10, 0);
+			tBounce(selection, -10, 0, dt.tx, dt.ty);
 			// return;
 		}
 		if (mPos[1] < bBox.y) {
-			tBounce(selection, 0, -10);
+			tBounce(selection, 0, -10, dt.tx, dt.ty);
 			// return;
 		}
 		if (mPos[1] > bBox.y + bBox.height) {
-			tBounce(selection, 0, 10);
+			tBounce(selection, 0, 10, dt.tx, dt.ty);
 			// return;
 		} else if (mPos[0] > bBox.x + bBox.width) {
-			tBounce(selection, 10, 0);
+			tBounce(selection, 10, 0, dt.tx, dt.ty);
 			// return;
 		}
 	}
 
-	generateHex(svg) {
-		let coll = this.generateData(this.hexagonData);
+	toObject(arr) {
+		var rv = {};
+		for (var i = 0; i < arr.length; ++i)
+			if (arr[i] !== undefined) rv[i] = arr[i];
+		return rv;
+	}
+
+	generateHex(svg, landscape) {
+		d3.selectAll('.hexagon').remove();
+
+		let coll = this.generateData(this.hexagonData, landscape);
 		let self = this;
 
-		console.log(self);
+		let nodes = svg.selectAll('g')
+			.data(coll)
+			.enter()
+			.append('g')
+			.attrs({
+				id: (d, i) => `hex-${i}`,
+				class: 'hexagon',
+				transform: (d) => d.transform
+			})
+			.on('click', this.pop)
+			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d));
 
-		coll.forEach((d, i) => {
-			let group = svg.append('g')
-				.attr('id', `hex-${i}`)
-				.attr('class', 'hexagon')
-				.on('mouseleave', () => self.gravitate(self.followCursor, group.node()))
-				.on('click', this.pop);
+			nodes.each((dt, i , a)=>{
+				d3.select(a[i]).selectAll('polygon').data(dt.data).enter().append('polygon').attrs({
+				id: (d, i) => `triangle-${i}`,
+				points: (d) => `${d.x1} ${d.y1} ${d.x2} ${d.y2} ${d.x3} ${d.y3} ${d.x4} ${d.y4}`
+			})})
 
-			let iter = 0;
-
-			for (let tri of d) {
-				++iter
-				group.append('polygon')
-					.attrs({
-						id: `triangle-${iter}`,
-						points: `${tri.x1} ${tri.y1} ${tri.x2} ${tri.y2} ${tri.x3} ${tri.y3} ${tri.x4} ${tri.y4}`
-					})
-			}
-		})
+		// .on('click', this.pop)
+		//
+		// .each(function (dt, i) {
+		//
+		// 	d3.select(this)
+		// 		.selectAll('polygon')
+		// 		.data(Object.keys(dt))
+		// 		.enter()
+		// 		.append('polygon')
+		// 		.attrs({
+		// 			id: (d, i) => `triangle-${i}`,
+		// 			points: (d, i) => `${dt[i].x1} ${dt[i].y1} ${dt[i].x2} ${dt[i].y2} ${dt[i].x3} ${dt[i].y3} ${dt[i].x4} ${dt[i].y4}`
+		// 		});
+		// });
+		//
+		// 	simulation.nodes(coll);
+		// console.log(coll);
 
 		return coll;
 	}
@@ -216,6 +240,29 @@ export default class Hexagon {
 			.append('svg')
 			.attrs(this.svg_attrs);
 
-		this.generateHex(svg);
+		svg.on('click', () => {
+			var el = document.documentElement,
+				rfs = el.requestFullscreen ||
+				el.webkitRequestFullScreen ||
+				el.mozRequestFullScreen ||
+				el.msRequestFullscreen;
+
+			rfs.call(el);
+		})
+
+
+		this.scream.on('orientationchangeend', () => {
+			let orientation = this.scream.getOrientation();
+
+
+			if (orientation === 'landscape') {
+				svg.attr('viewBox', '0 0 2560 1440');
+				self.generateHex(svg, true);
+			} else {
+				svg.attr('viewBox', '0 0 1440 2560');
+				self.generateHex(svg, false);
+			}
+
+		});
 	}
 }

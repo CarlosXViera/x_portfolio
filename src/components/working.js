@@ -109,3 +109,34 @@ float(sel, yCoord, toggling) {
 
 
 }
+
+
+
+
+float(yCoord, direction) {
+  //remove duplication
+  let glasses = d3.select('#glasses');
+  let up = 'up';
+  console.log(direction);
+
+  if (direction && yCoord) {
+    glasses.transition()
+      .attr('transform', `translate(185,${yCoord})`)
+      .duration(1500)
+      .ease(d3.easeSinOut)
+      .on('end', () => {
+        this.float(yCoord);
+      });
+
+      console.log(yCoord);
+  } else {
+    this.float(yCoord, up);
+
+
+    // glasses.transition()
+    // 	.attr('transform', 'translate(185,)')
+    // 	.duration(1500).ease(d3.easeSinOut)
+    // 	.on('end', () => {
+    // 		this.float(up);
+    // 	})
+  }
