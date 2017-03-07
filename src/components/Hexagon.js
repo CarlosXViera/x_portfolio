@@ -203,18 +203,13 @@ export default class Hexagon {
 	}
 
 	generateHex(svg, landscape) {
+		//remove all previous hexagons that could be on the stage
 		d3.selectAll('.hexagon').remove();
 
-		console.log(this.polarToRectangular(10, 270));
-
-
-
-		let coll = this.generateData(this.hexagonData, landscape);
 		let self = this;
 
+		let coll = this.generateData(this.hexagonData, landscape);
 
-
-		let attract = d3.forceManyBody();
 		let collisionForce = d3.forceCollide(35).strength(1).iterations(1);
 
 		let simulation = d3.forceSimulation(coll).alphaDecay(0.10).force('collision', collisionForce);
@@ -228,23 +223,15 @@ export default class Hexagon {
 				class: 'hexagon',
 				transform: (d) => d.transform
 			})
-			.on('click', (d, i, a) => {
-				for (let j = 1; j <= 6; j++) {
-					let ang = this.polarToRectangular(98, 45 * j);
-					let f1 = ang.x + d.tx;
-					let f2 = ang.y + d.ty;
-					let nodeD = simulation.find(f1, f2);
-					nodeD.selector.style('fill', 'yellow');
-
-					console.log(60 * j)
-				}
-			})
+			.on('click', circlularAnim)
 			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d))
 			.call(d3.drag()
 				.on("start", dragstarted)
 				.on("drag", dragged)
 				.on("end", dragended));
 
+		//append triangle collection after adding the simulation if done simultaneously
+		//translation occurs to all child nodes.
 		nodes.each((dt, i, a) => {
 			dt.selector = d3.select(a[i]);
 			dt.selector.selectAll('polygon').data(dt.data).enter().append('polygon').attrs({
@@ -253,95 +240,114 @@ export default class Hexagon {
 			})
 		})
 
-		console.log(d3.select('#hex-329').attr('transform'));
-
-
-		function dragstarted(d) {
-			for (let g of coll) {
-				g.fx = null;
-				g.fy = null;
-			}
-			simulation.restart();
-			simulation.alpha(0.7);
-			d.fx = d.x;
-			d.fy = d.y;
-		}
-
-		function dragged(d) {
-			d.fx = d3.event.x;
-			d.fy = d3.event.y;
-			let node = simulation.find(d3.event.x, d3.event.y, 200);
-			randomColor(node)
-		}
-
-		function getRandomInt(min, max) {
-			min = Math.ceil(min);
-			max = Math.floor(max);
-			return Math.floor(Math.random() * (max - min)) + min;
-		}
-
-		function randomColor(node) {
-			let originalColor = node.selector.style('fill');
-			let colors = ['#00B4CC', '#00DFFC', '#008C9E']
-			let selectedColor = colors[getRandomInt(0, 2)]
-
-			node.selector.style('fill', selectedColor);
-		}
-
-		function dragended(d) {
+		function circlularAnim(d, i, a) {
 			simulation.stop();
-			coll.forEach(function (d) {
-				d.selector.transition().attr('transform', `translate(${d.tx}, ${d.ty})`).duration(800).ease(d3.easeBounce).on('end', function () {
-					d.x = d.tx
-					d.y = d.ty
-				})
+			let iterations = 1,
+				steps = 6;
 
-			})
-			d.fx = null;
-			d.fy = null;
-			simulation.alphaTarget(0.1);
-		}
+			while (iterations <= 25) {
+				let clockSteps = iterations * 6;
+				let initialDegree = 45;
+				let subdividedDegree = initialDegree / iterations;
+				let time = 250 * iterations;
 
-		function ticked() {
-
-			nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
-		}
-
-		simulation.on("tick", ticked);
-
-		return coll;
-	}
-
-	create() {
-		let self = this;
-		let svg = d3.select('body')
-			.append('svg')
-			.attrs(this.svg_attrs);
-
-		// svg.on('click', () => {
-		// 	var el = document.documentElement,
-		// 		rfs = el.requestFullscreen ||
-		// 		el.webkitRequestFullScreen ||
-		// 		el.mozRequestFullScreen ||
-		// 		el.msRequestFullscreen;
-		//
-		// 	rfs.call(el);
-		// })
-
-		console.log(this.polarToRectangular(10, 30));
-
-		this.scream.on('orientationchangeend', () => {
-			let orientation = this.scream.getOrientation();
-
-
-			if (orientation === 'landscape') {
-				svg.attr('viewBox', '0 0 1920 1080');
-				self.generateHex(svg, true);
-			} else {
-				svg.attr('viewBox', '0 0 1080 1920');
-				self.generateHex(svg, false);
+				for (let j = 1; j <= clockSteps; j++) {
+					let ang = self.polarToRectangular(30 * iterations, subdividedDegree * j);
+					let f1 = ang.x + d.tx;
+					let f2 = ang.y + d.ty;
+					let nodeD = simulation.find(f1, f2);
+					nodeD.selector.transition('fadeout').style('fill', 'green').duration(time).ease(d3.easeQuadOut);
 			}
+			iterations++
+		}
 
-		});
+		d3.selectAll('.hexagon').transition('fadeout').style('fill', '#005f6B').duration(500).ease(d3.easeQuadOut);
 	}
+
+	function dragstarted(d) {
+		for (let g of coll) {
+			g.fx = null;
+			g.fy = null;
+		}
+		simulation.restart();
+		simulation.alpha(0.7);
+		d.fx = d.x;
+		d.fy = d.y;
+	}
+
+	function dragged(d) {
+		d.fx = d3.event.x;
+		d.fy = d3.event.y;
+		let node = simulation.find(d3.event.x, d3.event.y, 200);
+		randomColor(node)
+	}
+
+	function getRandomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min)) + min;
+	}
+
+	function randomColor(node) {
+		let originalColor = node.selector.style('fill');
+		let colors = ['#00B4CC', '#00DFFC', '#008C9E']
+		let selectedColor = colors[getRandomInt(0, 2)]
+
+		node.selector.style('fill', selectedColor);
+	}
+
+	function dragended(d) {
+		simulation.stop();
+		coll.forEach(function (d) {
+			d.selector.transition().attr('transform', `translate(${d.tx}, ${d.ty})`).duration(800).ease(d3.easeBounce).on('end', function () {
+				d.x = d.tx
+				d.y = d.ty
+			})
+
+		})
+		d.fx = null;
+		d.fy = null;
+		simulation.alphaTarget(0.1);
+	}
+
+	function ticked() {
+
+		nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
+	}
+
+	simulation.on("tick", ticked);
+
+	return coll;
+}
+
+create() {
+	let self = this;
+	let svg = d3.select('body')
+		.append('svg')
+		.attrs(this.svg_attrs);
+
+	// svg.on('click', () => {
+	// 	var el = document.documentElement,
+	// 		rfs = el.requestFullscreen ||
+	// 		el.webkitRequestFullScreen ||
+	// 		el.mozRequestFullScreen ||
+	// 		el.msRequestFullscreen;
+	//
+	// 	rfs.call(el);
+	// })
+
+	this.scream.on('orientationchangeend', () => {
+		let orientation = this.scream.getOrientation();
+
+
+		if (orientation === 'landscape') {
+			svg.attr('viewBox', '0 0 1920 1080');
+			self.generateHex(svg, true);
+		} else {
+			svg.attr('viewBox', '0 0 1080 1920');
+			self.generateHex(svg, false);
+		}
+
+	});
+}
 }
