@@ -69,7 +69,7 @@ export default class Hexagon {
 
 		this.svg_attrs = {
 			// Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
-			"viewBox": "0 0 " + 1440 + " " + 2560,
+			"viewBox": "0 0 " + 1080 + " " + 1920,
 			"preserveAspectRatio": "xMinYMin meet",
 		};
 
@@ -97,8 +97,8 @@ export default class Hexagon {
 			xOffset = 40,
 			yOffset = 63;
 		//landscape or portrait
-		let maxX = landscape ? 33 : 19;
-		let maxY = landscape ? 12 : 21;
+		let maxX = landscape ? 25 : 14;
+		let maxY = landscape ? 9 : 16;
 
 
 		for (let i = 0; i < maxX; i++) {
@@ -109,17 +109,23 @@ export default class Hexagon {
 				let ySpacing = j * 125;
 
 				actualHexData.push({
+					fx: xSpacing,
+					fy: ySpacing,
 					tx: xSpacing,
 					ty: ySpacing,
 					transform: `translate(${xSpacing}, ${ySpacing})`,
-					data
+					data,
+					quad: [xSpacing, ySpacing]
 				});
 
 				actualHexData.push({
+					fx: xSpacing + xOffset,
+					fy: ySpacing + yOffset,
 					tx: xSpacing + xOffset,
 					ty: ySpacing + yOffset,
 					transform: `translate(${xSpacing + xOffset}, ${ySpacing + yOffset})`,
-					data
+					data,
+					quad: [xSpacing + xOffset, ySpacing + yOffset]
 				})
 			}
 		}
@@ -195,14 +201,10 @@ export default class Hexagon {
 		let coll = this.generateData(this.hexagonData, landscape);
 		let self = this;
 
-		let repelForce = d3.forceManyBody().strength(2).distanceMax(10).distanceMin(10);
-		let collisionForce = d3.forceCollide(25).strength(3).iterations(1);
+		let attract = d3.forceManyBody();
+		let collisionForce = d3.forceCollide(35).strength(1).iterations(1);
 
-		let simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collisionForce', collisionForce)
-
-		console.log(simulation)
-
-
+		let simulation = d3.forceSimulation(coll).alphaDecay(0.10).force('attraction', attract).force('collision', collisionForce);
 
 		let nodes = svg.selectAll('g')
 			.data(coll)
@@ -216,9 +218,9 @@ export default class Hexagon {
 			.on('click', this.pop)
 			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d))
 			.call(d3.drag()
-            .on("start",dragstarted)
-            .on("drag",dragged)
-            .on("end",dragended));
+				.on("start", dragstarted)
+				.on("drag", dragged)
+				.on("end", dragended));
 
 		nodes.each((dt, i, a) => {
 			dt.selector = d3.select(a[i]);
@@ -230,6 +232,10 @@ export default class Hexagon {
 
 
 		function dragstarted(d) {
+			for (let g of coll) {
+				g.fx = null;
+				g.fy = null;
+			}
 			simulation.restart();
 			simulation.alpha(0.7);
 			d.fx = d.x;
@@ -239,12 +245,28 @@ export default class Hexagon {
 		function dragged(d) {
 			d.fx = d3.event.x;
 			d.fy = d3.event.y;
+			let node = simulation.find(d3.event.x, d3.event.y,200);
+			randomColor(node)
+		}
+
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
+
+		function randomColor(node) {
+			let originalColor = node.selector.style('fill');
+			let colors = ['#00B4CC', '#00DFFC', '#008C9E']
+			let selectedColor = colors[getRandomInt(0, 2)]
+
+			node.selector.style('fill', selectedColor);
 		}
 
 		function dragended(d) {
 			simulation.stop();
 			coll.forEach(function (d) {
-				d.selector.transition().attr('transform', `translate(${d.tx}, ${d.ty})`).duration(500).ease(d3.easeCircleInOut).on('end', function () {
+				d.selector.transition().attr('transform', `translate(${d.tx}, ${d.ty})`).duration(800).ease(d3.easeBounce).on('end', function () {
 					d.x = d.tx
 					d.y = d.ty
 				})
@@ -256,6 +278,7 @@ export default class Hexagon {
 		}
 
 		function ticked() {
+
 			nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
 		}
 
@@ -286,10 +309,10 @@ export default class Hexagon {
 
 
 			if (orientation === 'landscape') {
-				svg.attr('viewBox', '0 0 2560 1440');
+				svg.attr('viewBox', '0 0 1920 1080');
 				self.generateHex(svg, true);
 			} else {
-				svg.attr('viewBox', '0 0 1440 2560');
+				svg.attr('viewBox', '0 0 1080 1920');
 				self.generateHex(svg, false);
 			}
 
