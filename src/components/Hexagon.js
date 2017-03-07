@@ -195,16 +195,29 @@ export default class Hexagon {
 		return rv;
 	}
 
+	polarToRectangular(radius, theta) {
+		return {
+			x: radius * Math.cos(theta),
+			y: radius * Math.sin(theta)
+		}
+	}
+
 	generateHex(svg, landscape) {
 		d3.selectAll('.hexagon').remove();
+
+		console.log(this.polarToRectangular(10, 270));
+
+
 
 		let coll = this.generateData(this.hexagonData, landscape);
 		let self = this;
 
+
+
 		let attract = d3.forceManyBody();
 		let collisionForce = d3.forceCollide(35).strength(1).iterations(1);
 
-		let simulation = d3.forceSimulation(coll).alphaDecay(0.10).force('attraction', attract).force('collision', collisionForce);
+		let simulation = d3.forceSimulation(coll).alphaDecay(0.10).force('collision', collisionForce);
 
 		let nodes = svg.selectAll('g')
 			.data(coll)
@@ -215,7 +228,17 @@ export default class Hexagon {
 				class: 'hexagon',
 				transform: (d) => d.transform
 			})
-			.on('click', this.pop)
+			.on('click', (d, i, a) => {
+				for (let j = 1; j <= 6; j++) {
+					let ang = this.polarToRectangular(98, 45 * j);
+					let f1 = ang.x + d.tx;
+					let f2 = ang.y + d.ty;
+					let nodeD = simulation.find(f1, f2);
+					nodeD.selector.style('fill', 'yellow');
+
+					console.log(60 * j)
+				}
+			})
 			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d))
 			.call(d3.drag()
 				.on("start", dragstarted)
@@ -229,6 +252,8 @@ export default class Hexagon {
 				points: (d) => `${d.x1} ${d.y1} ${d.x2} ${d.y2} ${d.x3} ${d.y3} ${d.x4} ${d.y4}`
 			})
 		})
+
+		console.log(d3.select('#hex-329').attr('transform'));
 
 
 		function dragstarted(d) {
@@ -245,7 +270,7 @@ export default class Hexagon {
 		function dragged(d) {
 			d.fx = d3.event.x;
 			d.fy = d3.event.y;
-			let node = simulation.find(d3.event.x, d3.event.y,200);
+			let node = simulation.find(d3.event.x, d3.event.y, 200);
 			randomColor(node)
 		}
 
@@ -293,16 +318,17 @@ export default class Hexagon {
 			.append('svg')
 			.attrs(this.svg_attrs);
 
-		svg.on('click', () => {
-			var el = document.documentElement,
-				rfs = el.requestFullscreen ||
-				el.webkitRequestFullScreen ||
-				el.mozRequestFullScreen ||
-				el.msRequestFullscreen;
+		// svg.on('click', () => {
+		// 	var el = document.documentElement,
+		// 		rfs = el.requestFullscreen ||
+		// 		el.webkitRequestFullScreen ||
+		// 		el.mozRequestFullScreen ||
+		// 		el.msRequestFullscreen;
+		//
+		// 	rfs.call(el);
+		// })
 
-			rfs.call(el);
-		})
-
+		console.log(this.polarToRectangular(10, 30));
 
 		this.scream.on('orientationchangeend', () => {
 			let orientation = this.scream.getOrientation();
