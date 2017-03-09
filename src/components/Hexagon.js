@@ -69,7 +69,7 @@ export default class Hexagon {
 
 		this.svg_attrs = {
 			// Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
-			"viewBox": "0 0 " + 1080 + " " + 1920,
+			"viewBox": "0 0 " + 2560 + " " + 1440,
 			"preserveAspectRatio": "xMinYMin meet",
 		};
 
@@ -144,9 +144,9 @@ export default class Hexagon {
 		]
 
 		for (var j = 0; j < this.children.length; j++) {
-			d3.select(this.children[j]).transition()
+			d3.select(this.children[j]).transition('boom')
 				.attr('transform', `translate(${popLocation[j]})`)
-				.transition()
+				.transition('something else')
 				.attr('transform', 'translate(0,0)')
 				.duration(1000).ease(d3.easeElasticIn);
 		}
@@ -159,7 +159,7 @@ export default class Hexagon {
 		let tBounce = function (selection, x, y, ox, oy, n) {
 			let s = d3.select(selection);
 
-			s.transition()
+			s.transition('follow')
 				.duration(500)
 				.ease(d3.easeBounce)
 				.attr('transform', `translate(${ox + x}, ${oy + y})`)
@@ -195,10 +195,13 @@ export default class Hexagon {
 		return rv;
 	}
 
-	polarToRectangular(radius, theta) {
+	polarToRectangular(radius, degrees) {
+		let theta = degrees * (Math.PI / 180);
+
 		return {
 			x: radius * Math.cos(theta),
-			y: radius * Math.sin(theta)
+			y: radius * Math.sin(theta),
+			degrees
 		}
 	}
 
@@ -228,7 +231,8 @@ export default class Hexagon {
 			.call(d3.drag()
 				.on("start", dragstarted)
 				.on("drag", dragged)
-				.on("end", dragended));
+				.on("end", dragended))
+
 
 		//append triangle collection after adding the simulation if done simultaneously
 		//translation occurs to all child nodes.
@@ -241,113 +245,142 @@ export default class Hexagon {
 		})
 
 		function circlularAnim(d, i, a) {
+			//pause the simulation to conserve resources.
 			simulation.stop();
-			let iterations = 1,
-				steps = 6;
 
-			while (iterations <= 25) {
-				let clockSteps = iterations * 6;
-				let initialDegree = 45;
-				let subdividedDegree = initialDegree / iterations;
-				let time = 250 * iterations;
+			let nodesLength = a.length * 3,
+				hex = 36,
+				r = 71.2,
+				c = 360,
+				m = 1,
+				s = 1,
+				t = 0,
+				points = [60, 120, 180, 240, 300, 360],
+				circleArray = [];
 
-				for (let j = 1; j <= clockSteps; j++) {
-					let ang = self.polarToRectangular(30 * iterations, subdividedDegree * j);
-					let f1 = ang.x + d.tx;
-					let f2 = ang.y + d.ty;
-					let nodeD = simulation.find(f1, f2);
-					nodeD.selector.transition('fadeout').style('fill', 'green').duration(time).ease(d3.easeQuadOut);
+			for (let j = 1; j <= nodesLength; j++) {
+				(t / hex >= 1) ? (s = 1, hex += 6, m++, t = 1) : (++t, s++);
+				let degrees = (c / hex) * t;
+				r = points.includes(degrees) ? 73.5 : 69.35;
+
+				let ang = self.polarToRectangular(r * m, degrees);
+				let f1 = ang.x + d.tx;
+				let f2 = ang.y + d.ty;
+				let foundNode = simulation.find(f1, f2);
+
+				//remove duplicates
+				circleArray.includes(foundNode) ? '' : circleArray.push(foundNode);
+				let stashedNode = foundNode.selector.transition('fadeout').style('fill', '#008C9E').duration(.6 * j).ease(d3.easeBounceIn);
+				if (j === nodesLength) {
+					stashedNode.on('end', () => {
+						for (let n of circleArray.reverse()) {
+							n.selector.transition('revert').style('fill', '#005f6B').ease(d3.easeBackOut).duration(2000)
+						}
+
+					})
+				}
+
 			}
-			iterations++
+
 		}
 
-		d3.selectAll('.hexagon').transition('fadeout').style('fill', '#005f6B').duration(500).ease(d3.easeQuadOut);
-	}
-
-	function dragstarted(d) {
-		for (let g of coll) {
-			g.fx = null;
-			g.fy = null;
+		function dragstarted(d) {
+			for (let g of coll) {
+				g.fx = null;
+				g.fy = null;
+			}
+			simulation.restart();
+			simulation.alpha(0.7);
+			d.fx = d.x;
+			d.fy = d.y;
 		}
-		simulation.restart();
-		simulation.alpha(0.7);
-		d.fx = d.x;
-		d.fy = d.y;
-	}
 
-	function dragged(d) {
-		d.fx = d3.event.x;
-		d.fy = d3.event.y;
-		let node = simulation.find(d3.event.x, d3.event.y, 200);
-		randomColor(node)
-	}
+		function dragged(d) {
+			d.fx = d3.event.x;
+			d.fy = d3.event.y;
+			let node = simulation.find(d3.event.x, d3.event.y, 200);
+			randomColor(node)
+		}
 
-	function getRandomInt(min, max) {
-		min = Math.ceil(min);
-		max = Math.floor(max);
-		return Math.floor(Math.random() * (max - min)) + min;
-	}
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min)) + min;
+		}
 
-	function randomColor(node) {
-		let originalColor = node.selector.style('fill');
-		let colors = ['#00B4CC', '#00DFFC', '#008C9E']
-		let selectedColor = colors[getRandomInt(0, 2)]
+		function randomColor(node) {
+			let originalColor = node.selector.style('fill');
+			let colors = ['#00B4CC', '#00DFFC', '#008C9E']
+			let selectedColor = colors[getRandomInt(0, 2)]
 
-		node.selector.style('fill', selectedColor);
-	}
+			node.selector.style('fill', selectedColor);
+		}
 
-	function dragended(d) {
-		simulation.stop();
-		coll.forEach(function (d) {
-			d.selector.transition().attr('transform', `translate(${d.tx}, ${d.ty})`).duration(800).ease(d3.easeBounce).on('end', function () {
-				d.x = d.tx
-				d.y = d.ty
+		function dragended(d) {
+			simulation.stop();
+			coll.forEach(function (d) {
+				d.selector.transition('dragged').attr('transform', `translate(${d.tx}, ${d.ty})`).style('fill', '#005f6B')
+				.duration(800).ease(d3.easeBounce).on('end', function () {
+					d.x = d.tx
+					d.y = d.ty
+				})
+
 			})
-
-		})
-		d.fx = null;
-		d.fy = null;
-		simulation.alphaTarget(0.1);
-	}
-
-	function ticked() {
-
-		nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
-	}
-
-	simulation.on("tick", ticked);
-
-	return coll;
-}
-
-create() {
-	let self = this;
-	let svg = d3.select('body')
-		.append('svg')
-		.attrs(this.svg_attrs);
-
-	// svg.on('click', () => {
-	// 	var el = document.documentElement,
-	// 		rfs = el.requestFullscreen ||
-	// 		el.webkitRequestFullScreen ||
-	// 		el.mozRequestFullScreen ||
-	// 		el.msRequestFullscreen;
-	//
-	// 	rfs.call(el);
-	// })
-
-	this.scream.on('orientationchangeend', () => {
-		let orientation = this.scream.getOrientation();
-
-
-		if (orientation === 'landscape') {
-			svg.attr('viewBox', '0 0 1920 1080');
-			self.generateHex(svg, true);
-		} else {
-			svg.attr('viewBox', '0 0 1080 1920');
-			self.generateHex(svg, false);
+			d.fx = null;
+			d.fy = null;
+			simulation.alphaTarget(0.1);
 		}
 
-	});
+		function ticked() {
+
+			nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
+		}
+
+		simulation.on("tick", ticked);
+
+		return coll;
+	}
+
+	create() {
+		let self = this;
+		let svg = d3.select('body')
+			.append('svg')
+			.attrs(this.svg_attrs);
+
+			//initialize the screen
+			svg.attr('viewBox', '0 0 1440 2560');
+			self.generateHex(svg, true);
+
+			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+				svg.attr('viewBox', '0 0 1080 1920');
+				self.generateHex(svg, false);
+
+				svg.on('click', () => {
+					var el = document.documentElement,
+						rfs = el.requestFullscreen ||
+						el.webkitRequestFullScreen ||
+						el.mozRequestFullScreen ||
+						el.msRequestFullscreen;
+
+					rfs.call(el);
+				})
+
 }
+
+
+
+		this.scream.on('orientationchangeend', () => {
+			let orientation = this.scream.getOrientation();
+
+
+			if (orientation === 'landscape') {
+				svg.attr('viewBox', '0 0 1920 1080');
+				self.generateHex(svg, true);
+			} else {
+				svg.attr('viewBox', '0 0 1080 1920');
+				self.generateHex(svg, false);
+			}
+
+		});
+	}
 }
