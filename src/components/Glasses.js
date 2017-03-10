@@ -1,40 +1,40 @@
 export default class Glasses {
 	constructor(svgContainer, xCoord, yCoord) {
 
-    this.glasses = svgContainer.append('g')
+		this.glasses = svgContainer.append('g')
 			.attrs({
-        id: 'glasses',
-        transform: `translate(${xCoord}, ${yCoord})`
-      });
+				id: 'glasses',
+				transform: `translate(${xCoord}, ${yCoord})`
+			});
 
-      this.ripHtml();
-      this.float(this.glasses, yCoord - 50, false, this.showUpDown);
+		this.glasses.html(this.ripHtml());
+		this.float(this.glasses, xCoord, yCoord - 50, false, this.showUpDown);
 
 	}
 
-  ripHtml(){
-    let template = d3.select('#template');
-
-    this.glasses.html(template.html());
-    template.remove();
-  }
-
-  showUpDown(sel, num){
-	  //have to keep translated x value constant
-	  return sel.transition()
-	    .attr('transform', `translate(185, ${num})`)
-	    .duration(1500)
-	    .ease(d3.easeSinOut);
+	ripHtml() {
+		let template = d3.select('.template');
+		let html = template.html()
+		template.remove();
+		return html;
 	}
 
-  float(sel, yCoord, toggling, callback) {
+	showUpDown(sel, numX, numY) {
+		//have to keep translated x value constant
+		return sel.transition()
+			.attr('transform', `translate(${numX}, ${numY})`)
+			.duration(1500)
+			.ease(d3.easeSinOut);
+	}
+
+	float(sel, xCoord, yCoord, toggling, callback) {
 		let self = this;
-	  if (toggling) {
-	    callback(sel, yCoord).on('end',
-			() => self.float(sel, yCoord, !toggling, callback));
-	  } else {
-		  callback(sel, (yCoord - 50)).on('end',
-			() => self.float(sel, yCoord, !toggling, callback))
+		if (toggling) {
+			callback(sel, xCoord, yCoord).on('end',
+				() => self.float(sel, xCoord, yCoord, !toggling, callback));
+		} else {
+			callback(sel,xCoord,(yCoord - 50)).on('end',
+				() => self.float(sel, xCoord, yCoord, !toggling, callback))
 		}
 	}
 
