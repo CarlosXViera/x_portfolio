@@ -1,16 +1,50 @@
+import Scream from 'scream';
+import Hexagon from 'Hexagon';
+import Glasses from 'Glasses';
+
 export default class BackgroundContainer {
-  constructor(screenHeight, screenWidth, portrait){
+	constructor() {
+    //screenHeight, screenWidth, orientation
+    this.svg_attrs = {
+      // Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
+      "viewBox": "0 0 " + 1920 + " " + 1080,
+      "preserveAspectRatio": "xMinYMin meet",
+    };
 
-    this.svg_attrs = return
+    this.svgContainer = d3.select('body').append('svg').attrs(this.svg_attrs);
+
+    this.hexagon = new Hexagon(this.svgContainer, true);
 
 
-    {
-			// Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
-			"viewBox": `0 0 `"0 0 " + 1440 + " " + 2560,
-			"preserveAspectRatio": "xMinYMin meet",
-		};
+    //Check for mobile.
+		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+			this.svgContainer.attr('viewBox', '0 0 1080 1920');
+			this.hexagon.generateHex(false);
+
+			this.svgContainer.on('click', () => {
+				var el = document.documentElement,
+					rfs = el.requestFullscreen ||
+					el.webkitRequestFullScreen ||
+					el.mozRequestFullScreen ||
+					el.msRequestFullscreen;
+
+				rfs.call(el);
+			})
+		}
+
+    this.glasses = new Glasses(this.svgContainer, 0,0)
+
+		// this.scream = Scream({
+		// 	width: {
+		// 		portrait: 1440,
+		// 		landscape: 2560
+		// 	}
+		// });
 
 
-  }
+
+
+
+	}
 
 }

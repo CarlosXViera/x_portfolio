@@ -24,6 +24,7 @@ module.exports = {
 		alias: {
       'Hexagon': path.resolve(__dirname, "./src/components/Hexagon.js"),
       'Glasses': path.resolve(__dirname, "./src/components/Glasses.js"),
+      'BackgroundContainer': path.resolve(__dirname, "./src/components/BackgroundContainer.js"),
       applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
     },
     extensions: ['.js']

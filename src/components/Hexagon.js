@@ -1,9 +1,9 @@
-import Scream from 'scream';
-import Glasses from 'Glasses';
-
 export default class Hexagon {
-	constructor() {
+	constructor(svgContainer, orientation) {
 		this.self = this;
+
+		this.svgContainer = svgContainer;
+		this.orientation = orientation;
 
 		this.hexagonData = [{
 				x1: 0,
@@ -67,22 +67,8 @@ export default class Hexagon {
 			}
 		];
 
-		this.svg_attrs = {
-			// Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
-			"viewBox": "0 0 " + 2560 + " " + 1440,
-			"preserveAspectRatio": "xMinYMin meet",
-		};
+		this.generateHex(orientation);
 
-		this.scream = Scream({
-			width: {
-				portrait: 1440,
-				landscape: 2560
-			}
-		});
-
-		this.create();
-
-		// this.frames = new Glasses(d3.select('svg'), 185, 1000);
 	}
 
 	gravitate(callback, context, data) {
@@ -188,13 +174,6 @@ export default class Hexagon {
 		}
 	}
 
-	toObject(arr) {
-		var rv = {};
-		for (var i = 0; i < arr.length; ++i)
-			if (arr[i] !== undefined) rv[i] = arr[i];
-		return rv;
-	}
-
 	polarToRectangular(radius, degrees) {
 		let theta = degrees * (Math.PI / 180);
 
@@ -205,7 +184,7 @@ export default class Hexagon {
 		}
 	}
 
-	generateHex(svg, landscape) {
+	generateHex(landscape) {
 		//remove all previous hexagons that could be on the stage
 		d3.selectAll('.hexagon').remove();
 
@@ -217,7 +196,7 @@ export default class Hexagon {
 
 		let simulation = d3.forceSimulation(coll).alphaDecay(0.10).force('collision', collisionForce);
 
-		let nodes = svg.selectAll('g')
+		let nodes = this.svgContainer.selectAll('g')
 			.data(coll)
 			.enter()
 			.append('g')
@@ -248,20 +227,18 @@ export default class Hexagon {
 			//pause the simulation to conserve resources.
 			simulation.stop();
 
-			let nodesLength = a.length * 3,
-				hex = 36,
-				r = 71.2,
+			let nodesLength = a.length * 2,
+				hex = 6,
+				r = 62.5,
 				c = 360,
 				m = 1,
 				s = 1,
 				t = 0,
-				points = [60, 120, 180, 240, 300, 360],
 				circleArray = [];
 
 			for (let j = 1; j <= nodesLength; j++) {
 				(t / hex >= 1) ? (s = 1, hex += 6, m++, t = 1) : (++t, s++);
 				let degrees = (c / hex) * t;
-				r = points.includes(degrees) ? 73.5 : 69.35;
 
 				let ang = self.polarToRectangular(r * m, degrees);
 				let f1 = ang.x + d.tx;
@@ -270,11 +247,11 @@ export default class Hexagon {
 
 				//remove duplicates
 				circleArray.includes(foundNode) ? '' : circleArray.push(foundNode);
-				let stashedNode = foundNode.selector.transition('fadeout').style('fill', '#008C9E').duration(.6 * j).ease(d3.easeBounceIn);
+				let stashedNode = foundNode.selector.transition('fadeout').style('fill', '#008C9E').duration(.8 * j).ease(d3.easeBounceIn);
 				if (j === nodesLength) {
 					stashedNode.on('end', () => {
 						for (let n of circleArray.reverse()) {
-							n.selector.transition('revert').style('fill', '#005f6B').ease(d3.easeBackOut).duration(2000)
+							n.selector.transition('revert').style('fill', '#005f6B').ease(d3.easeBackOut).duration(50)
 						}
 
 					})
@@ -339,48 +316,5 @@ export default class Hexagon {
 		simulation.on("tick", ticked);
 
 		return coll;
-	}
-
-	create() {
-		let self = this;
-		let svg = d3.select('body')
-			.append('svg')
-			.attrs(this.svg_attrs);
-
-			//initialize the screen
-			svg.attr('viewBox', '0 0 1440 2560');
-			self.generateHex(svg, true);
-
-			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-				svg.attr('viewBox', '0 0 1080 1920');
-				self.generateHex(svg, false);
-
-				svg.on('click', () => {
-					var el = document.documentElement,
-						rfs = el.requestFullscreen ||
-						el.webkitRequestFullScreen ||
-						el.mozRequestFullScreen ||
-						el.msRequestFullscreen;
-
-					rfs.call(el);
-				})
-
-}
-
-
-
-		this.scream.on('orientationchangeend', () => {
-			let orientation = this.scream.getOrientation();
-
-
-			if (orientation === 'landscape') {
-				svg.attr('viewBox', '0 0 1920 1080');
-				self.generateHex(svg, true);
-			} else {
-				svg.attr('viewBox', '0 0 1080 1920');
-				self.generateHex(svg, false);
-			}
-
-		});
 	}
 }
