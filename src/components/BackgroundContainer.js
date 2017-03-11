@@ -32,7 +32,7 @@ export default class BackgroundContainer {
 			})
 		}
 
-    this.glasses = new Glasses(this.svgContainer, 1920 / 2, 1080 / 2)
+    this.glasses = new Glasses(this.svgContainer, 1080/2, 1920/2)
 
 		// this.scream = Scream({
 		// 	width: {
