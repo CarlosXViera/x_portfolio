@@ -7,7 +7,7 @@ export default class BackgroundContainer {
     //screenHeight, screenWidth, orientation
     this.svg_attrs = {
       // Using a 16:9 ratio for a canvas ensures the entire surface is visible on all mobile devices.
-      "viewBox": "0 0 " + 1920 + " " + 1080,
+      "viewBox": "0 0 " + 1280 + " " + 720,
       "preserveAspectRatio": "xMinYMin meet",
     };
 
@@ -18,7 +18,7 @@ export default class BackgroundContainer {
 
     //Check for mobile.
 		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-			this.svgContainer.attr('viewBox', '0 0 1080 1920');
+			this.svgContainer.attr('viewBox', '0 0 720 1280');
 			this.hexagon.generateHex(false);
 
 			this.svgContainer.on('click', () => {
@@ -31,8 +31,8 @@ export default class BackgroundContainer {
 				rfs.call(el);
 			})
 		}
-
-    this.glasses = new Glasses(this.svgContainer, 1080/2, 1920/2)
+		//
+    this.glasses = new Glasses(this.svgContainer, 720/1.25, 1280/2)
 
 		// this.scream = Scream({
 		// 	width: {

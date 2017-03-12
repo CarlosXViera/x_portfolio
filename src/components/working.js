@@ -14,6 +14,11 @@ duplicate(sel, data, remove) {
 
 }
 
+dt.selector.selectAll('polygon').data(dt.data).enter().append('polygon').attrs({
+	id: (d, i) => `triangle-${i}`,
+	points: (d) => `${d.x1} ${d.y1} ${d.x2} ${d.y2} ${d.x3} ${d.y3} ${d.x4} ${d.y4}`
+})
+
 toObject(arr) {
 	var rv = {};
 	for (var i = 0; i < arr.length; ++i)

@@ -1,8 +1,9 @@
 @import "base/variables";
 @import "components/hexagon";
+@import "components/glasses";
 
 body {
-  background-color: $grey;
+  background-color: $background;
   margin: 0 0;
   overflow: hidden;
 }

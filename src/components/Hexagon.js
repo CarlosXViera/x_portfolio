@@ -5,6 +5,7 @@ export default class Hexagon {
 		this.svgContainer = svgContainer;
 		this.orientation = orientation;
 
+		this.templateHex = d3.select('#templateHex').html();
 		this.hexagonData = [{
 				x1: 0,
 				y1: -30,
@@ -80,21 +81,21 @@ export default class Hexagon {
 
 	generateData = function (data, landscape) {
 		let actualHexData = [],
-			xOffset = 40,
-			yOffset = 63;
+			xOffset = 37,
+			yOffset = 57;
 		//landscape or portrait
-		let maxX = landscape ? 25 : 14;
-		let maxY = landscape ? 9 : 16;
-
+		let maxX = landscape ? 25 : 12;
+		let maxY = landscape ? 9 : 12;
 
 		for (let i = 0; i < maxX; i++) {
-			let xSpacing = i * 80;
+			let xSpacing = i * 67;
 
 
 			for (let j = 0; j < maxY; j++) {
-				let ySpacing = j * 125;
+				let ySpacing = j * 115;
 
 				actualHexData.push({
+					temp: this.templateHex,
 					fx: xSpacing,
 					fy: ySpacing,
 					tx: xSpacing,
@@ -105,6 +106,7 @@ export default class Hexagon {
 				});
 
 				actualHexData.push({
+					temp: this.templateHex,
 					fx: xSpacing + xOffset,
 					fy: ySpacing + yOffset,
 					tx: xSpacing + xOffset,
@@ -192,9 +194,9 @@ export default class Hexagon {
 
 		let coll = this.generateData(this.hexagonData, landscape);
 
-		let collisionForce = d3.forceCollide(35).strength(1).iterations(1);
+		let collisionForce = d3.forceCollide(30).strength(1.2).iterations(1);
 
-		let simulation = d3.forceSimulation(coll).alphaDecay(0.10).force('collision', collisionForce);
+		let simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collision', collisionForce);
 
 		let nodes = this.svgContainer.selectAll('g')
 			.data(coll)
@@ -204,24 +206,24 @@ export default class Hexagon {
 				id: (d, i) => `hex-${i}`,
 				class: 'hexagon',
 				transform: (d) => d.transform
-			})
-			.on('click', circlularAnim)
-			.on('mouseleave', (d, i, a) => self.gravitate(self.followCursor, a[i], d))
-			.call(d3.drag()
+			}).call(d3.drag().subject(dragsubject)
 				.on("start", dragstarted)
 				.on("drag", dragged)
 				.on("end", dragended))
-
+				.on('click', circlularAnim)
+				.on('mouseleave', (d, i, a) => {
+					self.gravitate(self.followCursor, a[i], d)})
 
 		//append triangle collection after adding the simulation if done simultaneously
 		//translation occurs to all child nodes.
 		nodes.each((dt, i, a) => {
 			dt.selector = d3.select(a[i]);
-			dt.selector.selectAll('polygon').data(dt.data).enter().append('polygon').attrs({
-				id: (d, i) => `triangle-${i}`,
-				points: (d) => `${d.x1} ${d.y1} ${d.x2} ${d.y2} ${d.x3} ${d.y3} ${d.x4} ${d.y4}`
-			})
+			dt.selector.html(dt.temp);
 		})
+
+		function dragsubject(d,i, a){
+			return a[i];
+		}
 
 		function circlularAnim(d, i, a) {
 			//pause the simulation to conserve resources.
@@ -247,11 +249,11 @@ export default class Hexagon {
 
 				//remove duplicates
 				circleArray.includes(foundNode) ? '' : circleArray.push(foundNode);
-				let stashedNode = foundNode.selector.transition('fadeout').style('fill', '#008C9E').duration(.8 * j).ease(d3.easeBounceIn);
+				let stashedNode = foundNode.selector.transition('fadeout').style('stroke','#A5E65A').duration(3 * j).ease(d3.easeBounceIn);
 				if (j === nodesLength) {
 					stashedNode.on('end', () => {
 						for (let n of circleArray.reverse()) {
-							n.selector.transition('revert').style('fill', '#005f6B').ease(d3.easeBackOut).duration(50)
+							n.selector.transition('revert').style('stroke', '#32D9CB').ease(d3.easeBackOut).duration(2000)
 						}
 
 					})
@@ -275,8 +277,8 @@ export default class Hexagon {
 		function dragged(d) {
 			d.fx = d3.event.x;
 			d.fy = d3.event.y;
-			let node = simulation.find(d3.event.x, d3.event.y, 200);
-			randomColor(node)
+			// let node = simulation.find(d3.event.x, d3.event.y, 200);
+			// randomColor(node)
 		}
 
 		function getRandomInt(min, max) {
@@ -296,11 +298,11 @@ export default class Hexagon {
 		function dragended(d) {
 			simulation.stop();
 			coll.forEach(function (d) {
-				d.selector.transition('dragged').attr('transform', `translate(${d.tx}, ${d.ty})`).style('fill', '#005f6B')
-				.duration(800).ease(d3.easeBounce).on('end', function () {
-					d.x = d.tx
-					d.y = d.ty
-				})
+				d.selector.transition('dragged').attr('transform', `translate(${d.tx}, ${d.ty})`)
+					.duration(800).ease(d3.easeBounce).on('end', function () {
+						d.x = d.tx
+						d.y = d.ty
+					})
 
 			})
 			d.fx = null;
