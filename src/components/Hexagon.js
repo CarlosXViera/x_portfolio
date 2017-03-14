@@ -74,15 +74,6 @@ export default class Hexagon {
 
 	}
 
-	addHammerEventListener(that, d){
-		let mc = new Hammer.Manager(myElement);
-		mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
-		mc.on('doubletap', ()=>{
-			console.log('doubleTAPPED!')
-		})
-
-	}
-
 	gravitate(callback, context, data) {
 
 		let bBox = context.getBBox(),
@@ -185,14 +176,11 @@ export default class Hexagon {
 	generateHex(landscape) {
 		//remove all previous hexagons that could be on the stage
 		d3.selectAll('.hexagon').remove();
+		let self = this,
+				coll = this.generateData(this.hexagonData, landscape);
 
-		let self = this;
-
-		let coll = this.generateData(this.hexagonData, landscape);
-
-		let collisionForce = d3.forceCollide(30).strength(1.2).iterations(1);
-
-		let simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collision', collisionForce);
+		let collisionForce = d3.forceCollide(30).strength(1.2).iterations(1),
+				simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collision', collisionForce);
 
 		let nodes = this.svgContainer.selectAll('g')
 			.data(coll)
@@ -202,11 +190,11 @@ export default class Hexagon {
 				id: (d, i) => `hex-${i}`,
 				class: 'hexagon',
 				transform: (d) => d.transform
-			}).call(d3.drag().subject(dragsubject)
+			}).call(d3.drag()
 				.on("start", dragstarted)
 				.on("drag", dragged)
 				.on("end", dragended))
-			.on('click', circlularAnim)
+			.on('click', circlularAnim.bind(this))
 			.on('mouseleave', (d, i, a) => {
 				self.gravitate(self.followCursor, a[i], d)
 			})
@@ -215,21 +203,20 @@ export default class Hexagon {
 		//translation occurs to all child nodes.
 		nodes.each((dt, i, a) => {
 			addHammerEventListener(dt, a[i])
-			dt.selector = d3.select(a[i],dt);
+			dt.selector = d3.select(a[i], dt);
 			dt.selector.html(dt.temp);
 		})
 
-		function addHammerEventListener(d, that){
-				let mc = new Hammer(that);
-				mc.on('press', ()=>{
-					pop(d, that)
+		function addHammerEventListener(d, that) {
+			let mc = new Hammer(that);
+			mc.on('press', () => {
+				pop(d, that)
 
-				})
+			})
 
-			}
+		}
 
 		function pop(datum, svgObj) {
-
 			d3.select(svgObj).html(datum.original);
 			let popLocation = [
 				"5, -5",
@@ -248,15 +235,12 @@ export default class Hexagon {
 						.transition('something else')
 						.attr('transform', 'translate(0,0)')
 						.duration(800).on('end', ended);
-
 				})
-
 			});
 
 			function ended(d, i, a) {
 				d3.select(svgObj).html(datum.temp);
 			}
-
 		}
 
 		function dragsubject(d, i, a) {
@@ -264,9 +248,9 @@ export default class Hexagon {
 		}
 
 		function circlularAnim(d, i, a) {
-			d3.event.stopPropagation();
-
 			simulation.stop();
+
+			console.log(d)
 
 			let nodesLength = 1250,
 				hex = 6,
@@ -340,7 +324,9 @@ export default class Hexagon {
 		function dragended(d) {
 			simulation.stop();
 			coll.forEach(function (d) {
-				d.selector.transition('dragged').attr('transform', `translate(${d.tx}, ${d.ty})`)
+				d.selector
+					.transition('dragged')
+					.attr('transform', `translate(${d.tx}, ${d.ty})`)
 					.duration(800).ease(d3.easeBounce).on('end', function () {
 						d.x = d.tx
 						d.y = d.ty
@@ -354,7 +340,6 @@ export default class Hexagon {
 		}
 
 		function ticked() {
-
 			nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
 		}
 
