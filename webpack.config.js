@@ -6,13 +6,16 @@ module.exports = {
   context: __dirname + '/src',
   entry: ['script-loader!d3/build/d3.min.js',
   'script-loader!d3-selection-multi/build/d3-selection-multi.min.js',
+  'script-loader!hammerjs/hammer.min.js',
   './main.js'],
   externals : {
-    d3: 'd3'
+    d3: 'd3',
+    hammer: 'hammer'
   },
   plugins: [
   		new webpack.ProvidePlugin({
-  			'window.d3': "d3"
+  			'window.d3': "d3",
+        'window.hammer': 'hammer'
   		})
   	],
   output: {

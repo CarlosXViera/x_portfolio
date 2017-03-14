@@ -8,7 +8,7 @@ export default class Glasses {
 			.attrs({
 				id: 'glasses',
 				transform: `translate(${xCoord}, ${yCoord})`
-			}).call(d3.drag().on('start', ()=>{
+			}).call(d3.drag().on('start', () => {
 				console.log('start');
 			}));
 
@@ -16,22 +16,7 @@ export default class Glasses {
 		this.glasses.html(this.templates.front)
 		this.float(this.glasses, xCoord, yCoord - 50, false, this.showUpDown);
 
-		this.gyroFrequency(150);
-
-	}
-
-	gyroFrequency(ms) {
-		let switching = this.sprite.bind(this);
-
-		setInterval(()=>{
-			window.addEventListener('deviceorientationabsolute', switching, true);
-			setTimeout(()=>{
-				window.removeEventListener('deviceorientationabsolute', switching, true);
-			}, 100)
-		},ms);
-
-
-
+		window.addEventListener('deviceorientation', this.sprite.bind(this), true);
 
 	}
 
@@ -64,48 +49,43 @@ export default class Glasses {
 	}
 
 	sprite(e) {
-		// d3.selectAll('text').remove();
-		// this.svgContainer.append('text').text(`${e.beta}`).attr('font-size', 100).attrs({
-		// 	x: 20,
-		// 	y: 200
-		// })
-		if(e.gamma < 20 && e.gamma > -20){
+		if (e.gamma < 20 && e.gamma > -20) {
 			this.glasses.html(this.templates.front);
 		}
-		if(e.gamma < 30 && e.gamma > 21){
+		if (e.gamma < 30 && e.gamma > 21) {
 			this.glasses.html(this.templates.left1);
 		}
-		if(e.gamma < 40 && e.gamma > 31 ){
+		if (e.gamma < 40 && e.gamma > 31) {
 			this.glasses.html(this.templates.left2);
 		}
-		if(e.gamma < 50 && e.gamma > 41 ){
+		if (e.gamma < 50 && e.gamma > 41) {
 			this.glasses.html(this.templates.left3);
 		}
-		if(e.gamma < -21 && e.gamma > -30 ){
+		if (e.gamma < -21 && e.gamma > -30) {
 			this.glasses.html(this.templates.right1);
 		}
-		if(e.gamma < -31 && e.gamma > -40 ){
+		if (e.gamma < -31 && e.gamma > -40) {
 			this.glasses.html(this.templates.right2);
 		}
-		if(e.gamma < -41 && e.gamma > -50 ){
+		if (e.gamma < -41 && e.gamma > -50) {
 			this.glasses.html(this.templates.right3);
 		}
-		if(e.beta < 40){
+		if (e.beta < 40) {
 			this.glasses.html(this.templates.top1);
 		}
-		if(e.beta < 30){
+		if (e.beta < 30) {
 			this.glasses.html(this.templates.top2);
 		}
-		if(e.beta < 20){
+		if (e.beta < 20) {
 			this.glasses.html(this.templates.top3);
 		}
-		if(e.beta > 90){
+		if (e.beta > 90) {
 			this.glasses.html(this.templates.bottom1)
 		}
-		if(e.beta > 100){
+		if (e.beta > 100) {
 			this.glasses.html(this.templates.bottom2)
 		}
-		if(e.beta > 110){
+		if (e.beta > 110) {
 			this.glasses.html(this.templates.bottom3)
 		}
 

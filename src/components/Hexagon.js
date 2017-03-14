@@ -4,8 +4,10 @@ export default class Hexagon {
 
 		this.svgContainer = svgContainer;
 		this.orientation = orientation;
+		this.colors = ['#6A888C', '#5F7174', '#A5E65A', '#00A6C0', '#32D9CB'];
 
 		this.templateHex = d3.select('#templateHex').html();
+		this.originalHex = d3.select('#originalHex').html();
 		this.hexagonData = [{
 				x1: 0,
 				y1: -30,
@@ -72,6 +74,15 @@ export default class Hexagon {
 
 	}
 
+	addHammerEventListener(that, d){
+		let mc = new Hammer.Manager(myElement);
+		mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+		mc.on('doubletap', ()=>{
+			console.log('doubleTAPPED!')
+		})
+
+	}
+
 	gravitate(callback, context, data) {
 
 		let bBox = context.getBBox(),
@@ -81,63 +92,48 @@ export default class Hexagon {
 
 	generateData = function (data, landscape) {
 		let actualHexData = [],
-			xOffset = 37,
-			yOffset = 57;
+			xOffset = 32,
+			yOffset = 55;
 		//landscape or portrait
 		let maxX = landscape ? 25 : 12;
 		let maxY = landscape ? 9 : 12;
 
 		for (let i = 0; i < maxX; i++) {
-			let xSpacing = i * 67;
+			let xSpacing = i * 63;
 
 
 			for (let j = 0; j < maxY; j++) {
-				let ySpacing = j * 115;
+				let ySpacing = j * 110;
 
 				actualHexData.push({
 					temp: this.templateHex,
+					original: this.originalHex,
 					fx: xSpacing,
 					fy: ySpacing,
 					tx: xSpacing,
 					ty: ySpacing,
 					transform: `translate(${xSpacing}, ${ySpacing})`,
 					data,
-					quad: [xSpacing, ySpacing]
+					quad: [xSpacing, ySpacing],
+					colors: this.colors
 				});
 
 				actualHexData.push({
 					temp: this.templateHex,
+					original: this.originalHex,
 					fx: xSpacing + xOffset,
 					fy: ySpacing + yOffset,
 					tx: xSpacing + xOffset,
 					ty: ySpacing + yOffset,
 					transform: `translate(${xSpacing + xOffset}, ${ySpacing + yOffset})`,
 					data,
-					quad: [xSpacing + xOffset, ySpacing + yOffset]
+					quad: [xSpacing + xOffset, ySpacing + yOffset],
+					colors: this.colors
 				})
 			}
 		}
 
 		return actualHexData;
-	}
-
-	pop() {
-		let popLocation = [
-			"-10, -10",
-			"10, -10",
-			"-12, 0",
-			"12, 0",
-			"10, 10",
-			"-10, 10"
-		]
-
-		for (var j = 0; j < this.children.length; j++) {
-			d3.select(this.children[j]).transition('boom')
-				.attr('transform', `translate(${popLocation[j]})`)
-				.transition('something else')
-				.attr('transform', 'translate(0,0)')
-				.duration(1000).ease(d3.easeElasticIn);
-		}
 	}
 
 	followCursor(selection, bBox, mPos, dt) {
@@ -210,28 +206,71 @@ export default class Hexagon {
 				.on("start", dragstarted)
 				.on("drag", dragged)
 				.on("end", dragended))
-				.on('click', circlularAnim)
-				.on('mouseleave', (d, i, a) => {
-					self.gravitate(self.followCursor, a[i], d)})
+			.on('click', circlularAnim)
+			.on('mouseleave', (d, i, a) => {
+				self.gravitate(self.followCursor, a[i], d)
+			})
 
 		//append triangle collection after adding the simulation if done simultaneously
 		//translation occurs to all child nodes.
 		nodes.each((dt, i, a) => {
-			dt.selector = d3.select(a[i]);
+			addHammerEventListener(dt, a[i])
+			dt.selector = d3.select(a[i],dt);
 			dt.selector.html(dt.temp);
 		})
 
-		function dragsubject(d,i, a){
+		function addHammerEventListener(d, that){
+				let mc = new Hammer(that);
+				mc.on('press', ()=>{
+					pop(d, that)
+
+				})
+
+			}
+
+		function pop(datum, svgObj) {
+
+			d3.select(svgObj).html(datum.original);
+			let popLocation = [
+				"5, -5",
+				"5, 0",
+				"5, 5",
+				"-5, -5",
+				"-5, 5",
+				"-5, 0"
+			]
+			d3.selectAll(svgObj.children).each((d, i, a) => {
+
+				d3.select(a[i]).selectAll('g').each((d, i, b) => {
+
+					d3.select(b[i]).transition('boom')
+						.attr('transform', `translate(${popLocation[i]})`)
+						.transition('something else')
+						.attr('transform', 'translate(0,0)')
+						.duration(800).on('end', ended);
+
+				})
+
+			});
+
+			function ended(d, i, a) {
+				d3.select(svgObj).html(datum.temp);
+			}
+
+		}
+
+		function dragsubject(d, i, a) {
 			return a[i];
 		}
 
 		function circlularAnim(d, i, a) {
-			//pause the simulation to conserve resources.
+			d3.event.stopPropagation();
+
 			simulation.stop();
 
-			let nodesLength = a.length * 2,
+			let nodesLength = 1250,
 				hex = 6,
-				r = 62.5,
+				r = 32.5,
 				c = 360,
 				m = 1,
 				s = 1,
@@ -239,21 +278,23 @@ export default class Hexagon {
 				circleArray = [];
 
 			for (let j = 1; j <= nodesLength; j++) {
-				(t / hex >= 1) ? (s = 1, hex += 6, m++, t = 1) : (++t, s++);
+				(t / hex >= 1) ? (s = 1, m++, t = 1, hex += 6) : (++t, s++);
 				let degrees = (c / hex) * t;
 
 				let ang = self.polarToRectangular(r * m, degrees);
-				let f1 = ang.x + d.tx;
-				let f2 = ang.y + d.ty;
+				let f1 = (ang.x + d.tx) - 5;
+				let f2 = (ang.y + d.ty);
 				let foundNode = simulation.find(f1, f2);
+				if (typeof foundNode === 'undefined') continue;
 
 				//remove duplicates
 				circleArray.includes(foundNode) ? '' : circleArray.push(foundNode);
-				let stashedNode = foundNode.selector.transition('fadeout').style('stroke','#A5E65A').duration(3 * j).ease(d3.easeBounceIn);
+
+				let stashedNode = circleArray[circleArray.length - 1].selector.select('#overlay').transition('fadeout').style('stroke', '#A5E65A').duration(.8 * j).ease(d3.easeBackIn);
 				if (j === nodesLength) {
 					stashedNode.on('end', () => {
 						for (let n of circleArray.reverse()) {
-							n.selector.transition('revert').style('stroke', '#32D9CB').ease(d3.easeBackOut).duration(2000)
+							n.selector.select('#overlay').transition('revert').style('stroke', '#32D9CB').ease(d3.easeBackOut).duration(1000)
 						}
 
 					})
@@ -277,8 +318,10 @@ export default class Hexagon {
 		function dragged(d) {
 			d.fx = d3.event.x;
 			d.fy = d3.event.y;
-			// let node = simulation.find(d3.event.x, d3.event.y, 200);
-			// randomColor(node)
+
+			let node = simulation.find(d3.event.x - 32, d3.event.y - 32, 900);
+			if (node === d) return;
+			randomColor(node, d.colors);
 		}
 
 		function getRandomInt(min, max) {
@@ -287,12 +330,11 @@ export default class Hexagon {
 			return Math.floor(Math.random() * (max - min)) + min;
 		}
 
-		function randomColor(node) {
-			let originalColor = node.selector.style('fill');
-			let colors = ['#00B4CC', '#00DFFC', '#008C9E']
-			let selectedColor = colors[getRandomInt(0, 2)]
+		function randomColor(node, colors) {
+			let originalColor = node.selector.select('#overlay').style('fill'),
+				selectedColor = colors[getRandomInt(0, colors.length)];
 
-			node.selector.style('fill', selectedColor);
+			node.selector.select('#overlay').style('fill', selectedColor);
 		}
 
 		function dragended(d) {
@@ -303,6 +345,7 @@ export default class Hexagon {
 						d.x = d.tx
 						d.y = d.ty
 					})
+				d.selector.select('#overlay').transition('revertColor').style('fill', d.colors[0]).duration(800).ease(d3.easeBounce);
 
 			})
 			d.fx = null;

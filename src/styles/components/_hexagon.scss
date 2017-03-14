@@ -1,7 +1,10 @@
 .hexagon {
-  stroke: $brightblue;
-  stroke-width: 1px;
-  fill: $background;
-
-
+    #overlay {
+        stroke: $brightblue;
+        stroke-width: .5px;
+        fill: $background;
+    }
+    .shadow {
+      fill-opacity: .1;
+    }
 }

@@ -15,6 +15,7 @@
     "d3-selection": "^0.9.0",
     "d3-selection-multi": "^0.3.0",
     "express": "^4.14.1",
+    "hammerjs": "^2.0.8",
     "node-uuid": "^1.4.7",
     "scream": "^2.2.0"
   },
