@@ -3,42 +3,40 @@ var path = require('path');
 
 module.exports = {
 
-  context: __dirname + '/src',
-  entry: ['script-loader!d3/build/d3.min.js',
-  'script-loader!d3-selection-multi/build/d3-selection-multi.min.js',
-  'script-loader!hammerjs/hammer.min.js',
-  './main.js'],
-  externals : {
-    d3: 'd3',
-    hammer: 'hammer'
-  },
-  plugins: [
-  		new webpack.ProvidePlugin({
-  			'window.d3': "d3",
-        'window.hammer': 'hammer'
-  		})
-  	],
-  output: {
-    path: __dirname + '/public',
-    filename: 'bundle.js'
-  },
+	context: __dirname + '/src',
+	entry: ['script-loader!d3/build/d3.min.js',
+		'script-loader!d3-selection-multi/build/d3-selection-multi.min.js',
+		'script-loader!hammerjs/hammer.min.js',
+		'./index.jsx'
+	],
+	externals: {
+		d3: 'd3',
+		hammer: 'hammer'
+	},
+	plugins: [
+		new webpack.ProvidePlugin({
+			'window.d3': "d3",
+			'window.hammer': 'hammer'
+		})
+	],
+	output: {
+		path: __dirname + '/public',
+		filename: 'bundle.js'
+	},
 	resolve: {
-    modules: [path.resolve(__dirname, "./src"), "node_modules"],
+		modules: [path.resolve(__dirname, "./src"), "node_modules", path.resolve(__dirname, "./src/components")],
 		alias: {
-      'Hexagon': path.resolve(__dirname, "./src/components/Hexagon.js"),
-      'Glasses': path.resolve(__dirname, "./src/components/Glasses.js"),
-      'BackgroundContainer': path.resolve(__dirname, "./src/components/BackgroundContainer.js"),
-      applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
-    },
-    extensions: ['.js']
-  },
+			applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
+		},
+		extensions: ['.js','.jsx']
+	},
 	module: {
 		loaders: [{
 			loader: 'babel-loader',
 			query: {
-				presets: ['env', 'stage-0']
+				presets: ['react','env', 'stage-0']
 			},
-			test: /\.js?$/,
+			test: /\.jsx?$/,
 			exclude: /(node_modules|bower_components)/
 		}]
 	},

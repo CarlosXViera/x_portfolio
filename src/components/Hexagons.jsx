@@ -1,77 +1,49 @@
-export default class Hexagon {
-	constructor(svgContainer, orientation) {
-		this.self = this;
+import React, {PropTypes} from 'react'
+import {importTemplates} from 'utils'
+export default class Hexagons extends React.Component {
+	constructor(props) {
+		super(props)
 
-		this.svgContainer = svgContainer;
-		this.orientation = orientation;
-		this.colors = ['#6A888C', '#5F7174', '#A5E65A', '#00A6C0', '#32D9CB'];
+		this.el = importTemplates(['originalHex', 'templateHex']);
 
-		this.templateHex = d3.select('#templateHex').html();
-		this.originalHex = d3.select('#originalHex').html();
-		this.hexagonData = [{
-				x1: 0,
-				y1: -30,
-				x2: -30,
-				y2: -12,
-				x3: 0,
-				y3: 3,
-				x4: 0,
-				y4: -30
-			},
-			{
-				x1: 30,
-				y1: -12,
-				x2: 0,
-				y2: -30,
-				x3: 0,
-				y3: 3,
-				x4: 30,
-				y4: -12
-			},
-			{
-				x1: -30,
-				y1: -12,
-				x2: -30,
-				y2: 18,
-				x3: 0,
-				y3: 3,
-				x4: -30,
-				y4: -12
-			},
-			{
-				x1: 0,
-				y1: 3,
-				x2: 30,
-				y2: 18,
-				x3: 30,
-				y3: -12,
-				x4: 0,
-				y4: 3
-			},
-			{
-				x1: 0,
-				y1: 36,
-				x2: 30,
-				y2: 18,
-				x3: 0,
-				y3: 3,
-				x4: 0,
-				y4: 36
-			},
-			{
-				x1: -30,
-				y1: 18,
-				x2: 0,
-				y2: 36,
-				x3: 0,
-				y3: 3,
-				x4: -30,
-				y4: 18
-			}
-		];
+		console.log(this.el)
+	}
 
-		this.generateHex(orientation);
+	state = {
+		g: null
+	}
 
+	onRef = (ref) => {
+		this.setState({
+			g: d3.select(ref)
+		}, () => this.renderHexagons(this.props.orientation))
+	}
+
+	renderHexagons(orientation) {
+		d3.selectAll('.hexagon').remove();
+
+		let self = this,
+			coll = this.generateData(orientation);
+
+		let nodes = this.state.g.selectAll('g').data(coll).enter().append('g').attrs({
+			id: (d, i) => `hex-${i}`,
+			class: 'hexagon',
+			transform: (d) => d.transform
+		});
+
+		nodes.each((dt, i, a) => {
+			dt.selector = d3.select(a[i], dt);
+			dt.selector.html(dt.temp);
+		});
+
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.renderHexagons(nextProps.orientation);
+	}
+
+	shouldComponentUpdate() {
+		return false;
 	}
 
 	gravitate(callback, context, data) {
@@ -81,44 +53,43 @@ export default class Hexagon {
 		callback(context, bBox, mPos, data);
 	}
 
-	generateData = function (data, landscape) {
+	generateData(orientation) {
 		let actualHexData = [],
 			xOffset = 32,
 			yOffset = 55;
 		//landscape or portrait
-		let maxX = landscape ? 25 : 12;
-		let maxY = landscape ? 9 : 12;
+		let maxX = orientation === 'landscape'
+			? 25
+			: 12;
+		let maxY = orientation === 'landscape'
+			? 9
+			: 12;
 
 		for (let i = 0; i < maxX; i++) {
 			let xSpacing = i * 63;
-
 
 			for (let j = 0; j < maxY; j++) {
 				let ySpacing = j * 110;
 
 				actualHexData.push({
-					temp: this.templateHex,
-					original: this.originalHex,
+					temp: this.el.templateHex,
+					original: this.el.originalHex,
 					fx: xSpacing,
 					fy: ySpacing,
 					tx: xSpacing,
 					ty: ySpacing,
 					transform: `translate(${xSpacing}, ${ySpacing})`,
-					data,
-					quad: [xSpacing, ySpacing],
 					colors: this.colors
 				});
 
 				actualHexData.push({
-					temp: this.templateHex,
-					original: this.originalHex,
+					temp: this.el.templateHex,
+					original: this.el.originalHex,
 					fx: xSpacing + xOffset,
 					fy: ySpacing + yOffset,
 					tx: xSpacing + xOffset,
 					ty: ySpacing + yOffset,
 					transform: `translate(${xSpacing + xOffset}, ${ySpacing + yOffset})`,
-					data,
-					quad: [xSpacing + xOffset, ySpacing + yOffset],
 					colors: this.colors
 				})
 			}
@@ -131,19 +102,15 @@ export default class Hexagon {
 
 		let sel = d3.select(selection);
 
-		let tBounce = function (selection, x, y, ox, oy, n) {
+		let tBounce = function(selection, x, y, ox, oy, n) {
 			let s = d3.select(selection);
 
-			s.transition('follow')
-				.duration(500)
-				.ease(d3.easeBounce)
-				.attr('transform', `translate(${ox + x}, ${oy + y})`)
-				.on('end', () => {
-					if (n) {
-						return;
-					}
-					tBounce(selection, 0, 0, ox, oy, 'stop');
-				})
+			s.transition('follow').duration(500).ease(d3.easeBounce).attr('transform', `translate(${ox + x}, ${oy + y})`).on('end', () => {
+				if (n) {
+					return;
+				}
+				tBounce(selection, 0, 0, ox, oy, 'stop');
+			})
 		}
 
 		if (mPos[0] < bBox.x) {
@@ -163,49 +130,23 @@ export default class Hexagon {
 		}
 	}
 
-	polarToRectangular(radius, degrees) {
-		let theta = degrees * (Math.PI / 180);
-
-		return {
-			x: radius * Math.cos(theta),
-			y: radius * Math.sin(theta),
-			degrees
-		}
-	}
-
 	generateHex(landscape) {
 		//remove all previous hexagons that could be on the stage
-		d3.selectAll('.hexagon').remove();
-		let self = this,
-				coll = this.generateData(this.hexagonData, landscape);
 
 		let collisionForce = d3.forceCollide(30).strength(1.2).iterations(1),
-				simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collision', collisionForce);
+			simulation = d3.forceSimulation(coll).alphaDecay(0.01).force('collision', collisionForce);
 
-		let nodes = this.svgContainer.selectAll('g')
-			.data(coll)
-			.enter()
-			.append('g')
-			.attrs({
-				id: (d, i) => `hex-${i}`,
-				class: 'hexagon',
-				transform: (d) => d.transform
-			}).call(d3.drag()
-				.on("start", dragstarted)
-				.on("drag", dragged)
-				.on("end", dragended))
-			.on('click', circlularAnim.bind(this))
-			.on('mouseleave', (d, i, a) => {
-				self.gravitate(self.followCursor, a[i], d)
-			})
+		// .call(d3.drag()
+		// 		.on("start", dragstarted)
+		// 		.on("drag", dragged)
+		// 		.on("end", dragended))
+		// 	.on('click', circlularAnim.bind(this))
+		// 	.on('mouseleave', (d, i, a) => {
+		// 		self.gravitate(self.followCursor, a[i], d)
+		// 	})
 
 		//append triangle collection after adding the simulation if done simultaneously
 		//translation occurs to all child nodes.
-		nodes.each((dt, i, a) => {
-			addHammerEventListener(dt, a[i])
-			dt.selector = d3.select(a[i], dt);
-			dt.selector.html(dt.temp);
-		})
 
 		function addHammerEventListener(d, that) {
 			let mc = new Hammer(that);
@@ -230,11 +171,7 @@ export default class Hexagon {
 
 				d3.select(a[i]).selectAll('g').each((d, i, b) => {
 
-					d3.select(b[i]).transition('boom')
-						.attr('transform', `translate(${popLocation[i]})`)
-						.transition('something else')
-						.attr('transform', 'translate(0,0)')
-						.duration(800).on('end', ended);
+					d3.select(b[i]).transition('boom').attr('transform', `translate(${popLocation[i]})`).transition('something else').attr('transform', 'translate(0,0)').duration(800).on('end', ended);
 				})
 			});
 
@@ -262,17 +199,22 @@ export default class Hexagon {
 				circleArray = [];
 
 			for (let j = 1; j <= nodesLength; j++) {
-				(t / hex >= 1) ? (s = 1, m++, t = 1, hex += 6) : (++t, s++);
+				(t / hex >= 1)
+					? (s = 1, m++, t = 1, hex += 6)
+					: (++t, s++);
 				let degrees = (c / hex) * t;
 
 				let ang = self.polarToRectangular(r * m, degrees);
 				let f1 = (ang.x + d.tx) - 5;
 				let f2 = (ang.y + d.ty);
 				let foundNode = simulation.find(f1, f2);
-				if (typeof foundNode === 'undefined') continue;
+				if (typeof foundNode === 'undefined')
+					continue;
 
 				//remove duplicates
-				circleArray.includes(foundNode) ? '' : circleArray.push(foundNode);
+				circleArray.includes(foundNode)
+					? ''
+					: circleArray.push(foundNode);
 
 				let stashedNode = circleArray[circleArray.length - 1].selector.select('#overlay').transition('fadeout').style('stroke', '#A5E65A').duration(.8 * j).ease(d3.easeBackIn);
 				if (j === nodesLength) {
@@ -285,7 +227,6 @@ export default class Hexagon {
 				}
 
 			}
-
 		}
 
 		function dragstarted(d) {
@@ -304,7 +245,8 @@ export default class Hexagon {
 			d.fy = d3.event.y;
 
 			let node = simulation.find(d3.event.x - 32, d3.event.y - 32, 900);
-			if (node === d) return;
+			if (node === d)
+				return;
 			randomColor(node, d.colors);
 		}
 
@@ -323,14 +265,11 @@ export default class Hexagon {
 
 		function dragended(d) {
 			simulation.stop();
-			coll.forEach(function (d) {
-				d.selector
-					.transition('dragged')
-					.attr('transform', `translate(${d.tx}, ${d.ty})`)
-					.duration(800).ease(d3.easeBounce).on('end', function () {
-						d.x = d.tx
-						d.y = d.ty
-					})
+			coll.forEach(function(d) {
+				d.selector.transition('dragged').attr('transform', `translate(${d.tx}, ${d.ty})`).duration(800).ease(d3.easeBounce).on('end', function() {
+					d.x = d.tx
+					d.y = d.ty
+				})
 				d.selector.select('#overlay').transition('revertColor').style('fill', d.colors[0]).duration(800).ease(d3.easeBounce);
 
 			})
@@ -347,4 +286,9 @@ export default class Hexagon {
 
 		return coll;
 	}
+
+	render() {
+		return (<g className='hexagons' ref={this.onRef}/>)
+	}
+
 }
