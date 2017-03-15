@@ -26,3 +26,23 @@ export function importTemplates(idArray) {
 
 	return obj;
 }
+
+export function addPressEventListener(d, that, callback) {
+	let mc = new Hammer(that);
+	mc.on('press', () => {
+		callback(d, that)
+	})
+}
+export function addSwipeEventListener(d, that, callback) {
+	let mc = new Hammer(that);
+	mc.on('swipe', () => {
+		callback(d, that)
+	})
+}
+
+export function addDblTapEventListener(d, that, callback) {
+	let mc = new Hammer(that);
+	mc.on('doubletap', () => {
+		callback(d, that)
+	})
+}

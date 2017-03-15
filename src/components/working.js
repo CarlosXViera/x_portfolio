@@ -289,7 +289,7 @@ export default class HexContainer {
 			callback(context, bBox, mPos, data);
 		}
 
-		generateData = function (data, landscape) {
+		generateData(data, landscape) {
 			let actualHexData = [],
 				xOffset = 32,
 				yOffset = 55;

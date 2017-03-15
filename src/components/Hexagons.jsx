@@ -148,14 +148,7 @@ export default class Hexagons extends React.Component {
 		//append triangle collection after adding the simulation if done simultaneously
 		//translation occurs to all child nodes.
 
-		function addHammerEventListener(d, that) {
-			let mc = new Hammer(that);
-			mc.on('press', () => {
-				pop(d, that)
 
-			})
-
-		}
 
 		function pop(datum, svgObj) {
 			d3.select(svgObj).html(datum.original);
