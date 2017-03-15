@@ -1,17 +1,19 @@
 import React, {PropTypes} from 'react'
-import {importTemplates, getRandomInt, polarToRectangular} from 'utils'
+import {importTemplates, getRandomInt, polarToRectangular, addPressEventListener, endAll} from 'utils'
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
 
+		this.hasEnded = true;
+
 		this.el = importTemplates(['originalHex', 'templateHex']);
 
 		this.colors = ['#6A888C', '#5F7174', '#A5E65A', '#00A6C0', '#32D9CB'];
 
-		this.collisionForce = d3.forceCollide(25).strength(1).iterations(1);
+		this.collisionForce = d3.forceCollide(30).strength(1).iterations(1);
 
-		this.simulation = d3.forceSimulation(this.hexagonsData).alphaDecay(0.01).force('collision', this.collisionForce).on('tick', this.ticked.bind(this)).stop();
+		this.simulation = d3.forceSimulation().alphaDecay(0.01).force('collision', this.collisionForce).on('tick', this.ticked.bind(this));
 	}
 
 	state = {
@@ -81,14 +83,11 @@ export default class Hexagons extends React.Component {
 			class: 'hexagon',
 			transform: (d) => d.transform
 		}).call(d3.drag().on("start", this.dragstarted.bind(this)).on("drag", this.dragged.bind(this)).on("end", this.dragended.bind(this))).on('click', this.clickAnimation.bind(this))
+		.on('mouseleave', this.gravitate.bind(this)).each((d, i, a) => addPressEventListener(d, a[i], this.popAnimation.bind(this)));
 
-		// .on('click', circlularAnim.bind(this)).on('mouseleave', (d, i, a) => {
-		// 	self.gravitate(self.followCursor, a[i], d)
-		// })
-
-		this.nodes.each((dt, i, a) => {
-			dt.selector = d3.select(a[i], dt);
-			dt.selector.html(dt.temp);
+		this.nodes.each((data, i, a) => {
+			data.id = a[i].id;
+			d3.select(`#${data.id}`).html(this.el.templateHex);
 		});
 
 	}
@@ -101,11 +100,12 @@ export default class Hexagons extends React.Component {
 		return false;
 	}
 
-	gravitate(callback, context, data) {
+	gravitate(data, i, a) {
+		let context = a[i],
+				bBox = context.getBBox(),
+				mPos = d3.mouse(context);
 
-		let bBox = context.getBBox(),
-			mPos = d3.mouse(context);
-		callback(context, bBox, mPos, data);
+		this.followCursor(context, bBox, mPos, data);
 	}
 
 	followCursor(selection, bBox, mPos, dt) {
@@ -140,8 +140,20 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
-	popAnimation(datum, svgObj) {
-		d3.select(svgObj).html(datum.original);
+	popAnimation(data, context) {
+
+		function ended(d, i, a) {
+			d3.select(context).html(data.temp);
+		}
+
+		function popped(d,i,a) {
+			d3.select(this)
+				.transition(t)
+				.attr('transform', `translate(${popLocation[this.id]})`)
+				.transition(t).attr('transform', 'translate(0,0)')
+				.on('end', ended);
+		}
+
 		let popLocation = [
 			"5, -5",
 			"5, 0",
@@ -149,21 +161,18 @@ export default class Hexagons extends React.Component {
 			"-5, -5",
 			"-5, 5",
 			"-5, 0"
-		]
-		d3.selectAll(svgObj.children).each((d, i, a) => {
+		],
+		t = d3.transition('pop').duration(800).ease(d3.easeElasticInOut);
+		// replace the html to memory
+		d3.select(context).html(this.el.originalHex);
 
-			d3.select(a[i]).selectAll('g').each((d, i, b) => {
-
-				d3.select(b[i]).transition('boom').attr('transform', `translate(${popLocation[i]})`).transition('something else').attr('transform', 'translate(0,0)').duration(800).on('end', ended);
-			})
-		});
-
-		function ended(d, i, a) {
-			d3.select(svgObj).html(datum.temp);
-		}
+		d3.selectAll(`#${context.id} g:not(.innerHexagon)`).each(popped);
 	}
 
 	clickAnimation(d, i, a) {
+
+		if(this.hasEnded === false) return;
+		d3.event.stopPropagation();
 		this.simulation.stop();
 
 		let nodesLength = 1250,
@@ -171,46 +180,52 @@ export default class Hexagons extends React.Component {
 			r = 32.5,
 			c = 360,
 			m = 1,
-			s = 1,
 			t = 0,
-			circleArray = [];
+			circleArray = [],
+			count = 0;
+
+
+			function ended() {
+				if( --count === 0 )
+				circleArray.forEach((d, i,)=> {
+					d3.select(`#${d.id} #overlay`).transition('done').style('stroke', '#32D9CB').duration(2000);
+				});
+			}
+
+			function transitionIt(node, iterator, color) {
+
+			 return d3.select(`#${node.id} #overlay`).transition('fucker').style('stroke', color).duration(iterator * 2).ease(d3.easeBackInOut).on('start', () => count++).on('end', ended);
+			}
+
 
 		for (let j = 1; j <= nodesLength; j++) {
-			(t / hex >= 1)
-				? (s = 1, m++, t = 1, hex += 6)
-				: (++t, s++);
+
+			if((t / hex) >= 1) {
+				m++, t = 1, hex += 6;
+			} else {
+				++t;
+			}
+
 			let degrees = (c / hex) * t;
 
-			let ang = polarToRectangular(r * m, degrees);
-			let f1 = (ang.x + d.tx) - 5;
-			let f2 = (ang.y + d.ty);
-			let foundNode = this.simulation.find(f1, f2);
-			if (typeof foundNode === 'undefined')
-				continue;
+			let {x, y} = polarToRectangular(r * m, degrees),
+					foundNode = this.simulation.find(x + d.tx, y + d.ty);
 
-			//remove duplicates
-			circleArray.includes(foundNode)
-				? ''
-				: circleArray.push(foundNode);
+			if(circleArray.includes(foundNode)) continue;
 
-			let stashedNode = circleArray[circleArray.length - 1].selector.select('#overlay').transition('fadeout').style('stroke', '#A5E65A').duration(.8 * j).ease(d3.easeBackIn);
-			if (j === nodesLength) {
-				stashedNode.on('end', () => {
-					for (let n of circleArray.reverse()) {
-						n.selector.select('#overlay').transition('revert').style('stroke', '#32D9CB').ease(d3.easeBackOut).duration(1000)
-					}
+			circleArray.push(foundNode);
+			this.hasEnded = false;
+			transitionIt(foundNode, j,'#A5E65A')
 
-				})
-			}
 
 		}
 	}
 
 	randomColor(node, colors) {
-		let originalColor = node.selector.select('#overlay').style('fill'),
+		let originalColor = d3.select(`#${node.id} #overlay`).style('fill'),
 			selectedColor = colors[getRandomInt(0, colors.length)];
 
-		node.selector.select('#overlay').style('fill', selectedColor);
+		d3.select(`#${node.id} #overlay`).style('fill', selectedColor);
 	}
 
 	dragstarted(d, i, a) {
@@ -220,7 +235,7 @@ export default class Hexagons extends React.Component {
 			g.fy = null;
 		}
 		this.simulation.restart();
-		this.simulation.alpha(1.0);
+		this.simulation.alpha(0.7);
 		d.fx = d.x;
 		d.fy = d.y;
 	}
@@ -236,16 +251,24 @@ export default class Hexagons extends React.Component {
 	}
 
 	dragended(d) {
-		this.simulation.stop();
-		this.hexagonsData.forEach(function(d) {
-			d.selector.transition('dragged').attr('transform', `translate(${d.tx}, ${d.ty})`).duration(800).ease(d3.easeBounce).on('end', function(d) {
-				d.x = d.tx
-				d.y = d.ty
-				d3.select(this).select('#overlay').transition('revertColor').style('fill', d.colors[0]).duration(800).ease(d3.easeBounce);
-			})
-			// d.selector.select('#overlay')
 
-		})
+		function ended(d) {
+			d.x = d.tx;
+			d.y = d.ty;
+		}
+
+		function revert(d) {
+			d3.select(this).transition(t)
+			.attr('transform', `translate(${d.tx}, ${d.ty})`).on('end', ended);
+
+			d3.selectAll('#overlay').transition(t).style('fill', d.colors[0]);
+		}
+
+		let t = d3.transition('draggedRevert').duration(800).ease(d3.easeBounce);
+
+		this.simulation.stop();
+		this.nodes.each(revert);
+
 		d.fx = null;
 		d.fy = null;
 		this.simulation.alphaTarget(0.1);

@@ -46,3 +46,26 @@ export function addDblTapEventListener(d, that, callback) {
 		callback(d, that)
 	})
 }
+
+export function randomColor(colors) {
+	let originalColor = node.selector.select('#overlay').style('fill');
+
+	return colors[getRandomInt(0, colors.length)];
+}
+
+export function endAll(transition, callback) {
+let n = 0;
+
+	if (transition.empty()) {
+		callback();
+	} else {
+		n = transition.size();
+
+		transition.on("end", function () {
+			n--;
+			if (n === 0) {
+				callback();
+			}
+		});
+	}
+}

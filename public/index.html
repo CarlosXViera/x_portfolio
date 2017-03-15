@@ -9,7 +9,7 @@
 <body>
 	<div id="root"></div>
 	<g id="originalHex">
-			<g class="shadow" transform="translate(-30, -25) scale(2)">
+			<g class='innerHexagon' id="shadow" transform="translate(-30, -25) scale(2)">
 				<g id="0">
 					<polygon points="26 7.5 26 7.5 13 0 13 15 26 7.5"/>
 				</g>
@@ -30,7 +30,7 @@
 				</g>
 
 			</g>
-			<g id="overlay" transform="translate(-30, -30) scale(2)">
+			<g class='innerHexagon' id="overlay" transform="translate(-30, -30) scale(2)">
 				<g id="0">
 					<polygon points="26 7.5 26 7.5 13 0 13 15 26 7.5"/>
 				</g>
@@ -53,11 +53,11 @@
 
 	</g>
 	<g id="templateHex">
-		<g class="shadow">
+		<g class="innerHexagon" id="shadow">
 			<polygon transform="translate(-30, -25) scale(2)" points="26 7.5 26 7.5 13 0 0 7.5 0 22.4 13 30 26 22.4 26 7.5" />
 		</g>
 
-		<g id="overlay">
+		<g class="innerHexagon" id="overlay">
 			<polygon transform="translate(-30, -30) scale(2)" points="26 7.5 26 7.5 13 0 0 7.5 0 22.4 13 30 26 22.4 26 7.5" />
 		</g>
 
