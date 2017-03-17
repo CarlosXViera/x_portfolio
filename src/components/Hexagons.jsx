@@ -1,11 +1,10 @@
 import React, {PropTypes} from 'react'
 import {importTemplates, getRandomInt, polarToRectangular, addPressEventListener, endAll} from 'utils'
+import uuid from 'node-uuid'
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
-
-		this.hasEnded = true;
 
 		this.el = importTemplates(['originalHex', 'templateHex']);
 
@@ -26,6 +25,14 @@ export default class Hexagons extends React.Component {
 		}, () => this.renderHexagons(this.props.orientation))
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.renderHexagons(nextProps.orientation);
+	}
+
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	generateData(orientation) {
 		let actualHexData = [],
 			xOffset = 32,
@@ -42,32 +49,33 @@ export default class Hexagons extends React.Component {
 			let xSpacing = i * 63;
 
 			for (let j = 0; j < maxY; j++) {
-				let ySpacing = j * 110;
-
-				actualHexData.push({
+				let ySpacing = j * 110,
+				obj ={
 					temp: this.el.templateHex,
 					original: this.el.originalHex,
+					colors: this.colors
+				}
+
+				actualHexData.push({
+					...obj,
 					fx: xSpacing,
 					fy: ySpacing,
 					tx: xSpacing,
 					ty: ySpacing,
-					transform: `translate(${xSpacing}, ${ySpacing})`,
-					colors: this.colors
+					transform: `translate(${xSpacing}, ${ySpacing})`
 				});
 
 				actualHexData.push({
-					temp: this.el.templateHex,
-					original: this.el.originalHex,
+					...obj,
 					fx: xSpacing + xOffset,
 					fy: ySpacing + yOffset,
 					tx: xSpacing + xOffset,
 					ty: ySpacing + yOffset,
-					transform: `translate(${xSpacing + xOffset}, ${ySpacing + yOffset})`,
-					colors: this.colors
+					transform: `translate(${xSpacing + xOffset}, ${ySpacing + yOffset})`
 				})
 			}
 		}
-
+		console.log(actualHexData);
 		return actualHexData;
 	}
 
@@ -82,8 +90,7 @@ export default class Hexagons extends React.Component {
 			id: (d, i) => `hex-${i}`,
 			class: 'hexagon',
 			transform: (d) => d.transform
-		}).call(d3.drag().on("start", this.dragstarted.bind(this)).on("drag", this.dragged.bind(this)).on("end", this.dragended.bind(this))).on('click', this.clickAnimation.bind(this))
-		.on('mouseleave', this.gravitate.bind(this)).each((d, i, a) => addPressEventListener(d, a[i], this.popAnimation.bind(this)));
+		}).call(d3.drag().on("start", this.dragstarted.bind(this)).on("drag", this.dragged.bind(this)).on("end", this.dragended.bind(this))).on('click', this.clickAnimation.bind(this)).on('mouseleave', this.gravitate.bind(this)).each((d, i, a) => addPressEventListener(d, a[i], this.popAnimation.bind(this)));
 
 		this.nodes.each((data, i, a) => {
 			data.id = a[i].id;
@@ -92,18 +99,10 @@ export default class Hexagons extends React.Component {
 
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.renderHexagons(nextProps.orientation);
-	}
-
-	shouldComponentUpdate() {
-		return false;
-	}
-
 	gravitate(data, i, a) {
 		let context = a[i],
-				bBox = context.getBBox(),
-				mPos = d3.mouse(context);
+			bBox = context.getBBox(),
+			mPos = d3.mouse(context);
 
 		this.followCursor(context, bBox, mPos, data);
 	}
@@ -146,23 +145,19 @@ export default class Hexagons extends React.Component {
 			d3.select(context).html(data.temp);
 		}
 
-		function popped(d,i,a) {
-			d3.select(this)
-				.transition(t)
-				.attr('transform', `translate(${popLocation[this.id]})`)
-				.transition(t).attr('transform', 'translate(0,0)')
-				.on('end', ended);
+		function popped(d, i, a) {
+			d3.select(this).transition(t).attr('transform', `translate(${popLocation[this.id]})`).transition(t).attr('transform', 'translate(0,0)').on('end', ended);
 		}
 
 		let popLocation = [
-			"5, -5",
-			"5, 0",
-			"5, 5",
-			"-5, -5",
-			"-5, 5",
-			"-5, 0"
-		],
-		t = d3.transition('pop').duration(800).ease(d3.easeElasticInOut);
+				"5, -5",
+				"5, 0",
+				"5, 5",
+				"-5, -5",
+				"-5, 5",
+				"-5, 0"
+			],
+			t = d3.transition('pop').duration(800).ease(d3.easeElasticInOut);
 		// replace the html to memory
 		d3.select(context).html(this.el.originalHex);
 
@@ -170,10 +165,25 @@ export default class Hexagons extends React.Component {
 	}
 
 	clickAnimation(d, i, a) {
-
-		if(this.hasEnded === false) return;
 		d3.event.stopPropagation();
 		this.simulation.stop();
+		function ended() {
+			circleArray.reverse().forEach((node, it, array) => {
+				d3.select(`#${node.id} #overlay`).transition(uuid()).style('stroke', node.colors[4]);
+			})
+		}
+
+		function transitionIt(color) {
+			let selection = null;
+
+			circleArray.forEach((node, it, array) => {
+
+				selection = d3.select(`#${node.id} #overlay`).transition(tn).style('stroke', color).delay(5 * it);
+				if(it === array.length - 1) selection.on('end', ended);
+
+			});
+		}
+		let tn = d3.transition(uuid()).duration(500).ease(d3.easeBackInOut);
 
 		let nodesLength = 1250,
 			hex = 6,
@@ -181,44 +191,28 @@ export default class Hexagons extends React.Component {
 			c = 360,
 			m = 1,
 			t = 0,
-			circleArray = [],
-			count = 0;
-
-
-			function ended() {
-				if( --count === 0 )
-				circleArray.forEach((d, i,)=> {
-					d3.select(`#${d.id} #overlay`).transition('done').style('stroke', '#32D9CB').duration(2000);
-				});
-			}
-
-			function transitionIt(node, iterator, color) {
-
-			 return d3.select(`#${node.id} #overlay`).transition('fucker').style('stroke', color).duration(iterator * 2).ease(d3.easeBackInOut).on('start', () => count++).on('end', ended);
-			}
-
+			circleArray = [];
 
 		for (let j = 1; j <= nodesLength; j++) {
 
-			if((t / hex) >= 1) {
-				m++, t = 1, hex += 6;
+			if ((t / hex) >= 1) {
+				m++,
+				t = 1,
+				hex += 6;
 			} else {
 				++t;
 			}
 
 			let degrees = (c / hex) * t;
-
 			let {x, y} = polarToRectangular(r * m, degrees),
-					foundNode = this.simulation.find(x + d.tx, y + d.ty);
+				foundNode = this.simulation.find(x + d.tx, y + d.ty);
 
-			if(circleArray.includes(foundNode)) continue;
+			if (circleArray.includes(foundNode)) continue;
 
 			circleArray.push(foundNode);
-			this.hasEnded = false;
-			transitionIt(foundNode, j,'#A5E65A')
-
-
 		}
+
+		transitionIt(this.colors[2]);
 	}
 
 	randomColor(node, colors) {
@@ -258,8 +252,7 @@ export default class Hexagons extends React.Component {
 		}
 
 		function revert(d) {
-			d3.select(this).transition(t)
-			.attr('transform', `translate(${d.tx}, ${d.ty})`).on('end', ended);
+			d3.select(this).transition(t).attr('transform', `translate(${d.tx}, ${d.ty})`).on('end', ended);
 
 			d3.selectAll('#overlay').transition(t).style('fill', d.colors[0]);
 		}
