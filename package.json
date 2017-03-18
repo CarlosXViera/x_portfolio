@@ -4,6 +4,7 @@
   "description": "interactive portfolio",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "npm run build && npm run webdriver-launch",
     "build": "webpack & node server.js & BUILD=$!",
     "webdriver-launch": "./node_modules/.bin/wdio wdio.conf.js & WEBDRIVER=$!"
