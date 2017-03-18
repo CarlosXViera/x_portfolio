@@ -3,6 +3,7 @@ import HexContainer from 'HexContainer'
 import Hexagons from 'Hexagons'
 import Glasses from 'Glasses'
 import Scream from 'scream'
+import Topbar from 'Topbar'
 
 export default class App extends React.Component {
 
@@ -11,8 +12,8 @@ export default class App extends React.Component {
 
 		this.scream = Scream({
 			width: {
-				portrait: 1080,
-				landscape: 1920
+				portrait: window.screen.height,
+				landscape: window.screen.width
 			}
 		});
 
@@ -20,7 +21,7 @@ export default class App extends React.Component {
 			orientation: this.scream.getOrientation()
 		}
 
-		this.scream.on('orientationchangeend', ()=>{
+		this.scream.on('orientationchangeend', () => {
 			let orientation = this.scream.getOrientation();
 			console.log(this.scream.getOrientation())
 			this.setState({orientation});
@@ -29,23 +30,23 @@ export default class App extends React.Component {
 	}
 
 	handleOrientation() {
-		this.scream.on('orientationchangeend', ()=>{
+		this.scream.on('orientationchangeend', () => {
 			let orientation = this.scream.getOrientation();
 			this.setState({orientation});
 		})
 	}
 
-	componentWillMount() {
-
-	}
+	componentWillMount() {}
 
 	render() {
 		return (
 			<div className="App">
+
 				<HexContainer onLayout={this.handleLayout} orientation={this.state.orientation}>
 					<Hexagons orientation={this.state.orientation}></Hexagons>
 					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
+				<Topbar className="app_top_bar"/>
 			</div>
 		)
 	}

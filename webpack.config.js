@@ -7,6 +7,8 @@ module.exports = {
 	entry: ['script-loader!d3/build/d3.min.js',
 		'script-loader!d3-selection-multi/build/d3-selection-multi.min.js',
 		'script-loader!hammerjs/hammer.min.js',
+		'script-loader!jquery/dist/jquery.min.js',
+		'script-loader!foundation-sites/dist/js/foundation.min.js',
 		'./index.jsx'
 	],
 	externals: {
@@ -15,8 +17,8 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.ProvidePlugin({
-			'window.d3': "d3",
-			'window.hammer': 'hammer'
+			'd3': "d3",
+			'hammer': 'hammer'
 		})
 	],
 	output: {
@@ -38,7 +40,35 @@ module.exports = {
 			},
 			test: /\.jsx?$/,
 			exclude: /(node_modules|bower_components)/
+		},
+		{
+			test: /\.scss$/,
+			use: [{
+				loader: 'sass-loader',
+				options: {
+					includePaths: [path.resolve(__dirname, './node_modules/foundation-sites/scss')]
+				}
+			}]
 		}]
 	},
 	devtool: 'cheap-module-eval-source-map'
 };
+//
+// loaders: [{
+// 	loader: 'babel-loader',
+// 	query: {
+// 		presets: ['react', 'env', 'stage-0']
+// 	},
+// 	test: /\.jsx?$/,
+// 	exclude: /(node_modules|bower_components)/
+// }]
+
+
+
+// entry: ['script-loader!d3/build/d3.min.js',
+// 	'script-loader!d3-selection-multi/build/d3-selection-multi.min.js',
+// 	'script-loader!hammerjs/hammer.min.js',
+// 	'script-loader!jquery/dist/jquery.min.js',
+// 	'script-loader!foundation-sites/dist/js/foundation.min.js',
+// 	'./index.jsx'
+// ],

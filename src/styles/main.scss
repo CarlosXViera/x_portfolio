@@ -1,9 +1,26 @@
 @import "base/variables";
 @import "components/hexagon";
 @import "components/glasses";
+@import "components/topbar";
+// foundation
+@import "base/foundation-settings";
+@import "foundation";
+@include foundation-everything;
 
 body {
-  background-color: $background;
-  margin: 0 0;
-  overflow: hidden;
+    font-family: 'source-code-semibold';
+    font-size: 30px;
+    background-color: $background;
+    margin: 0;
+    overflow: hidden;
+}
+
+svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+}
+h1 {
+  font-size: 40;
 }

@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react'
 import {importTemplates} from 'utils'
 
+
 export default class Glasses extends React.Component {
 	constructor(props) {
 		super(props)
