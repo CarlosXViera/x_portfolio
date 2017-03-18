@@ -13,6 +13,8 @@ export default class Hexagons extends React.Component {
 		this.collisionForce = d3.forceCollide(30).strength(1).iterations(1);
 
 		this.simulation = d3.forceSimulation().alphaDecay(0.01).force('collision', this.collisionForce).on('tick', this.ticked.bind(this));
+		this.simulation.alpha(0.0);
+
 	}
 
 	state = {
@@ -39,10 +41,10 @@ export default class Hexagons extends React.Component {
 			yOffset = 55;
 		//landscape or portrait
 		let maxX = orientation === 'landscape'
-			? 25
+			? 21
 			: 12;
 		let maxY = orientation === 'landscape'
-			? 9
+			? 7
 			: 12;
 
 		for (let i = 0; i < maxX; i++) {
@@ -50,11 +52,11 @@ export default class Hexagons extends React.Component {
 
 			for (let j = 0; j < maxY; j++) {
 				let ySpacing = j * 110,
-				obj ={
-					temp: this.el.templateHex,
-					original: this.el.originalHex,
-					colors: this.colors
-				}
+					obj = {
+						temp: this.el.templateHex,
+						original: this.el.originalHex,
+						colors: this.colors
+					}
 
 				actualHexData.push({
 					...obj,
@@ -75,7 +77,6 @@ export default class Hexagons extends React.Component {
 				})
 			}
 		}
-		console.log(actualHexData);
 		return actualHexData;
 	}
 
@@ -167,6 +168,7 @@ export default class Hexagons extends React.Component {
 	clickAnimation(d, i, a) {
 		d3.event.stopPropagation();
 		this.simulation.stop();
+
 		function ended() {
 			circleArray.reverse().forEach((node, it, array) => {
 				d3.select(`#${node.id} #overlay`).transition(uuid()).style('stroke', node.colors[4]);
@@ -179,10 +181,12 @@ export default class Hexagons extends React.Component {
 			circleArray.forEach((node, it, array) => {
 
 				selection = d3.select(`#${node.id} #overlay`).transition(tn).style('stroke', color).delay(5 * it);
-				if(it === array.length - 1) selection.on('end', ended);
-
-			});
+				if (it === array.length - 1)
+					selection.on('end', ended);
+				}
+			);
 		}
+
 		let tn = d3.transition(uuid()).duration(500).ease(d3.easeBackInOut);
 
 		let nodesLength = 1250,
@@ -207,11 +211,11 @@ export default class Hexagons extends React.Component {
 			let {x, y} = polarToRectangular(r * m, degrees),
 				foundNode = this.simulation.find(x + d.tx, y + d.ty);
 
-			if (circleArray.includes(foundNode)) continue;
+			if (circleArray.includes(foundNode))
+				continue;
 
 			circleArray.push(foundNode);
 		}
-
 		transitionIt(this.colors[2]);
 	}
 
@@ -267,12 +271,11 @@ export default class Hexagons extends React.Component {
 		this.simulation.alphaTarget(0.1);
 	}
 
-	ticked() {
+	ticked(e) {
 		this.nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
 	}
 
 	render() {
 		return (<g className='hexagons' ref={this.onRef}/>)
 	}
-
 }
