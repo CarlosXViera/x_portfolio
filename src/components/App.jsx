@@ -1,6 +1,7 @@
 import React from 'react'
 import HexContainer from 'HexContainer'
 import Hexagons from 'Hexagons'
+import Glasses from 'Glasses'
 import Scream from 'scream'
 
 export default class App extends React.Component {
@@ -43,6 +44,7 @@ export default class App extends React.Component {
 			<div className="App">
 				<HexContainer onLayout={this.handleLayout} orientation={this.state.orientation}>
 					<Hexagons orientation={this.state.orientation}></Hexagons>
+					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
 			</div>
 		)
