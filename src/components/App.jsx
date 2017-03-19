@@ -54,12 +54,20 @@ export default class App extends React.Component {
 				</HexContainer>
 				<Topbar className="app_top_bar"/>
 				<Router>
-						<Switch>
-							<Route exact path='/' component={Main}/>
-							<Route path='/about' component={About}/>
+					<div>
+						<div>
+							<Link to='/'>Home</Link>
+							<Link to='/works'>Works</Link>
+							<Link to='/contacts'>Contacts</Link>
+						</div>
+						<div className="Main">
+							<Route exact path='/' component={About}/>
 							<Route path='/works' component={Works}/>
 							<Route path='/contacts' component={Contact}/>
-						</Switch>
+						</div>
+				</div>
+
+
 				</Router>
 			</div>
 		)
