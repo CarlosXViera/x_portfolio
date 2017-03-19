@@ -53,22 +53,3 @@ module.exports = {
 	},
 	devtool: 'cheap-module-eval-source-map'
 };
-//
-// loaders: [{
-// 	loader: 'babel-loader',
-// 	query: {
-// 		presets: ['react', 'env', 'stage-0']
-// 	},
-// 	test: /\.jsx?$/,
-// 	exclude: /(node_modules|bower_components)/
-// }]
-
-
-
-// entry: ['script-loader!d3/build/d3.min.js',
-// 	'script-loader!d3-selection-multi/build/d3-selection-multi.min.js',
-// 	'script-loader!hammerjs/hammer.min.js',
-// 	'script-loader!jquery/dist/jquery.min.js',
-// 	'script-loader!foundation-sites/dist/js/foundation.min.js',
-// 	'./index.jsx'
-// ],

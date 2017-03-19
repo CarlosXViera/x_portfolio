@@ -7,6 +7,10 @@
 @import "foundation";
 @include foundation-everything;
 
+html {
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
+}
+
 body {
     font-family: 'source-code-semibold';
     font-size: 30px;

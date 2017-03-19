@@ -1,9 +1,14 @@
 import React from 'react'
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom'
 import HexContainer from 'HexContainer'
 import Hexagons from 'Hexagons'
 import Glasses from 'Glasses'
 import Scream from 'scream'
 import Topbar from 'Topbar'
+import {Main} from 'Main'
+import Works from 'Works'
+import Contact from 'Contact'
+import About from 'About'
 
 export default class App extends React.Component {
 
@@ -12,7 +17,7 @@ export default class App extends React.Component {
 
 		this.scream = Scream({
 			width: {
-				portrait: window.screen.height,
+				portrait: window.screen.width,
 				landscape: window.screen.width
 			}
 		});
@@ -36,17 +41,26 @@ export default class App extends React.Component {
 		})
 	}
 
-	componentWillMount() {}
+	componentWillMount() {
+
+	}
 
 	render() {
 		return (
 			<div className="App">
-
 				<HexContainer onLayout={this.handleLayout} orientation={this.state.orientation}>
 					<Hexagons orientation={this.state.orientation}></Hexagons>
 					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
 				<Topbar className="app_top_bar"/>
+				<Router>
+						<Switch>
+							<Route exact path='/' component={Main}/>
+							<Route path='/about' component={About}/>
+							<Route path='/works' component={Works}/>
+							<Route path='/contacts' component={Contact}/>
+						</Switch>
+				</Router>
 			</div>
 		)
 	}
