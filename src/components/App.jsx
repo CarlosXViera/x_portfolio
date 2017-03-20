@@ -6,10 +6,7 @@ import Glasses from 'Glasses'
 import Scream from 'scream'
 import Topbar from 'Topbar'
 import {Main} from 'Main'
-import Works from 'Works'
-import Contact from 'Contact'
-import About from 'About'
-
+import Nav from 'Nav'
 export default class App extends React.Component {
 
 	constructor(props) {
@@ -53,22 +50,7 @@ export default class App extends React.Component {
 					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
 				<Topbar className="app_top_bar"/>
-				<Router>
-					<div>
-						<div>
-							<Link to='/'>Home</Link>
-							<Link to='/works'>Works</Link>
-							<Link to='/contacts'>Contacts</Link>
-						</div>
-						<div className="Main">
-							<Route exact path='/' component={About}/>
-							<Route path='/works' component={Works}/>
-							<Route path='/contacts' component={Contact}/>
-						</div>
-				</div>
-
-
-				</Router>
+				<Nav/>
 			</div>
 		)
 	}

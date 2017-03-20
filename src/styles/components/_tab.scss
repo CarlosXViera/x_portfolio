@@ -1,0 +1,32 @@
+.tab {
+    background: $greyish;
+    width: 25%;
+    height: 35px;
+    font-family: 'gooddog';
+    float: left;
+    text-align: center;
+    border-top-right-radius: 5px;
+    border-top : 1px solid $outlines;
+    border-right: 1px solid $outlines;
+    font-size: 1.5rem;
+    position: absolute;
+}
+
+.contacts {
+    top: 103%;
+    right:27%
+}
+
+.about {
+    top: 103%;
+    right:75%
+}
+
+.works {
+    top: 103%;
+    right:51%
+}
+
+.tabText {
+    color: white;
+}
