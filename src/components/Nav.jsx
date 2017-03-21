@@ -1,43 +1,104 @@
 import React, {PropTypes} from 'react'
-import {BrowserRouter as Router, Route, Link, Switch, NavLink} from 'react-router-dom'
+import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 import Works from 'Works'
 import Contact from 'Contact'
 import About from 'About'
+import Draggable from 'react-draggable';
 
 export default class Nav extends React.Component {
 
-	constructor(props) {
-		super(props)
+    constructor(props) {
+        super(props)
 
-		this.state = {};
-	}
+        this.state = {
+          activeDrags: 0,
+          deltaPosition:{
+            x:0, y:0
+          },
+          controlledPosition: {
+            x: -400, y:200
+          }
+        };
+    }
 
-	componentWillMount() {}
+    onStart(){
+      this.setState({activeDrags: ++this.state.activeDrags})
+    }
 
-	render() {
+    onStop(){
+      this.setState({activeDrags: --this.state.activeDrags})
+    }
 
-		return (
-			<Router>
-				<div className='Main'>
-					<div className="content">
-						<Route path='/contacts' component={Contact}/>
-						<Route path='/works' component={Works}/>
-						<Route exact path='/' component={About}/>
-					</div>
-					<NavLink to="/contacts" className="tabText">
-						<div className="tab contacts">Contact</div>
-					</NavLink>
+    adjustXPos(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const {x, y} = this.state.controlledPosition;
+      this.setState({controlledPostion: {x: x - 10, y}})
+    }
 
-					<NavLink to="/works" className="tabText">
-						<div className="tab works">Works</div>
-					</NavLink>
+    adjustYPos(e){
+      e.preventDefault();
+      e.stopPropagation();
+      const {x,y} = this.state.controlledPosition;
+      this.setState({controlledPosition: {x, y: y - 10}});
+    }
 
-					<NavLink to="/about" className="tabText">
-						<div className="tab about">About</div>
-					</NavLink>
+    onControlledDrag(e, position) {
+      const {x, y} = position;
+      this.onStop();
+    }
 
-				</div>
-			</Router>
-		)
-	}
+    onControlledDragStop(e, position){
+      this.onControlledDrag(e, position);
+      this.onStop();
+    }
+
+    handleDrag(e, ui){
+      const {x, y} = this.state.deltaPosition;
+
+      this.setState({
+        deltaPosition: {
+          x: x + ui.deltaX,
+          y: y + ui.deltaY
+        }
+      });
+      console.log('dragging!')
+    }
+
+    onDrag(){
+      console.log('dragging!')
+    }
+
+
+    componentWillMount() {}
+
+
+    render() {
+      const dragHandlers = {onStart: this.onStart, onStop: this.onStop};
+      const {deltaPosition, controlledPosition} = this.state;
+        return (
+            <Draggable axis='y' {...dragHandlers}>
+                <Router>
+                    <div className='Main'>
+                        <div className="content">
+                            <Route path='/contacts' component={Contact}/>
+                            <Route path='/works' component={Works}/>
+                            <Route exact path='/' component={About}/>
+                        </div>
+                        <NavLink to="/contacts" className="tabText">
+                            <div className="tab contacts">Contact</div>
+                        </NavLink>
+
+                        <NavLink to="/works" className="tabText">
+                            <div className="tab works">Works</div>
+                        </NavLink>
+
+                        <NavLink to="/about" className="tabText">
+                            <div className="tab about">About</div>
+                        </NavLink>
+                    </div>
+                </Router>
+            </Draggable>
+        )
+    }
 }
