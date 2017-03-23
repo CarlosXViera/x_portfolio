@@ -1,28 +1,33 @@
 .tab {
     background: $greyish;
-    width: 30%;
-    height: 35px;
-    font-family: 'gooddog';
+    width: 24.5%;
+    height: 27px;
+    font-family: novecentowide;
     float: left;
     text-align: center;
-    border-radius: 5px 5px 0 0;
-    font-size: 1.5rem;
+    border-radius: 2.5px 2.5px 2.5px 2.5px;
+    font-size: 1rem;
     position: absolute;
 }
 
 .about {
-    top: 10px;
-    right: 67.5%;
+    top: 2px;
+    right: 75.2%;
 }
 
 .works {
-    top: 10px;
-    right: 35.2%;
+    top: 2px;
+    right: 50.2%;
 }
 
 .contacts {
-    top: 10px;
-    right: 3%;
+    top:  2px;
+    right: 25.2%;
+}
+
+.blog {
+   top: 2px;
+   right:.2%
 }
 
 .tabText {
@@ -30,10 +35,12 @@
 }
 
 a.active {
-  color: yellow;
-  background-color: pink;
 
  div{
-   background:$darkerblue;
+   border-bottom: $purecyan 1px solid;
+   background-color: rgba(0,0,0,.1);
+   transition: border-bottom 1s ease-in;
+   
+  //  transition: background-color .5s ease-in;
  }
 }

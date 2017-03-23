@@ -8,7 +8,7 @@ export default class Topbar extends React.Component {
 
 	render() {
 		return (
-			<div className="bottom-border">
+			<div className="bottom-border" id="topBar">
 				<div className="top-bar">
 					<h1 className="text-center">ElPolyGlotist.io</h1>
 				</div>

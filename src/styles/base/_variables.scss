@@ -1,12 +1,33 @@
 @font-face {
-  font-family: gooddog;
-  src: url('/fonts/gooddog.otf');
+  font-family: novecentowide;
+  src: url('/fonts/Novecentosanswide-Book-webfont.woff');
 }
+
+@font-face {
+  font-family: novecentowidebold;
+  src: url('/fonts/Novecentosanswide-Medium-webfont.woff');
+}
+@font-face {
+  font-family: novecentowidenormal;
+  src: url('/fonts/Novecentosanswide-Normal-webfont.woff');
+}
+
+$verydarkgreyishcyan: #343838;
+$verydarkcyan: #005F6B;
+$darkcyan: #008C9E;
+$strongcyan: #00B4CC;
+$purecyan: #00DFFC;
+$steadygrey: #E9E9E9;
+
 //Colors
-$background: #6A888C;
-$outlines: #A5E65A;
-$greyish: #5F7174;
+$background: $verydarkgreyishcyan;
+$outlines: $purecyan;
+$greyish: verydarkcyan;
 $darkerblue: #00A6C0;
-$brightblue: #32D9CB;
+$brightblue: $verydarkcyan;
+
+
+
+
 
 $sourceCode: source_code_pro_reg;

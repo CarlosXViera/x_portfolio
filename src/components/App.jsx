@@ -14,8 +14,8 @@ export default class App extends React.Component {
 
 		this.scream = Scream({
 			width: {
-				portrait: window.screen.width,
-				landscape: window.screen.width
+				portrait: window.innerWidth,
+				landscape: window.innerWidth
 			}
 		});
 
@@ -25,8 +25,8 @@ export default class App extends React.Component {
 
 		this.scream.on('orientationchangeend', () => {
 			let orientation = this.scream.getOrientation();
-			console.log(this.scream.getOrientation())
 			this.setState({orientation});
+			window.location.reload();
 		})
 
 	}
@@ -50,7 +50,7 @@ export default class App extends React.Component {
 					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
 				<Topbar className="app_top_bar"/>
-				<Nav/>
+				<Nav orientation={this.scream}/>
 			</div>
 		)
 	}

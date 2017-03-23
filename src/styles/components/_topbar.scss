@@ -1,5 +1,7 @@
 .bottom-border {
-  border-bottom : 1px solid $outlines;
+  border-bottom : .5px solid $outlines;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .3);
 }
 .top-bar{
+  height:10%
 }

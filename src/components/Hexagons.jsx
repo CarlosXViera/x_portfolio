@@ -8,7 +8,7 @@ export default class Hexagons extends React.Component {
 
 		this.el = importTemplates(['originalHex', 'templateHex']);
 
-		this.colors = ['#6A888C', '#5F7174', '#A5E65A', '#00A6C0', '#32D9CB'];
+		this.colors = ['#343838', '#005F6B', '#008C9E', '00B4CC', '#00DFFC'];
 
 		this.collisionForce = d3.forceCollide(30).strength(1).iterations(1);
 
@@ -171,7 +171,7 @@ export default class Hexagons extends React.Component {
 
 		function ended() {
 			circleArray.reverse().forEach((node, it, array) => {
-				d3.select(`#${node.id} #overlay`).transition(uuid()).style('stroke', node.colors[4]);
+				d3.select(`#${node.id} #overlay`).transition(uuid()).style('stroke', node.colors[1]);
 			})
 		}
 
@@ -221,7 +221,7 @@ export default class Hexagons extends React.Component {
 
 	randomColor(node, colors) {
 		let originalColor = d3.select(`#${node.id} #overlay`).style('fill'),
-			selectedColor = colors[getRandomInt(0, colors.length)];
+			selectedColor = colors[getRandomInt(1, colors.length)];
 
 		d3.select(`#${node.id} #overlay`).style('fill', selectedColor);
 	}
