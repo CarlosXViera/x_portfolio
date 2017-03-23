@@ -4,6 +4,8 @@ import Works from 'Works'
 import Contact from 'Contact'
 import About from 'About'
 import Draggable from 'react-draggable';
+import Swipeable from 'react-swipeable';
+import {Motion, spring} from 'react-motion';
 
 export default class Nav extends React.Component {
 
@@ -11,7 +13,8 @@ export default class Nav extends React.Component {
 		super(props)
 
 		this.state = {
-			bounds: {}
+			bounds: {},
+			open: false
 		}
 	}
 
@@ -19,7 +22,12 @@ export default class Nav extends React.Component {
 
 	onStop(e, ui) {}
 
-	onDrag(e, ui) {
+	onDrag(e, ui) {}
+
+	handleOnClick(e) {
+		this.setState({
+			open: !this.state.open
+		})
 
 	}
 
@@ -27,10 +35,12 @@ export default class Nav extends React.Component {
 		let main = document.getElementById('main');
 		//top bar relative to the percentage. DPI changes.
 		let topBar = document.getElementById('topBar').clientHeight + 1;
-		this.setState({bounds: {
-			top: -(main.offsetTop) + topBar,
-			bottom: 0
-		}})
+		this.setState({
+			bounds: {
+				top: -(main.offsetTop) + topBar,
+				bottom: 0
+			}
+		})
 	}
 	componentWillMount() {}
 
@@ -38,8 +48,20 @@ export default class Nav extends React.Component {
 		const {bounds} = this.state;
 		return (
 			<Router>
-				<Draggable axis="y" bounds={bounds} onDrag={this.onDrag}>
-					<div className='Main' id='main'>
+				<Motion style={{
+					x: spring(this.state.open
+						? this.state.bounds.top
+						: 0)
+				}}>
+					{({x}) =>
+
+
+					<Swipeable onSwipedUp={this.handleOnClick.bind(this)}
+						onSwipedDown={this.handleOnClick.bind(this)}>
+					<div className='Main' id='main' style={{
+						WebkitTransform: `translate3d(0, ${x}px, 0)`,
+						transform: `translate3d(0, ${x}px, 0)`
+					}}>
 						<div className="content">
 							<Route path='/contacts' component={Contact}/>
 							<Route path='/works' component={Works}/>
@@ -58,7 +80,10 @@ export default class Nav extends React.Component {
 							<div className="tab blog">Blog</div>
 						</NavLink>
 					</div>
-				</Draggable>
+					</Swipeable>
+				}
+
+				</Motion>
 			</Router>
 		)
 	}

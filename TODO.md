@@ -1,4 +1,3 @@
-* Write Test for each click handler on hexagon.
-* Adjust hexagons.
-* Disable scroll on mobile.
-* Implement React components.
+- need to fix font in landscape orientation.
+- need to fix click to swipe up.
+- need to consilidate mobile event listeners.

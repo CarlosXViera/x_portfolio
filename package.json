@@ -23,7 +23,9 @@
     "react-dom": "^15.4.2",
     "react-draggable": "^2.2.3",
     "react-loader": "^2.4.0",
+    "react-motion": "^0.4.7",
     "react-router-dom": "^4.0.0-beta.8",
+    "react-swipeable": "^3.9.2",
     "scream": "^2.2.0"
   },
   "devDependencies": {
