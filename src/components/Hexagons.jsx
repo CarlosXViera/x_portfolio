@@ -10,11 +10,9 @@ export default class Hexagons extends React.Component {
 
 		this.colors = ['#343838', '#005F6B', '#008C9E', '00B4CC', '#00DFFC'];
 
-		this.collisionForce = d3.forceCollide(30).strength(1).iterations(1);
+		this.collisionForce = d3.forceCollide(30).strength(1).iterations(1)
 
 		this.simulation = d3.forceSimulation().alphaDecay(0.01).force('collision', this.collisionForce).on('tick', this.ticked.bind(this));
-		this.simulation.alpha(0.0);
-
 	}
 
 	state = {
@@ -24,11 +22,17 @@ export default class Hexagons extends React.Component {
 	onRef = (ref) => {
 		this.setState({
 			g: d3.select(ref)
-		}, () => this.renderHexagons(this.props.orientation))
+		}, () => this.renderHexagons(this.props.orientation)
+			//this.randomSpinTurn();
+		)
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.renderHexagons(nextProps.orientation);
+	}
+
+	componentWillMount() {
+		console.log(this.hexagonsData);
 	}
 
 	shouldComponentUpdate() {
@@ -36,6 +40,7 @@ export default class Hexagons extends React.Component {
 	}
 
 	generateData(orientation) {
+		console.log(this)
 		let actualHexData = [],
 			xOffset = 32,
 			yOffset = 55;
@@ -248,6 +253,20 @@ export default class Hexagons extends React.Component {
 		this.randomColor(node, d.colors);
 	}
 
+	// randomSpinTurn() {
+	// 	console.log('here')
+	//
+	// 	let rNum = getRandomInt(0, 250);
+	//
+	// 	let sel = d3.select(`#hex-${rNum}`);
+	// 	let attr = sel.attr('transform');
+	// 	let box = sel.node().getBBox();
+	//
+	//
+	//
+	// 	sel.selectAll('g').transition().style('fill', 'pink').transition().attr('transform', `rotate(180, -4,0)`).duration(1000).on('end', this.randomSpinTurn);
+	// }
+
 	dragended(d) {
 
 		function ended(d) {
@@ -276,6 +295,7 @@ export default class Hexagons extends React.Component {
 	}
 
 	render() {
+		console.log(this.hexagonsData)
 		return (<g className='hexagons' ref={this.onRef}/>)
 	}
 }
