@@ -30,7 +30,7 @@ export default class App extends React.Component {
 		})
 
 	}
-
+//added this just to check push priviledges.
 	handleOrientation() {
 		this.scream.on('orientationchangeend', () => {
 			let orientation = this.scream.getOrientation();
