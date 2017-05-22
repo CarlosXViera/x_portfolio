@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="30" viewBox="0 0 26 30">
+  <defs>
+    <style>
+      .a {
+        fill: #005f6b;
+      }
+    </style>
+  </defs>
+  <title>hexagon</title>
+  <g>
+    <polygon class="a" points="13 15 26 22.4 26 7.5 13 15 13 15"/>
+    <polygon class="a" points="13 15 13 15 13 15 13 15"/>
+    <polygon class="a" points="13 30 26 22.4 13 15 13 30"/>
+    <polygon class="a" points="13 15 13 0 13 15 26 7.5 26 7.5 13 0 0 7.5 13 15 13 15"/>
+    <polygon class="a" points="0 7.5 0 22.4 13 15 0 7.5"/>
+    <polygon class="a" points="13 15 13 15 0 22.4 13 30 13 15"/>
+  </g>
+</svg>
