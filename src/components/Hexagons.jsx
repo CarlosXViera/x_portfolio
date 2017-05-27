@@ -42,21 +42,21 @@ export default class Hexagons extends React.Component {
 	generateData(orientation) {
 		console.log(this)
 		let actualHexData = [],
-			xOffset = 32,
-			yOffset = 55;
+			xOffset = 75,
+			yOffset = 35;
 		//landscape or portrait
 		let maxX = orientation === 'landscape'
-			? 21
-			: 12;
+			? 60
+			: 60;
 		let maxY = orientation === 'landscape'
-			? 7
-			: 12;
+			? 60
+			: 60;
 
 		for (let i = 0; i < maxX; i++) {
-			let xSpacing = i * 63;
+			let xSpacing = i * 30;
 
 			for (let j = 0; j < maxY; j++) {
-				let ySpacing = j * 110,
+				let ySpacing = j * 60,
 					obj = {
 						temp: this.el.templateHex,
 						original: this.el.originalHex,
@@ -96,7 +96,9 @@ export default class Hexagons extends React.Component {
 			id: (d, i) => `hex-${i}`,
 			class: 'hexagon',
 			transform: (d) => d.transform
-		}).call(d3.drag().on("start", this.dragstarted.bind(this)).on("drag", this.dragged.bind(this)).on("end", this.dragended.bind(this))).on('click', this.clickAnimation.bind(this)).on('mouseleave', this.gravitate.bind(this)).each((d, i, a) => addPressEventListener(d, a[i], this.popAnimation.bind(this)));
+		}).call(d3.drag().on("start", this.dragstarted.bind(this)).on("drag", this.dragged.bind(this))
+		.on("end", this.dragended.bind(this))).on('click', this.clickAnimation.bind(this))
+		.on('mouseleave', this.gravitate.bind(this)).each((d, i, a) => addPressEventListener(d, a[i], this.popAnimation.bind(this)));
 
 		this.nodes.each((data, i, a) => {
 			data.id = a[i].id;
