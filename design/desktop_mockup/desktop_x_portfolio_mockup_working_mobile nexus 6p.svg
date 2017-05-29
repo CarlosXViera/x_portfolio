@@ -1854,5 +1854,10 @@
         <polygon id="base-7" data-name="base" class="cls-37" points="394.96 333.07 372.86 320.28 350.77 333.07 350.77 358.4 372.86 371.28 394.96 358.4 394.96 333.07 394.96 333.07"/>
       </g>
     </g>
+    <g id="desktopscroll">
+      <g id="Layer_16" data-name="Layer 16">
+        <image class="cls-18" width="671" height="672" transform="translate(296.89 -12.1) scale(0.96)" xlink:href="../../../../../Desktop/metransparent.png"/>
+      </g>
+    </g>
   </g>
 </svg>
