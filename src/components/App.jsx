@@ -49,8 +49,6 @@ export default class App extends React.Component {
 					<Hexagons orientation={this.state.orientation}></Hexagons>
 					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
-				<Topbar className="app_top_bar"/>
-				<Nav orientation={this.scream}/>
 			</div>
 		)
 	}
