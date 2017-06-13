@@ -47,7 +47,6 @@ export default class Hexagons extends React.Component {
 		let hCollection = [];
 		let count = 0;
 
-
 		for(let vHexagons = 0; vHexagons < vAmount; vHexagons++){
 			let row = [],
 				translate,
@@ -70,7 +69,6 @@ export default class Hexagons extends React.Component {
 		}
 
 		return hCollection;
-
 	}
 
 	renderHexagons(props){
