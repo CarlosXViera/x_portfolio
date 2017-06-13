@@ -1,3 +1,8 @@
+import {
+	selection,
+	select
+} from 'd3-selection';
+
 export function polarToRectangular(radius, degrees) {
 	let theta = degrees * (Math.PI / 180);
 
@@ -18,10 +23,10 @@ export function importTemplates(idArray) {
 	let obj = {};
 
 	idArray.forEach((identifier) => {
-		let selection = d3.select(`#${identifier}`);
+		let s = select(`#${identifier}`);
 
-		obj[identifier] = selection.html();
-		selection.remove();
+		obj[identifier] = s.html();
+		s.remove();
 	});
 
 	return obj;
@@ -54,7 +59,7 @@ export function randomColor(colors) {
 }
 
 export function endAll(transition, callback) {
-let n = 0;
+	let n = 0;
 
 	if (transition.empty()) {
 		callback();

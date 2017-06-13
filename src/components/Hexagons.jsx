@@ -1,12 +1,13 @@
 import React, {PropTypes} from 'react'
-import {importTemplates, getRandomInt, polarToRectangular, addPressEventListener, endAll} from 'utils'
+import {selection, select} from 'd3-selection';
+import {importTemplates} from 'utils'
 import uuid from 'node-uuid'
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.el = importTemplates(['originalHex', 'templateHex']);
+		this.el = importTemplates(['originalHex']);
 
 		this.colors = ['#343838', '#005F6B', '#008C9E', '00B4CC', '#00DFFC'];
 
@@ -18,7 +19,7 @@ export default class Hexagons extends React.Component {
 
 	onRef = (ref) => {
 		this.setState({
-			g: d3.select(ref)
+			g: select(ref)
 		}, () => this.renderHexagons(this.props.orientation)
 			//this.randomSpinTurn();
 		)
@@ -29,6 +30,7 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentWillMount() {
+		console.log('mounting');
 	}
 
 	shouldComponentUpdate() {

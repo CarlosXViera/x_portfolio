@@ -2,11 +2,8 @@ import React from 'react'
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom'
 import HexContainer from 'HexContainer'
 import Hexagons from 'Hexagons'
-import Glasses from 'Glasses'
 import Scream from 'scream'
-import Topbar from 'Topbar'
-import {Main} from 'Main'
-import Nav from 'Nav'
+
 export default class App extends React.Component {
 
 	constructor(props) {
@@ -47,7 +44,6 @@ export default class App extends React.Component {
 			<div className="App">
 				<HexContainer onLayout={this.handleLayout} orientation={this.state.orientation}>
 					<Hexagons orientation={this.state.orientation}></Hexagons>
-					<Glasses orientation={this.state.orientation}/>
 				</HexContainer>
 			</div>
 		)

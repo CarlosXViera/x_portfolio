@@ -1,5 +1,7 @@
-import React, {PropTypes} from 'react'
-import {importTemplates} from 'utils'
+import React, {PropTypes} from 'react';
+import {select, selection} from 'd3-selection';
+import 'd3-transition';
+import {importTemplates} from 'utils';
 
 
 export default class Glasses extends React.Component {
@@ -36,7 +38,7 @@ export default class Glasses extends React.Component {
 
 	onRef = (ref) => {
 		this.setState({
-			g: d3.select(ref)
+			g: select(ref)
 		}, () => this.renderGlasses(this.props.orientation))
 	}
 
