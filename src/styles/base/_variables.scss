@@ -11,23 +11,17 @@
   font-family: novecentowidenormal;
   src: url('/fonts/Novecentosanswide-Normal-webfont.woff');
 }
-
-$verydarkgreyishcyan: #343838;
-$verydarkcyan: #005F6B;
-$darkcyan: #008C9E;
-$strongcyan: #00B4CC;
-$purecyan: #00DFFC;
-$steadygrey: #E9E9E9;
-
-//Colors
-$background: $verydarkgreyishcyan;
-$outlines: $purecyan;
-$greyish: verydarkcyan;
-$darkerblue: #00A6C0;
-$brightblue: $verydarkcyan;
-
-
-
-
+// colors
+$black: #000;
+$white: #FFF;
+$todayI: #041122;
+$todayII: #259073;
+$todayIII: #7FDA89;
+$todayIV: #C8E98E;
+$todayV: #E6F99D;
 
 $sourceCode: source_code_pro_reg;
+
+//variables
+
+$background: $black;
