@@ -85,88 +85,105 @@ export default class Hexagons extends React.Component {
 	}
 
 	selectHexagons(){
-		function addHex(i, a, cb, hexArr){
-			let length = i;
-			let y = a[0];
-			let x = a[1];
 
-			for(let j = 0; j < length; j++){
-				let r = cb([y,x]);
+		function chooseHex(start, direction, times, arr){
+
+			function addLeft(arr){
+				return {
+					y: arr[0],
+					x: arr[1] - 1
+				}
+			}
+
+			function addRight(arr){
+				return {
+					y: arr[0],
+					x: arr[1] + 1
+				}
+			}
+
+
+			let x = start.x;
+			let y = start.y;
+			let fn = (direction === 'right') ? addRight : addLeft;
+
+			for(let j = 0; j < times; j++){
+				let r = fn([y,x]);
 				y = r.y;
 				x = r.x;
-				hexArr[y][x].attr('stroke', 'yellow');
+
+				arr[y][x].attr('stroke', 'yellow');
+				console.log(y,x);
 			}
 		}
 
-		function addLeft(arr){
-			return {
-				y: arr[0],
-				x: arr[1] - 1
-			}
+		function isEven(n){
+			return (n % 2 === 0);
 		}
 
-		function addRight(arr){
-			return {
-				y: arr[0],
-				x: arr[1] + 1
-			}
+		/* multiply these amounts by the amount of layers. */
+		let topBtmAmount = 2;
+		/* default to one, add two. Must account for layers that are btwn middle and t/b */
+		let layers = 3;
+		let isTopDone = false;
+		let isBtmDone = false;
+		let hexArr = this.hexagonArray;
+		let rings = 1;
+ 		let nextLayer;
+		let coords = {
+			y: Math.round(hexArr.length / 2),
+			x: Math.round(hexArr[0].length / 2)
 		}
-		// change the top after going through the sequence.
-		let yCoord = this.hexagonArray.length / 2;
-		let xCoord = this.hexagonArray[0].length / 2;
-		let isRowEven = (yCoord % 2) ? true : false;
-		let topHex = yCoord;
-		let btmHex = yCoord;
-		let topDone = false;
-		let btmDone = false;
-		let newX;
-		let origin = [ this.hexagonArray[yCoord][xCoord] ];
-		let maxSize = this.hexagonArray[0].length;
-		let totalNodes = this.hexagonArray.length * maxSize;
-		let currentCount = 3;
-		let tbAmount = 2;
-		let sideAmount = 2;
+		// even add to x odd do nothing;
+		//let topLayer = (isEven(coords.y)) ?
 
-		newX = !isRowEven ? ++xCoord : xCoord;
-		while(currentCount > 0){
+		hexArr[coords.y][coords.x].attr('stroke', 'black');
 
-			console.log(newX);
+		let isRowEven = !isEven(coords.y);
 
-			if(topDone === false){
-				let a = [topHex - 1, newX];
-			 	addHex(tbAmount, a, addLeft, this.hexagonArray);
-				topDone = true;
-			} else if(btmDone === false){
-				let a = [topHex + 1, newX];
-				addHex(tbAmount,a, addLeft, this.hexagonArray);
-				btmDone = true;
-			} else if(topDone && btmDone){
-				let a = [topHex, --newX];
-				addHex(1, a, addLeft, this.hexagonArray);
-				addHex(1, a, addRight, this.hexagonArray);
+		for(let i = 0; i < rings; i++){
+			let topLayer = null;
+			let level = i + 1;
+			for(let j = 0; j < layers; j++){
+				if(isTopDone === false){
+					/* if it's odd add to the right. if it's even add 1 to x, then add to the right */
+						console.log(isEven(i), i)
+						topLayer = (isEven(i)) ? {y:coords.y - level, x:coords.x + level} : {y:coords.y - level, x:coords.x + level};
+						nextLayer = {
+							y: topLayer.y + 1,
+							x: topLayer.x
+						};
+						chooseHex(topLayer, 'left', topBtmAmount, hexArr);
+						isTopDone = true;
+				} else if(isBtmDone === false){
+					/* if it's odd add to the right. if it's even add 1 to x, then add to the right */
+					let bottomLayer = {y: topLayer.y + (layers - 1), x: topLayer.x}
+					chooseHex(bottomLayer, 'left', topBtmAmount, hexArr);
+					isBtmDone = true;
+				} else if(isTopDone && isBtmDone){
+					/* both top and bottom are done. */
+					/* check if y-coordinate is odd. */
+					let startPoint = nextLayer;
+					startPoint.x--
+					chooseHex(startPoint, 'left', 1, hexArr);
+					chooseHex(startPoint, 'right', 1, hexArr);
+					startPoint.y++;
+					nextLayer = startPoint;
 
-				console.log('top and bottom are done!');
+				}
 			}
+			/* change values here */
+			layers += 2;
+			topBtmAmount++;
+			isTopDone = false;
+			isBtmDone = false;
 
-			currentCount--;
 		}
 
-		isRowEven = !isRowEven;
-		topDone = !topDone;
-		btmDone = !btmDone;
 	}
 
 	renderHexagons(props){
-
-		let selected = [
-			{y:24,x:32}
-		]
-
 		this.hexagonArray = this.generateData(this.state.g, window.innerWidth, window.innerHeight);
-
-		selected.forEach(n => {
-			this.hexagonArray[n.y][n.x].attr('stroke', 'yellow');
-		});
 
 		this.selectHexagons();
 }

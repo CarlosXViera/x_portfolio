@@ -915,3 +915,33 @@ float(yCoord, direction) {
 				this.nodes.attr('transform', (d) => `translate(${Math.floor(d.x)}, ${Math.floor(d.y)})`);
 			}
 			// previous html
+
+
+			while (currentCount > 0) {
+
+				if (topDone === false) {
+					let a = [layer - 1, newX];
+					addHex(tbAmount, a, addLeft, this.hexagonArray);
+					topDone = true;
+				} else if (btmDone === false) {
+					let a = [layer + 1, newX];
+					addHex(tbAmount, a, addLeft, this.hexagonArray);
+					btmDone = true;
+				} else if (topDone && btmDone) {
+					let a = [layer, --newX];
+					addHex(sideAmount, a, addLeft, this.hexagonArray);
+					addHex(sideAmount, a, addRight, this.hexagonArray);
+
+					console.log('top and bottom are done!');
+				}
+
+				currentCount--;
+			}
+			isRowEven = !isRowEven;
+			topDone = !topDone;
+			btmDone = !btmDone;
+			tbAmount++;
+			--layer;
+			totalCount += 2;
+			currentCount = totalCount;
+			console.log('after loop:', layer, xCoord);

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "npm run build && npm run webdriver-launch",
-    "build": "NODE_ENV=production && webpack -p",
+    "build": "webpack",
     "serve": "webpack-dev-server",
     "webdriver-launch": "./node_modules/.bin/wdio wdio.conf.js & WEBDRIVER=$!"
   },
