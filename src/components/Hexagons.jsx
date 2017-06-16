@@ -39,11 +39,11 @@ export default class Hexagons extends React.Component {
 
 	generateData(selection, width, height){
 		const hSize = 15;
-		const hAmount = Math.floor(width / (hSize + 4));
-		const vAmount = Math.floor(height / (hSize + 4));
-		/* h/vSpacing spacing between each hexagon. offset x - spacing between every odd row.*/
 		const hSpacing = 12;
 		const vSpacing = 8;
+		const hAmount = Math.floor(width / (hSize + hSpacing));
+		const vAmount = Math.floor(height / (hSize + vSpacing));
+		/* h/vSpacing spacing between each hexagon. offset x - spacing between every odd row.*/
 		const offset = -13.5;
 
 		let templateHexagon = this.el.originalHex;
@@ -211,7 +211,9 @@ export default class Hexagons extends React.Component {
 	}
 
 	renderHexagons(props){
-		this.hexagonArray = this.generateData(this.state.g, window.innerWidth, window.innerHeight);
+		console.log(select('svg').node().getBoundingClientRect().width);
+		console.log(window.innerWidth)
+		this.hexagonArray = this.generateData(this.state.g, 1600,900 );
 
 
 		this.layers = this.selectHexagons();

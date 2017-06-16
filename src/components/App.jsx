@@ -33,6 +33,7 @@ export default class App extends React.Component {
 			let orientation = this.scream.getOrientation();
 			this.setState({orientation});
 		})
+		console.log(orientation);
 	}
 
 	componentWillMount() {
