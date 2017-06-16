@@ -10,7 +10,7 @@ export default class Hexagons extends React.Component {
 
 		this.el = importTemplates(['originalHex']);
 
-		this.colors = ['#343838', '#005F6B', '#008C9E', '00B4CC', '#00DFFC'];
+		this.colors = ['#343838', '#005F6B', '#008C9E', '#00B4CC', '#00DFFC'];
 
 	}
 
@@ -39,8 +39,8 @@ export default class Hexagons extends React.Component {
 
 	generateData(selection, width, height){
 		const hSize = 15;
-		const hSpacing = 12;
-		const vSpacing = 8;
+		const hSpacing = 12.5;
+		const vSpacing = 8.5;
 		const hAmount = Math.floor(width / (hSize + hSpacing));
 		const vAmount = Math.floor(height / (hSize + vSpacing));
 		/* h/vSpacing spacing between each hexagon. offset x - spacing between every odd row.*/
@@ -64,13 +64,13 @@ export default class Hexagons extends React.Component {
 
 				translatedHexagon = selection.append('g')
 					.attr('id', `${vHexagons}${hHexagons}`)
-					.attr('transform',`translate(${translate})`);
+					.attr('transform',`translate(${translate})`)
+					.attr('class', 'hex');
 
 				translatedHexagon.html(templateHexagon);
 
 				translatedHexagon.select('polygon')
 				.attr('class','hexagon').on('click', function(d){
-					select(this).attr('stroke', 'yellow');
 				});
 
 				row.push(translatedHexagon);
@@ -84,6 +84,8 @@ export default class Hexagons extends React.Component {
 	}
 
 	selectHexagons(){
+
+		// TODO: Optimize this function.
 
 		function chooseHex(start, direction, times, arr){
 
@@ -105,13 +107,10 @@ export default class Hexagons extends React.Component {
 				fn = (direction === 'right') ? addRight : addLeft;
 			let t = [start];
 
-				arr[start.y][start.x].attr('stroke', 'yellow');
-
 			for(let j = 1; j < times; j++){
 				let r = fn([y,x]);
 				y = r.y;
 				x = r.x;
-				arr[y][x].attr('stroke', 'yellow');
 				t.push({y, x});
 			}
 			return {start, end: {y,x}, t};
@@ -203,32 +202,39 @@ export default class Hexagons extends React.Component {
 			topBtmAmount++;
 			layers += 2;
 		}
-		totalLayers[14].forEach((obj)=>{
-			hexArr[obj.y][obj.x].attr('stroke', 'red');
-
-		})
 		return totalLayers;
 	}
 
 	renderHexagons(props){
-		console.log(select('svg').node().getBoundingClientRect().width);
-		console.log(window.innerWidth)
-		this.hexagonArray = this.generateData(this.state.g, 1600,900 );
+		let all = this.state.g.selectAll('g.hex').remove();
+		console.log(all)
+		this.hexagonArray = this.generateData(this.state.g, window.innerWidth + 60, window.innerHeight + 60);
 
 
 		this.layers = this.selectHexagons();
+		this.animation = [];
 
 
-		this.layers.forEach((obj,i)=>{
-			obj.forEach((obj2) => {
+		this.layers.forEach((obj,i,a)=>{
+			let total = a.length - 1;
+			obj.forEach((obj2, j, b) => {
 				let node = this.hexagonArray[obj2.y][obj2.x].node();
-
+				let secondTotal = b.length - 1;
 
 				let tl = new TimelineMax();
-				tl.to(node.children[0], 1, {scale: i * .02, repeatDelay:.1 * i, repeat:-1, yoyo:true});
-
+				this.animation.push(tl);
+				if(i === total &&  j === secondTotal){
+					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .90, repeatDelay: i * .1, repeat:1, cycle: 2, yoyo:true, onComplete: ()=>{
+						for(let v of this.animation){
+							v.restart();
+						}
+					}}).delay(1);
+				} else {
+					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .90 , repeatDelay: i * .1, repeat:1, cycle: 2, yoyo: true});
+				}
 			})
 		})
+		console.log(this.animation);
 }
 
 componentDidMount(){

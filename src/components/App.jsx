@@ -17,13 +17,18 @@ export default class App extends React.Component {
 		});
 
 		this.state = {
-			orientation: this.scream.getOrientation()
+			orientation: this.scream.getOrientation(),
+			width: window.innerWidth,
+			height: window.innerHeight
 		}
 
 		this.scream.on('orientationchangeend', () => {
 			let orientation = this.scream.getOrientation();
 			this.setState({orientation});
-			window.location.reload();
+		})
+		window.addEventListener('resize', () => {
+			this.setState({...this.state});
+			console.log(this.state);
 		})
 
 	}

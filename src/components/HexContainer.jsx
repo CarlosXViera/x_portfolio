@@ -1,8 +1,7 @@
 import React, {PropTypes} from 'react'
 
 export default function HexContainer({orientation, children}) {
-	console.log(orientation);
-	let viewBox = (orientation === 'landscape') ? '0 0 1600 900' : '0 0 900 1600';
+	let viewBox = (orientation === 'landscape') ? `0 0 ${window.innerWidth} ${window.innerHeight}` : `0 0 ${window.innerHeight} ${window.innerWidth}`;
 
 		return (
 			<svg className='hexcontainer' viewBox={viewBox}>
