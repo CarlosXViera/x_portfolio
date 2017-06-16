@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react'
 import {selection, select, events} from 'd3-selection';
 import {importTemplates} from 'utils'
 import uuid from 'node-uuid'
+import {TimelineMax} from 'gsap';
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
@@ -100,21 +101,20 @@ export default class Hexagons extends React.Component {
 				}
 			}
 
-			let x = start.x,
-				y = start.y,
+			let x = start.x, y = start.y,
 				fn = (direction === 'right') ? addRight : addLeft;
+			let t = [start];
+
 				arr[start.y][start.x].attr('stroke', 'yellow');
-				let coll = {right: start}
 
 			for(let j = 1; j < times; j++){
 				let r = fn([y,x]);
 				y = r.y;
 				x = r.x;
 				arr[y][x].attr('stroke', 'yellow');
-				if(j === times - 1) coll['left'] = {y, x};
+				t.push({y, x});
 			}
-
-			return coll;
+			return {start, end: {y,x}, t};
 		}
 
 		function isEven(n){
@@ -122,106 +122,111 @@ export default class Hexagons extends React.Component {
 		}
 
 		function adjust(obj, direction, adj){
-			return (direction === 'r') ? {x: obj.x + adj, y: obj.y} : {x: obj.x - adj, y: obj.y}
+			return (direction === 'r') ? {x: obj.x + adj, y: obj.y} : {x: obj.x - adj, y: obj.y};
 		}
 
-		/* multiply these amounts by the amount of layers. */
-		let topBtmAmount = 2;
-		/* default to one, add two. Must account for layers that are btwn middle and t/b */
-		let layers = 3;
-		let isTopDone = false;
-		let isBtmDone = false;
+		function remap(arr, cb){
+			let removed = arr.splice(arr.length - 2, 2)
+			let a = arr.map(cb);
+			return a.concat(removed);
+		}
+
 		let hexArr = this.hexagonArray;
-		let rings = 30;
 		let coords = {
 			y: Math.floor(hexArr.length / 2),
 			x: Math.floor(hexArr[0].length / 2)
-		}
-		let origin = coords;
-		let leftSide = [];
-		let rightSide = [];
-
-
-		hexArr[coords.y][coords.x].attr('stroke', 'red');
+		};
+		let o = coords;
+		let topBtmAmount = 2, layers = 3;
+		let isTopDone = false, isBtmDone = false;
+		let rings = 20;
+		let leftSide = [], rightSide = [];
+		let totalLayers = [];
 
 		for(let i = 0; i < rings; i++){
-			let topLayer = {},
-				level = i + 1;
-
-			if(isEven(origin.y)){
-				topLayer['y'] = origin.y - 1;
-				topLayer['x'] = origin.x + 1;
-			} else {
-				topLayer['y'] = origin.y - 1;
-				topLayer['x'] = origin.x;
-			}
-
-			let bottomLayer = {
-				...topLayer
-			}
+			let t = [];
+			let topLayer = (isEven(o.y)) ? {y: o.y - 1, x: o.x + 1} : {y: o.y - 1,x: o.x},
+				level = i + 1,
+				bottomLayer = Object.assign({}, topLayer);
 			bottomLayer.y += (layers - 1);
 
 			for(let j = 0; j < layers; j++){
 				if(isTopDone === false){
 						isTopDone = true;
-						if(topLayer.y < 0) continue;
+						if(topLayer.y < 0) topLayer.y = 0;
 						let sides = chooseHex(topLayer, 'left', topBtmAmount, hexArr);
-					/* if it's odd add to the right. if it's even add 1 to x, then add to the right */
-						leftSide.push(sides.left);
-						rightSide.push(sides.right);
+						leftSide.push(sides.end);
+						rightSide.push(sides.start);
+						t = [...t, ...sides.t];
 				} else if(isBtmDone === false){
 					isBtmDone = true;
-					/* if it's odd add to the right. if it's even add 1 to x, then add to the right */
-					if(bottomLayer.y > hexArr.length -1) continue;
+					if(bottomLayer.y > hexArr.length - 1) bottomLayer.y = hexArr.length - 1;
 					let sides = chooseHex(bottomLayer, 'left', topBtmAmount, hexArr);
-					leftSide.push(sides.left);
-					rightSide.push(sides.right);
+					leftSide.push(sides.end);
+					rightSide.push(sides.start);
+					t = [...t, ...sides.t];
 				} else if(isTopDone && isBtmDone){
 					if(level === 1){
-						let adjustedleft = adjust(origin, 'l', 1);
-						let adjustedright = adjust(origin, 'r', 1);
-						let left = chooseHex(adjustedleft, 'right', 1, hexArr).right;
-						let right = chooseHex(adjustedright, 'right', 1, hexArr).right;
+						let adjustedleft = adjust(o, 'l', 1);
+						let adjustedright = adjust(o, 'r', 1);
+						let left = chooseHex(adjustedleft, 'left', 1, hexArr).start;
+						let right = chooseHex(adjustedright, 'right', 1, hexArr).start;
 						rightSide.push(right);
 						leftSide.push(left);
+						t = [...t, left, right];
+						totalLayers.push(t);
 						break;
 					}
-					let rmr = rightSide.splice(rightSide.length - 2, 2);
-					let rml = leftSide.splice(leftSide.length - 2, 2);
-					rightSide = rightSide.map((obj) => {
+					rightSide = remap(rightSide, (obj) => {
 						let adjusted = adjust(obj, 'r', 1);
-						chooseHex(adjusted, 'right', 1, hexArr)
+						let sides = chooseHex(adjusted, 'right', 1, hexArr)
+						t = [...t, ...sides.t];
 						return adjusted;
 					});
 
-					leftSide = leftSide.map((obj) => {
+					leftSide = remap(leftSide, (obj) => {
 						let adjusted = adjust(obj, 'l', 1);
-						chooseHex(adjusted, 'left', 1, hexArr)
+						let sides = chooseHex(adjusted, 'left', 1, hexArr)
+							t = [...t, ...sides.t];
 						return adjusted;
 					});
+					totalLayers.push(t);
 
-					rightSide = rightSide.concat(rmr);
-					leftSide = leftSide.concat(rml);
 					break;
-
-					/* both top and bottom are done. */
-					/* check if y-coordinate is odd. */
 				}
-
 			}
+			t = [];
 			/* change values here */
-			origin = topLayer;
+			o = topLayer;
 			isTopDone = false;
 			isBtmDone = false;
 			topBtmAmount++;
 			layers += 2;
 		}
+		totalLayers[14].forEach((obj)=>{
+			hexArr[obj.y][obj.x].attr('stroke', 'red');
+
+		})
+		return totalLayers;
 	}
 
 	renderHexagons(props){
 		this.hexagonArray = this.generateData(this.state.g, window.innerWidth, window.innerHeight);
 
-		this.selectHexagons();
+
+		this.layers = this.selectHexagons();
+
+
+		this.layers.forEach((obj,i)=>{
+			obj.forEach((obj2) => {
+				let node = this.hexagonArray[obj2.y][obj2.x].node();
+
+
+				let tl = new TimelineMax();
+				tl.to(node.children[0], 1, {scale: i * .02, repeatDelay:.1 * i, repeat:-1, yoyo:true});
+
+			})
+		})
 }
 
 componentDidMount(){
