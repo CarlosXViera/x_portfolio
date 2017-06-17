@@ -86,6 +86,7 @@ export default class Hexagons extends React.Component {
 	selectHexagons(){
 
 		// TODO: Optimize this function.
+		// TODO: When browser is resized vertically, horizontal hexagons are not selected.
 
 		function chooseHex(start, direction, times, arr){
 			function addLeft(arr){
@@ -200,6 +201,8 @@ export default class Hexagons extends React.Component {
 							t = [...t, ...sides.t];
 						return adjusted;
 					});
+					if(t.length === 0)
+					continue;
 					totalLayers.push(t);
 					break;
 				}
@@ -226,21 +229,24 @@ export default class Hexagons extends React.Component {
 
 		this.layers.forEach((obj,i,a)=>{
 			let total = a.length - 1;
+			if(obj.length === 0) console.log('empty')
 			obj.forEach((obj2, j, b) => {
 				let node = this.hexagonArray[obj2.y][obj2.x].node();
 				let secondTotal = b.length - 1;
 
 				let tl = new TimelineMax();
 				this.animation.push(tl);
+
+
 				if(j === secondTotal-1 && i === total -1){
-					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .8, repeatDelay: i * .1, repeat:1, cycle: 2, yoyo:true, onComplete: ()=>{
+					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .9, fill: '#061A30', repeatDelay: i * .05, repeat:1, cycle: 2, yoyo:true, onComplete: ()=>{
 
 						for(let v of this.animation){
 							v.restart();
 						}
 					}})
 				} else {
-					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .8 , repeatDelay: i * .1, repeat:1, cycle: 2, yoyo: true});
+					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .9 , fill: '#061A30', repeatDelay: i * .05, repeat:1, cycle: 2, yoyo: true});
 				}
 			})
 		})
