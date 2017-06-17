@@ -88,7 +88,6 @@ export default class Hexagons extends React.Component {
 		// TODO: Optimize this function.
 
 		function chooseHex(start, direction, times, arr){
-
 			function addLeft(arr){
 				return {
 					y: arr[0],
@@ -125,6 +124,7 @@ export default class Hexagons extends React.Component {
 		}
 
 		function remap(arr, cb){
+
 			let removed = arr.splice(arr.length - 2, 2)
 			let a = arr.map(cb);
 			return a.concat(removed);
@@ -138,7 +138,7 @@ export default class Hexagons extends React.Component {
 		let o = coords;
 		let topBtmAmount = 2, layers = 3;
 		let isTopDone = false, isBtmDone = false;
-		let rings = 20;
+		let rings = hexArr.length -1;
 		let leftSide = [], rightSide = [];
 		let totalLayers = [];
 
@@ -150,21 +150,25 @@ export default class Hexagons extends React.Component {
 			bottomLayer.y += (layers - 1);
 
 			for(let j = 0; j < layers; j++){
+				isTopDone = (topLayer.y < 0) ? true : false;
+				isBtmDone = (bottomLayer.y > hexArr.length - 1) ? true : false;
+
 				if(isTopDone === false){
 						isTopDone = true;
-						if(topLayer.y < 0) topLayer.y = 0;
 						let sides = chooseHex(topLayer, 'left', topBtmAmount, hexArr);
 						leftSide.push(sides.end);
 						rightSide.push(sides.start);
 						t = [...t, ...sides.t];
-				} else if(isBtmDone === false){
+				}
+
+				if(isBtmDone === false){
 					isBtmDone = true;
-					if(bottomLayer.y > hexArr.length - 1) bottomLayer.y = hexArr.length - 1;
 					let sides = chooseHex(bottomLayer, 'left', topBtmAmount, hexArr);
 					leftSide.push(sides.end);
 					rightSide.push(sides.start);
 					t = [...t, ...sides.t];
-				} else if(isTopDone && isBtmDone){
+				}
+				if(isTopDone && isBtmDone){
 					if(level === 1){
 						let adjustedleft = adjust(o, 'l', 1);
 						let adjustedright = adjust(o, 'r', 1);
@@ -177,20 +181,26 @@ export default class Hexagons extends React.Component {
 						break;
 					}
 					rightSide = remap(rightSide, (obj) => {
+						if(typeof obj === 'undefined') return;
 						let adjusted = adjust(obj, 'r', 1);
+						if(adjusted.x > hexArr[0].length - 1 ) return;
+						if(adjusted.y < 0 || adjusted.y > hexArr.length - 2) return;
 						let sides = chooseHex(adjusted, 'right', 1, hexArr)
 						t = [...t, ...sides.t];
 						return adjusted;
 					});
 
 					leftSide = remap(leftSide, (obj) => {
+						if(typeof obj === 'undefined') return;
+
 						let adjusted = adjust(obj, 'l', 1);
+						if(adjusted.x > hexArr[0].length|| adjusted.x < 0) return;
+						if(adjusted.y < 0 || adjusted.y > hexArr.length - 2) return;
 						let sides = chooseHex(adjusted, 'left', 1, hexArr)
 							t = [...t, ...sides.t];
 						return adjusted;
 					});
 					totalLayers.push(t);
-
 					break;
 				}
 			}
@@ -207,7 +217,6 @@ export default class Hexagons extends React.Component {
 
 	renderHexagons(props){
 		let all = this.state.g.selectAll('g.hex').remove();
-		console.log(all)
 		this.hexagonArray = this.generateData(this.state.g, window.innerWidth + 60, window.innerHeight + 60);
 
 
@@ -223,18 +232,19 @@ export default class Hexagons extends React.Component {
 
 				let tl = new TimelineMax();
 				this.animation.push(tl);
-				if(i === total &&  j === secondTotal){
-					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .90, repeatDelay: i * .1, repeat:1, cycle: 2, yoyo:true, onComplete: ()=>{
+				if(j === secondTotal-1 && i === total -1){
+					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .8, repeatDelay: i * .1, repeat:1, cycle: 2, yoyo:true, onComplete: ()=>{
+
 						for(let v of this.animation){
 							v.restart();
 						}
-					}}).delay(1);
+					}})
 				} else {
-					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .90 , repeatDelay: i * .1, repeat:1, cycle: 2, yoyo: true});
+					tl.from(node.children[0], 1, { transformOrigin:'50% 50%', scale: .8 , repeatDelay: i * .1, repeat:1, cycle: 2, yoyo: true});
 				}
 			})
 		})
-		console.log(this.animation);
+
 }
 
 componentDidMount(){
