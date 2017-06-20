@@ -4,44 +4,17 @@
 @import "components/topbar";
 @import "components/tab";
 @import 'components/_content.scss';
+@import 'components/home';
 // foundation
-@import "base/foundation-settings";
-@import "foundation";
-@include foundation-everything;
-
-html {
-    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
-    height: auto;
-    min-height: 1px;
-    max-height: 999999px;
-    margin: 0;
-}
+@import 'primocss';
 
 body {
-    font-family: novecentowide;
-    font-size: 30px;
+    font-size: 12px;
     background-color: $background;
     margin: 0;
     overflow: hidden;
 }
 
 svg {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    margin: 0;
-    padding:0;
-}
-h1 {
-  font-size: 40;
-}
-
-.Main {
-  position: absolute;
-  top: 94%;
-  width: 100%;
-  height:100vh;
-  background-color: $background;
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, .2);
+  margin: 0;
 }

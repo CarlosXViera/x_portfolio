@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const VENDORS = [
-	'react', 'react-router-dom', 'scream', 'd3-selection', 'react-dom', 'script-loader!jquery/dist/jquery.min.js', 'script-loader!foundation-sites/dist/js/foundation.min.js', 'node-uuid']
+	'react', 'react-router-dom', 'scream', 'd3-selection', 'react-dom', 'node-uuid']
 
 module.exports = {
 	entry: {
@@ -37,7 +37,7 @@ module.exports = {
 				use: [{
 					loader: 'sass-loader',
 					options: {
-						includePaths: [path.resolve(__dirname, './node_modules/foundation-sites/scss')]
+						includePaths: [path.resolve(__dirname, './node_modules/primocss/scss')]
 					}
 			}]
 		}]

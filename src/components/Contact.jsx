@@ -1,5 +1,4 @@
-import React, {PropTypes} from 'react'
-
+import React, { PropTypes } from 'react'
 
 export default class Contact extends React.Component {
 	constructor(props) {
@@ -8,7 +7,7 @@ export default class Contact extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div id="two">
         CONTACT PAGE
 			</div>
 		)
