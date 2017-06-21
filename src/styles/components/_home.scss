@@ -1,5 +1,5 @@
 #center-logo {
-  margin: 35vh auto;
+  margin-top: 30v;
   width: 200px;
   height: 250px;
   .colored-outline {
@@ -17,11 +17,11 @@
     stroke:$white;
     stroke-miterlimit:10;
     stroke-width:0.5px;
-    font-size:40.74px;
+    font-size: 35px;
   }
 
   .logo-text {
-    font-size:43.65px;
+    font-size: 40px;
     fill:$todayII;
   }
 
