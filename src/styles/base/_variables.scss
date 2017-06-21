@@ -1,16 +1,18 @@
 @font-face {
-  font-family: novecentowide;
-  src: url('/fonts/Novecentosanswide-Book-webfont.woff');
+  font-family: 'lekton_bold';
+  src: url('/fonts/Lekton-Bold.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: novecentowidebold;
-  src: url('/fonts/Novecentosanswide-Medium-webfont.woff');
+  font-family: 'lekton_italic';
+  src: url('/fonts/Lekton-Italic.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: novecentowidenormal;
-  src: url('/fonts/Novecentosanswide-Normal-webfont.woff');
+  font-family: 'lekton_regular';
+  src: url('/fonts/Lekton-Regular.ttf') format('truetype');
 }
+
 // colors
 $black: #000;
 $white: #FFF;
@@ -20,7 +22,6 @@ $todayIII: #7FDA89;
 $todayIV: #C8E98E;
 $todayV: #E6F99D;
 
-$sourceCode: source_code_pro_reg;
 
 //variables
 

@@ -945,3 +945,39 @@ float(yCoord, direction) {
 			totalCount += 2;
 			currentCount = totalCount;
 			console.log('after loop:', layer, xCoord);
+
+
+
+
+			///svg
+
+			//outline
+
+			<
+			svg id = "center-logo"
+			viewBox = "0 0 292.2 333.9" >
+				<
+				g id = "logo-outline" >
+				<
+				path d = "M226.8 51.3l57.4 33a5.8 5.8 0 0 1 2.5 4.4V173l5.5-3.6V88.6a11.2 11.2 0 0 0-5.2-9l-56.2-32.3zM5.5 172.5V88.7A5.8 5.8 0 0 1 8 84.4l55.3-32-5-3.5-53 30.6a11.2 11.2 0 0 0-5.3 9v87.8z"
+			class = "a" / >
+				<
+				path d = "M82 41.6L143.7 6a5.8 5.8 0 0 1 5 0l60.3 35 4-4-61.7-35.7a11.2 11.2 0 0 0-10.4 0L77 38zM286.6 196.5v48.8a5.8 5.8 0 0 1-2.4 4.2l-55.8 32.3 1.2 5.7 57.4-33.2a11.2 11.2 0 0 0 5.2-9V193z"
+			class = "b" / >
+				<
+				path d = "M210.2 292.3l-61.6 35.5a5.8 5.8 0 0 1-5 0l-65.3-37.6 1.5 7.2 61 35.3a11.2 11.2 0 0 0 10.5 0l60-34.7z"
+			class = "a" / >
+				<
+				path d = "M55.2 276.8L8 249.5a5.8 5.8 0 0 1-2.5-4.2V197L0 201v44.3a11.2 11.2 0 0 0 5.2 9L56.7 284z"
+			class = "b" / >
+				<
+				text class = "c"
+			transform = "translate(31.89 237.25)" >
+				&
+				lt;
+			/<tspan x="43.6" y="0" class="d">viera.io</tspan > < tspan x = "206.6"
+			y = "0"
+			class = "e" > & gt; < /tspan> <
+			/text> <
+			/g> <
+			/svg>

@@ -69,7 +69,7 @@ export default class Hexagons extends React.Component {
 				translatedHexagon.html(templateHexagon);
 
 				translatedHexagon.select('polygon')
-					.attr('class', 'hexagon').on('click', function(d) {});
+					.attr('class', 'hexagon').on('click', function (d) {});
 
 				row.push(translatedHexagon);
 
@@ -134,7 +134,7 @@ export default class Hexagons extends React.Component {
 		let hexArr = this.hexagonArray;
 		let coords = {
 			y: Math.floor(hexArr.length / 2),
-			x: Math.floor(hexArr[0].length / 2)
+			x: Math.floor(hexArr[0].length / 2) - 1
 		};
 		let o = coords;
 		let topBtmAmount = 2,

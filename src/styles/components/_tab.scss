@@ -1,8 +1,19 @@
 .tab {
   float: left;
   margin: 0 10px;
+
+  padding-top: 30px;
+  padding-bottom: 30px;
+  
 }
 .nav {
   display: flex;
   justify-content: center;
+}
+
+a {
+  color: $white;
+  text-decoration: none;
+  font-family: 'lekton_regular';
+  font-size: 1.5em;
 }
