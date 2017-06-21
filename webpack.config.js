@@ -73,5 +73,10 @@ module.exports = {
 		// 	},
 		// 	exclude: [/\.min\.js$/gi] // skip pre-minified libs
 		// })
-	]
+	],
+	devServer: {
+		contentBase: path.join(__dirname, "public"),
+		port: 9000,
+		historyApiFallback: true
+	}
 };

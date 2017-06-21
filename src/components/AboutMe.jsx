@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 
 export default class AboutMe extends React.Component {
 	constructor(props) {
@@ -9,7 +9,7 @@ export default class AboutMe extends React.Component {
 		return (
 			<div className="grid-row">
 				<div id="one" className="grid-xs-col-4 offset-xs-col-4 page-title">
-					four
+					<h1>Hello,</h1>
 				</div>
 				<div id="one" className="grid-xs-col-12 grid-md-col-6 left-content">
 					four

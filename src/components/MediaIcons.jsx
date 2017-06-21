@@ -6,6 +6,10 @@ const MediaIcons = () => {
 	const GitHub = 'https://github.com/carlosxviera';
 	const LinkedIn = 'https://www.linkedin.com/in/cxviera/';
 
+	function handleMouseOver() {
+		console.log(this)
+	}
+
 	const FaceBookIcon = (link) => {
 
 		return (
@@ -34,7 +38,7 @@ const MediaIcons = () => {
 
 		return (
 			<a href={link}>
-				<g id="linkedin">
+				<g id="linkedin" onMouseOver={handleMouseOver}>
 					<rect width="25" height="24.9" x="33.6" y=".6" className="icon-border" rx="2" ry="2"/>
 					<path d="M49 20.7h-4.2v-2c-2.8.6-3.6-1.6-3.6-1.6a6.3 6.3 0 0 0-1-1.4c-1-.6 0-.5 0-.5a2 2 0 0 1 1.5 1 2.4 2.4 0 0 0 3 1 2.5 2.5 0 0 1 .6-1.4c-2.2-.3-4-1.6-4-4.2s.4-3 1-3.6a3.2 3.2 0 0 1 0-2.5s1 0 2 1.5c.4-.5 2-.5 2.5-.5s2 0 2.6.5c1-1.5 2-1.5 2-1.5a3.2 3.2 0 0 1 0 2.5c.5.6 1 1 1 3.6s-2 4-4 4.2a2.8 2.8 0 0 1 .4 1.5v3.7z" className="icon"/>
 				</g>
