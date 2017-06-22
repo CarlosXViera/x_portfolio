@@ -5,6 +5,7 @@ import Work from 'Work';
 import Contact from 'Contact';
 import Home from 'Home';
 import Blog from 'Blog';
+import TopNavIcon from 'TopNavIcon';
 
 export default class TopNav extends React.Component {
 
@@ -29,14 +30,14 @@ export default class TopNav extends React.Component {
 							</div>
 
 							<div className="tab blog">
-								<NavLink to="/blog" className="tabText">
+								<a href="http://blog.viera.io">
 									Blog
-								</NavLink>
+								</a>
 							</div>
 
 							<div className="tab home">
 								<NavLink to="/" className="tabText">
-									Home
+									<TopNavIcon/>
 								</NavLink>
 							</div>
 
@@ -57,7 +58,6 @@ export default class TopNav extends React.Component {
 					<div>
 						<Route path='/contact' component={Contact}/>
 						<Route path='/work' component={Work}/>
-						<Route path='/blog' component={Blog}/>
 						<Route path='/aboutme' component={AboutMe}/>
 						<Route exact path='/' component={Home}/>
 					</div>

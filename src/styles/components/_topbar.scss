@@ -1,2 +1,19 @@
-.top-nav {
+#top-nav-icon {
+  width: 99px;
+  height: 111px;
+  margin:0;
+  padding:0;
+
+  .icon-hexagon {
+    fill:$todayI;
+    stroke: $todayII;
+    stroke-miterlimit: 10;
+  }
+  .colored-arrow {
+    fill: $todayIV;
+  }
+  .white-arrow {
+    fill:$white;
+  }
+
 }
