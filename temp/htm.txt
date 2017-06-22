@@ -300,3 +300,34 @@
   </g>
 
 </g>
+
+
+<defs>
+  <style>
+    .a {
+      isolation: isolate;
+    }
+    .b {
+      opacity: 0.02;
+      mix-blend-mode: multiply;
+    }
+    .c {
+      fill: #b8c4bc;
+    }
+    .d {
+      fill: #259073;
+    }
+    .e {
+      fill: #ad0404;
+    }
+    .f {
+      fill: #4daf00;
+    }
+    .g {
+      fill: #73401f;
+    }
+    .h {
+      fill: #061221;
+    }
+  </style>
+</defs>

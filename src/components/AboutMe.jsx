@@ -1,14 +1,15 @@
 import React, {PropTypes} from 'react';
 import Browser from 'Browser';
+import SkillButtons from 'SkillButtons';
 
 const LeftContent = () => {
 	return (
-		<div className="grid-xs-col-12 grid-md-col-6 left-content">
+		<div className="grid-xs-col-12 grid-xl-col-6 left-content">
 			<div className="grid-row">
-				<div className="grid-xs-col-3 grid-md-col-3 empty-border-button">
-					<h4>
-						&#60; about &#62;
-					</h4>
+				<div className="grid-xs-col-3 grid-md-col-2 empty-border-button">
+					<h5>
+						&#60;about&#62;
+					</h5>
 				</div>
 			</div>
 			<div className="grid-row">
@@ -19,15 +20,33 @@ const LeftContent = () => {
 				</div>
 			</div>
 			<div className="grid-row">
-				<div className="grid-xs-col-3 offset-xs-col-9 empty-border-button">
-					<h4>
-						&#60; / about &#62;
-					</h4>
+				<div className="grid-xs-col-3 offset-xs-col-9 grid-md-col-2 offset-md-10 empty-border-button">
+					<h5>
+						&#60;/about&#62;
+					</h5>
 				</div>
 			</div>
 		</div>
 	)
 };
+
+const RightContent = () => {
+
+	return (
+		<div className="grid-xs-col-12 grid-xl-col-6 right-content">
+			<div className="grid-row--center">
+				<div className="grid-xs-col-10 offset-xs-col1 browser">
+					<Browser/>
+				</div>
+			</div>
+			<div className="grid-row">
+				<div className="grid-xs-col-6 offset-xs-col-3 skill-buttons">
+					<SkillButtons/>
+				</div>
+			</div>
+		</div>
+	)
+}
 
 export default class AboutMe extends React.Component {
 	constructor(props) {
@@ -42,13 +61,7 @@ export default class AboutMe extends React.Component {
 					<p className="title-divider">■ ■ ■ ■</p>
 				</div>
 				{LeftContent()}
-				<div className="grid-xs-col-12 grid-md-col-6 right-content">
-					<div className="grid-row">
-						<div className="grid-xs-col-10 offset-xs-col-1 browser">
-							<Browser/>
-						</div>
-					</div>
-				</div>
+				{RightContent()}
 			</div>
 		)
 	}

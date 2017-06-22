@@ -15,8 +15,8 @@
 
   .empty-border-button {
     border: solid 1px black;
-    width: 95px;
-    height:33px;
+    max-width: 50px;
+    height: 33px;
     padding: 0;
     border-color:$todayII;
   }
@@ -27,23 +27,17 @@
     padding: 0;
   }
 
-   h4 {
-     font-family: lekton_bold;
+   h5 {
+     line-height: 32px;
+     font-family: lekton_regular;
+     font-size: 14px;
      color:$white;
      text-align: center;
-     margin: 0;
      padding: 0;
   }
 }
 
 .right-content {
   padding-top: 10px;
-
-  .a{fill:none;stroke:#259073;stroke-miterlimit:10;}.b{fill:#259073;}
-  .browser {
-    width: 605px;
-    height: 405px;
-    fill:none;
-  }
 
 }

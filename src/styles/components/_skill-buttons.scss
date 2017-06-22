@@ -1,0 +1,27 @@
+#server {
+  fill: $todayII;
+
+  .power-button {
+    fill: $red;
+  }
+
+  .line-light {
+    fill: $todayV;
+  }
+
+  .server-hinge {
+    fill: $offwhite;
+  }
+}
+
+#gears {
+  fill: $todayII;
+}
+
+#laptop {
+  fill: $todayII;
+
+  .inset {
+    fill:$todayI;
+  }
+}

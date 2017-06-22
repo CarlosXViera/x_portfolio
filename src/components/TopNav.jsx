@@ -22,16 +22,16 @@ export default class TopNav extends React.Component {
 			<Router>
 				<div>
 					<div className="grid-row top-nav">
-						<div className="grid-md-col-6 offset-md-col-3 grid-sm-col-12 nav">
+						<div className="grid-xs-col-4 offset-xs-col-4 nav">
 							<div className="tab about">
 								<NavLink to="/aboutme" className="tabText">
-									About Me
+									<h4>About Me</h4>
 								</NavLink>
 							</div>
 
 							<div className="tab blog">
 								<a href="http://blog.viera.io">
-									Blog
+									<h4>Blog</h4>
 								</a>
 							</div>
 
@@ -43,13 +43,13 @@ export default class TopNav extends React.Component {
 
 							<div className="tab work">
 								<NavLink to="/work" className="tabText">
-									Works
+									<h4>Works</h4>
 								</NavLink>
 							</div>
 
 							<div className="tab contact">
 								<NavLink to="/contact" className="tabText">
-									Contact
+									<h4>Contact</h4>
 								</NavLink>
 							</div>
 						</div>

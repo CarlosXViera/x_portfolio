@@ -26,7 +26,7 @@ export default class Browser extends React.Component {
 
 	render() {
 		return (
-			<svg id="browser" viewBox="0 0 604.8 403.7" onRef={this.onRef}>
+			<svg id="browser-svg" viewBox="0 0 604.8 403.7" ref={this.onRef}>
 				<path d="M602.2.5H2.6A2 2 0 0 0 .6 2V46a2 2 0 0 1 2-1.6h599.6a2 2 0 0 1 2 1.6V2a2 2 0 0 0-2-1.5z" className="a"/>
 				<path d="M175.3 44c-1.6 0-2.2-1-1.2-2.4l16-22.8a6.6 6.6 0 0 1 5-2.5h55a6.2 6.2 0 0 1 4.7 2.6L269 41.4c1 1.4.3 2.6-1.3 2.6z" className="b"/>
 				<path d="M.5 44h603.8v359.2H.5z" className="a"/>
