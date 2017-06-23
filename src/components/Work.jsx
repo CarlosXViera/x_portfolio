@@ -228,6 +228,22 @@ const PressingGame = () => {
 	)
 }
 
+const MusicPlayer = () => {
+	return (
+		<div id="two">
+			MUSIC PLAYER
+		</div>
+	)
+};
+
+const Blank = () => {
+	return (
+		<div id="two">
+			BLANK
+		</div>
+	)
+}
+
 export default class Work extends React.Component {
 	constructor(props) {
 		super(props)
@@ -238,6 +254,7 @@ export default class Work extends React.Component {
 		return (
 			<div className="grid-row--center">
 				<div className="grid-xs-col-8 offset-xs-col-2 grid-lg-col-6 offset grid-lg-col-3 work-svg">
+					<Route path={`${this.props.match.url}/musicplayer`} component={MusicPlayer}/>
 					<Route path={`${this.props.match.url}/deepspace`} component={DeepSpace}/>
 					<Route path={`${this.props.match.url}/hmce`} component={Hmce}/>
 					<Route path={`${this.props.match.url}/pressinggame`} component={PressingGame}/>
