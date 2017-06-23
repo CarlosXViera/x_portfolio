@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
 import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom';
 
+/* TODO: Cleanup SVG transforms/tags.
+*/
 const Svg = () => {
 	return (
 		<svg viewBox="0 0 707.8 483.1">
