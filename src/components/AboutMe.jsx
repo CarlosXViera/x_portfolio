@@ -55,7 +55,7 @@ export default class AboutMe extends React.Component {
 
 	render() {
 		return (
-			<div className="grid-row">
+			<div className="grid-row total-content">
 				<div className="grid-xs-col-4 offset-xs-col-4 page-title">
 					<h1>Hello,</h1>
 					<p className="title-divider">■ ■ ■ ■</p>

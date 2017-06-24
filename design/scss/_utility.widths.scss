@@ -1,0 +1,17 @@
+@if $use-utility-text-align == true {
+  // UTILITY - Widths
+
+  .u-width {
+
+    &-full {
+      width: 100%;
+    }
+  }
+
+  .u-max-width {
+
+    &-full {
+      max-width: 100%;
+    }
+  }
+}

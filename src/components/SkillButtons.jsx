@@ -45,7 +45,7 @@ const Gears = () => {
 const SkillButtons = () => {
 
 	return (
-		<svg viewBox="0 0 459.2 70">
+		<svg id="skill-icons" viewBox="0 0 459.2 70">
 			{Laptop()}
 			{Server()}
 			{Gears()}

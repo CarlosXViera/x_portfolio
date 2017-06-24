@@ -1,0 +1,72 @@
+// GENERIC - Reset
+
+//
+//  A simple reset that works on top of Normalize.css.
+//
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+p,
+pre,
+dl,
+dd,
+ol,
+ul,
+figure,
+hr,
+fieldset,
+legend {
+  padding: 0;
+}
+
+
+//
+//  Removes all borders from horizontal rule.
+//
+
+hr {
+  border: 0;
+}
+
+
+//
+//  Remove trailing margins from nested lists.
+//
+
+li > {
+
+  ol,
+  ul {
+    margin-bottom: 0;
+  }
+
+}
+
+
+//
+//  Remove default table spacing.
+//
+
+table {
+  border: {
+    collapse: collapse;
+    spacing: 0;
+  }
+}
+
+
+//
+// 1. Reset Chrome and Firefox behaviour which sets a `min-width: min-content;`
+//    on fieldsets.
+//
+
+fieldset {
+  border: 0;
+  min-width: 0; // [1 //
+}

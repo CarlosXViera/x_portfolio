@@ -1,0 +1,8 @@
+// TOOLS - Clearfix
+
+@mixin clearfix {
+  &::after {
+    @include pseudo($pos: initial);
+    clear: both;
+  }
+}

@@ -1,0 +1,48 @@
+@if $use-element-pre == true {
+  // ELEMENTS - pre
+
+  code,
+  pre {
+    font-family: $global-mono-font-family;
+    hyphens: none;
+    tab-size: 4;
+    text-align: left;
+    white-space: pre;
+
+    word: {
+      spacing: normal;
+      wrap: break-word;
+    }
+  }
+
+  pre {
+    @include font-size($global-font-size - 2);
+    background-color: $color-grey-lightest;
+
+    border: {
+      color: $color-grey-lighter;
+      radius: $global-border-radius;
+      style: solid;
+      width: 1px;
+    }
+
+    color: $color-grey-dark;
+    overflow: auto;
+    padding: $global-spacing-unit-lg;
+
+    @if $global-responsive == true {
+      @include set-breakpoint-max(md) {
+        @include font-size($global-font-size - 3);
+      }
+
+      @include set-breakpoint-max(sm) {
+        @include font-size($global-font-size - 4);
+      }
+    } // endif
+
+    code {
+      background-color: $color-transparent;
+      padding: 0;
+    }
+  }
+} // endif

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom'
 import HexContainer from 'HexContainer'
 import Hexagons from 'Hexagons'
 import TopNav from 'TopNav'
@@ -18,7 +18,7 @@ export default class App extends React.Component {
 		// });
 
 		this.state = {
-			orientation: 'landscape',
+			orientation: 'landscape'
 		}
 
 		// this.scream.on('orientationchangeend', () => {
@@ -40,14 +40,12 @@ export default class App extends React.Component {
 	// 	console.log('darya');
 	// }
 
-	componentWillMount() {
-
-	}
+	componentWillMount() {}
 
 	render() {
 		return (
 			<div className="App">
-				<div className="container container--fluid mid">
+				<div className="container mid">
 					<TopNav/>
 				</div>
 				<HexContainer onLayout={this.handleLayout} orientation={this.state.orientation}>

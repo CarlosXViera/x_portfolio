@@ -1,27 +1,32 @@
-#server {
-  fill: $todayII;
-
-  .power-button {
-    fill: $red;
-  }
-
-  .line-light {
-    fill: $todayV;
-  }
-
-  .server-hinge {
-    fill: $offwhite;
-  }
+.skill-buttons {
+  min-height:60px;
 }
 
-#gears {
+#skill-icons {
   fill: $todayII;
-}
+  #server {
 
-#laptop {
-  fill: $todayII;
+    .power-button {
+      fill: $red;
+    }
 
-  .inset {
-    fill:$todayI;
+    .line-light {
+      fill: $todayV;
+    }
+
+    .server-hinge {
+      fill: $offwhite;
+    }
   }
+
+  #gears {
+  }
+
+  #laptop {
+
+    .inset {
+      fill:$todayI;
+    }
+  }
+
 }

@@ -10,8 +10,13 @@
   }
 }
 
+.total-content {
+  max-width: 1920px;
+
+}
 .left-content {
   padding-top: 10px;
+  display: inline-block;
 
   .empty-border-button {
     border: solid 1px black;
@@ -38,6 +43,6 @@
 }
 
 .right-content {
+  display: inline-block;
   padding-top: 10px;
-
 }

@@ -1,11 +1,12 @@
 import React, {PropTypes} from 'react';
 import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom';
+import WorkContent from 'WorkContent';
 
 /* TODO: Cleanup SVG transforms/tags.
 */
 const Svg = () => {
 	return (
-		<svg viewBox="0 0 707.8 483.1">
+		<svg id="content-svg" viewBox="0 0 707.8 483.1">
 			<defs>
 				<clipPath id="a">
 					<path d="M588 405.7V272.2l-115.5-66.8-115.7 66.8v133.5l115.7 66.8L588 405.7z" className="a"/>
@@ -208,42 +209,22 @@ const Svg = () => {
 	)
 }
 const DeepSpace = () => {
-	return (
-		<div id="two">
-			DEEPSPACE
-		</div>
-	)
+	return (<WorkContent titleId="DeepSpace"/>)
 }
 const Hmce = () => {
-	return (
-		<div id="two">
-			HMCE
-		</div>
-	)
+	return (<WorkContent titleId="HMCE!"/>)
 }
 
 const PressingGame = () => {
-	return (
-		<div id="two">
-			PRESSING GAME
-		</div>
-	)
+	return (<WorkContent titleId="PressingGame!"/>)
 }
 
 const MusicPlayer = () => {
-	return (
-		<div id="two">
-			MUSIC PLAYER
-		</div>
-	)
+	return (<WorkContent titleId="MUSIC PLAYER!!!!"/>)
 };
 
 const Blank = () => {
-	return (
-		<div id="two">
-			BLANK
-		</div>
-	)
+	return (<WorkContent titleId="BLANK!"/>)
 }
 
 export default class Work extends React.Component {
@@ -254,8 +235,8 @@ export default class Work extends React.Component {
 	render() {
 		console.log(this.props.match.params.id);
 		return (
-			<div className="grid-row--center">
-				<div className="grid-xs-col-8 offset-xs-col-2 grid-lg-col-6 offset grid-lg-col-3 work-svg">
+			<div id="two" className="grid-row--center grid-row--no-gutter">
+				<div id="one" className="grid-xs-col-8 work-svg">
 					<Route path={`${this.props.match.url}/musicplayer`} component={MusicPlayer}/>
 					<Route path={`${this.props.match.url}/deepspace`} component={DeepSpace}/>
 					<Route path={`${this.props.match.url}/hmce`} component={Hmce}/>

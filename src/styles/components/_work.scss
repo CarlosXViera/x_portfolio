@@ -1,6 +1,43 @@
 .work-svg {
-  width: 704px;
+  width: 950px;
+  text-align: center;
 
   .a,.b,.e,.g{fill:none;}.b,.e,.f,.g{stroke:#7fda89;stroke-miterlimit:10;}.c{clip-path:url(#a);}.d{fill:#7fda89;}.e,.f{stroke-width:2px;}.f{fill:#061221;}.g{stroke-width:0.5px;}
+  #content-svg {
+    max-width:704px;
+    display: inline-block;
+    margin: 0 0;
+  }
+}
 
+@media (min-width: $lg) {
+  .media-carousel {
+    width: 900px;
+    height: 507px;
+  }
+}
+
+@media (min-width: $md) and (max-width:$lg){
+  .media-carousel {
+    width: 768px;
+    height: 432px;
+  }
+}
+
+@media (min-width: $sm) and (max-width:$md){
+  .media-carousel {
+    width: 420px;
+    height: 263px;
+  }
+}
+
+@media (min-width: $xs) and (max-width:$sm){
+  .media-carousel {
+    width: 320px;
+    height: 180px;
+  }
+}
+
+.media-carousel {
+  border: 1px solid $todayIII;
 }

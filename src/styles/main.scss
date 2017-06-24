@@ -13,15 +13,30 @@
 // foundation
 @import 'primocss';
 
+::-webkit-scrollbar {
+  display:none;
+}
+
+.html {
+  background-color: $background
+}
 body {
     font-size: 12px;
     background-color: $background;
     margin: 0;
     overflow: hidden;
+
 }
 
-svg {
+svg#main {
+  background-color: $background;
   margin: 0;
+  padding:0;
+  overflow: hidden;
+  position:absolute;
+  top:0;
+
+  z-index: 1;
 }
 
 h1
