@@ -24,26 +24,15 @@ export default class WorkContent extends React.Component {
 
 	render() {
 		let settings = {
-			showIndex: false,
-			slideOnThumbnailHover: false,
-			showBullets: true,
-			infinite: true,
-			showThumbnails: true,
-			showFullscreenButton: true,
-			showGalleryFullscreenButton: true,
-			showPlayButton: true,
-			showGalleryPlayButton: true,
-			showNav: true,
-			slideDuration: 450,
-			slideInterval: 2000,
-			thumbnailPosition: 'bottom',
-			items: this.renderImgs()
+			showThumbnails: false,
+			items: this.renderImgs(),
+			slideInterval: 2000
 		}
 		return (
-			<div className="grid-row">
-				<div className="video-wrapper">
-					<ImageGallery {...settings}></ImageGallery>
-				</div>
+			<div className="grid-row--center">
+
+				<ImageGallery {...settings}></ImageGallery>
+
 			</div>
 		)
 	}
