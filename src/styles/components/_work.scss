@@ -10,6 +10,20 @@
   }
 }
 
+.image-gallery {
+  margin: 0 auto;
+}
+div.image-gallery {
+  display:block;
+}
+
+.image-gallery-content {
+    position: relative;
+    line-height: 0;
+    top: 0;
+    display: block;
+}
+
 @media (min-width: $lg) {
   .media-carousel {
     width: 900px;

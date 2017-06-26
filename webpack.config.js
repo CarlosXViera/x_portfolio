@@ -18,7 +18,7 @@ module.exports = {
 		publicPath: '/'
 	},
 	resolve: {
-		modules: [path.resolve(__dirname, "./src"), "node_modules", path.resolve(__dirname, "./src/components")],
+		modules: [path.resolve(__dirname, "./src"), "node_modules", path.resolve(__dirname, "./src/components"), path.resolve(__dirname, "./src/api")],
 		alias: {
 			applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
 		},
@@ -38,7 +38,8 @@ module.exports = {
 				use: [{
 					loader: 'sass-loader',
 					options: {
-						includePaths: [path.resolve(__dirname, './node_modules/primocss/scss')]
+						includePaths: [path.resolve(__dirname, './node_modules/primocss/scss'),
+					path.resolve(__dirname, './node_modules/react-image-slider/lib/')]
 					}
 			}]
 		}]
@@ -51,7 +52,7 @@ module.exports = {
 			root: path.resolve(__dirname),
 			verbose: true,
 			dry: false,
-			exclude: ['fonts', 'favicon.ico']
+			exclude: ['fonts', 'favicon.ico', 'assets']
 		}),
 		new HtmlWebpackPlugin({
 			template: 'src/index.html'

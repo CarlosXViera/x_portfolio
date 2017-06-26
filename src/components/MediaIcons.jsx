@@ -6,9 +6,7 @@ const MediaIcons = () => {
 	const GitHub = 'https://github.com/carlosxviera';
 	const LinkedIn = 'https://www.linkedin.com/in/cxviera/';
 
-	function handleMouseOver() {
-		console.log(this)
-	}
+	function handleMouseOver() {}
 
 	const FaceBookIcon = (link) => {
 

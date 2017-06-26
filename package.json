@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "npm run build && npm run webdriver-launch",
-    "build": "webpack",
+    "build": "webpack --display-error-details",
     "serve": "webpack-dev-server --inline --content-base public/",
     "webdriver-launch": "./node_modules/.bin/wdio wdio.conf.js & WEBDRIVER=$!"
   },
@@ -18,15 +18,22 @@
     "express": "^4.14.1",
     "foundation": "^4.2.1-1",
     "gsap": "^1.19.1",
+    "install": "^0.10.1",
     "node-uuid": "^1.4.7",
+    "npm": "^5.0.3",
+    "nuka-carousel": "^2.0.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-draggable": "^2.2.3",
+    "react-image-gallery": "^0.8.3",
+    "react-image-slider": "^0.1.0",
     "react-loader": "^2.4.0",
     "react-motion": "^0.4.7",
     "react-router-dom": "^4.0.0-beta.8",
+    "react-slick": "^0.14.11",
     "react-swipeable": "^3.9.2",
-    "scream": "^2.2.0"
+    "scream": "^2.2.0",
+    "slick-carousel": "^1.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

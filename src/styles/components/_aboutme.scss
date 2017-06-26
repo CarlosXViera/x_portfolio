@@ -15,8 +15,8 @@
 
 }
 .left-content {
+  overflow-y: scroll;
   padding-top: 10px;
-  display: inline-block;
 
   .empty-border-button {
     border: solid 1px black;
@@ -24,6 +24,16 @@
     height: 33px;
     padding: 0;
     border-color:$todayII;
+
+    h5 {
+      line-height: 33px;
+      margin: 0;
+      font-family: lekton_regular;
+      font-size: 14px;
+      color:$white;
+      text-align: center;
+      padding: 0;
+   }
   }
   .text-content {
     color: $white;
@@ -32,17 +42,9 @@
     padding: 0;
   }
 
-   h5 {
-     line-height: 32px;
-     font-family: lekton_regular;
-     font-size: 14px;
-     color:$white;
-     text-align: center;
-     padding: 0;
-  }
+
 }
 
 .right-content {
-  display: inline-block;
   padding-top: 10px;
 }

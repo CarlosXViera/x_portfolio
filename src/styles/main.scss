@@ -10,8 +10,10 @@
 @import 'components/browser';
 @import 'components/skill-buttons';
 @import 'components/work';
+
 // foundation
 @import 'primocss';
+@import '~react-image-gallery/styles/scss/image-gallery-no-icon.scss';
 
 ::-webkit-scrollbar {
   display:none;
@@ -32,14 +34,19 @@ svg#main {
   background-color: $background;
   margin: 0;
   padding:0;
-  overflow: hidden;
   position:absolute;
   top:0;
-
   z-index: 1;
 }
 
 h1
  {
   color: $white;
+}
+
+app .image-gallery,
+.app-sandbox {
+  margin: 0 auto;
+  width: 65%;
+  transition: all 1s ease;
 }
