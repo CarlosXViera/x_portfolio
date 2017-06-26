@@ -38,7 +38,7 @@ module.exports = {
 				use: [{
 					loader: 'sass-loader',
 					options: {
-						includePaths: [path.resolve(__dirname, './node_modules/primocss/scss'),
+						includePaths: [path.resolve(__dirname, './src/styles/vendor'),
 					path.resolve(__dirname, './node_modules/react-image-slider/lib/')]
 					}
 			}]

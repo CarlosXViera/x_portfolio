@@ -1,0 +1,14 @@
+// TOOLS - Input placeholder
+
+//
+// Creates all placeholder styles for input and textarea.
+//
+
+@mixin input-placeholder {
+  // sass-lint:disable-block no-vendor-prefixes
+  &::placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &:-ms-input-placeholder { @content; }
+  &::-webkit-input-placeholder { @content; }
+}

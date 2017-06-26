@@ -1,0 +1,53 @@
+@if $use-element-lists == true {
+  // ELEMENTS - Lists
+
+  //
+  // Ordered and un-ordered lists.
+  //
+
+  ol,
+  ul {
+    padding-left: $global-spacing-unit;
+
+    li {
+
+      //
+      // 1. Sets spacing between all list items and nested lists with in a <li>
+      //    This should overwrite the lobotomized owl method.
+      //
+
+      + li {
+        margin-top: $global-spacing-unit-xs; // [1 //
+      }
+
+      > ul,
+      > ol {
+        margin-top: $global-spacing-unit-xs; // [1 //
+      }
+    }
+  }
+
+  //
+  // Flexible multiline definition lists with 2 lines of CSS.
+  //
+
+  dl {
+
+    dt,
+    dd {
+      display: inline;
+    }
+
+    dt {
+      font-weight: 600;
+    }
+
+    dd {
+
+      &::after {
+        content: '\A';
+        white-space: pre;
+      }
+    }
+  }
+}

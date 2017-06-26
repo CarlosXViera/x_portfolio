@@ -1,0 +1,21 @@
+@if $global-border-box == true {
+  // GENERIC - Box sizing
+
+  //
+  //  All elements set as 'border-box'. Overwrite this on a
+  //  class by class or element basis.
+  //
+
+  html {
+    box-sizing: border-box;
+  }
+
+  * {
+    box-sizing: inherit;
+
+    &::before,
+    &::after {
+      box-sizing: inherit;
+    }
+  }
+}

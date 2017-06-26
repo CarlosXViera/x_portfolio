@@ -97,4 +97,14 @@
   }
 }
 
-.media-carousel {}
+.project-descriptor {
+  text-align: center;
+  font-size : 16px;
+}
+
+#work-controls {
+  fill  : none;
+  stroke: $todayIII;
+  height: 40px;
+  width : 165px;
+}

@@ -1,0 +1,32 @@
+// TOOL - Link style
+
+//
+// Creates base link styles
+//
+
+@mixin link-style(
+  $color: $color-white,
+  $hover: $color-grey-dark,
+  $active: $color-grey-darker,
+  $visited: $color-grey-darker,
+  $underline: false
+) {
+
+  color: $color;
+
+  @if $underline == true {
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: $visited;
+  }
+
+  &:hover {
+    color: $hover;
+  }
+
+  &:active {
+    color: $active;
+  }
+}

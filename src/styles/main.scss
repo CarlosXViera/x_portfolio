@@ -10,43 +10,41 @@
 @import 'components/browser';
 @import 'components/skill-buttons';
 @import 'components/work';
-
 // foundation
-@import 'primocss';
+@import 'vendor/primocss';
 @import '~react-image-gallery/styles/scss/image-gallery-no-icon.scss';
 
 ::-webkit-scrollbar {
-  display:none;
+  display: none;
 }
 
 .html {
-  background-color: $background
+  background-color: $background;
 }
-body {
-    font-size: 12px;
-    background-color: $background;
-    margin: 0;
-    overflow: hidden;
 
+body {
+  font-size       : 12px;
+  background-color: $background;
+  margin          : 0;
+  overflow        : hidden;
 }
 
 svg#main {
   background-color: $background;
-  margin: 0;
-  padding:0;
-  position:absolute;
-  top:0;
-  z-index: 1;
+  margin          : 0;
+  padding         : 0;
+  position        : absolute;
+  top             : 0;
+  z-index         : 1;
 }
 
-h1
- {
+h1 {
   color: $white;
 }
 
-app .image-gallery,
-.app-sandbox {
-  margin: 0 auto;
-  width: 65%;
+.app-sandbox,
+app .image-gallery {
+  margin    : 0 auto;
+  width     : 65%;
   transition: all 1s ease;
 }

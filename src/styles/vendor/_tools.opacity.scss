@@ -1,0 +1,11 @@
+// TOOLS - Opacity
+
+//
+// Sets opacity for all browser types
+//
+
+@mixin opacity($value) {
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$value})'; // sass-lint:disable-line no-vendor-prefixes
+  filter: alpha(opacity=$value);
+  opacity: $value;
+}

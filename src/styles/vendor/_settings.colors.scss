@@ -1,0 +1,59 @@
+// SETTINGS - COLOR DEFAULTS
+
+//
+// Primo CSS Framework default colour variables. To override any variables change them
+// in _variables.scss found in the root of the scss folder. All varilables here
+// should set the visual tone of the framework.
+//
+
+$color-black:                  #000 !default;
+$color-white:                  #fff !default;
+$color-transparent:            transparent !default;
+
+
+//
+// Grey-scale variables
+//
+
+$color-grey-darkest:           #111 !default;
+$color-grey-darker:            #333 !default;
+$color-grey-dark:              #666 !default;
+$color-grey:                   #888 !default;
+$color-grey-light:             #cbcbcb !default;
+$color-grey-lighter:           #eee !default;
+$color-grey-lightest:          #f7f7f7 !default;
+
+
+
+//
+// Primary color variables
+//
+
+$color-red:                    #e83a46 !default;
+$color-red-light:              lighten($color-red, 10%) !default;
+$color-red-dark:               darken($color-red, 20%) !default;
+
+
+$color-orange:                 #f6511d !default;
+$color-orange-light:           lighten($color-orange, 10%) !default;
+$color-orange-dark:            darken($color-orange, 20%) !default;
+
+
+$color-yellow:                 #ffb400 !default;
+$color-yellow-light:           lighten($color-yellow, 10%) !default;
+$color-yellow-dark:            darken($color-yellow, 20%) !default;
+
+
+$color-blue:                   #00a6ed !default;
+$color-blue-light:             lighten($color-blue, 10%) !default;
+$color-blue-dark:              darken($color-blue, 20%) !default;
+
+
+$color-green:                  #7fb800 !default;
+$color-green-light:            lighten($color-green, 10%) !default;
+$color-green-dark:             darken($color-green, 20%) !default;
+
+
+$color-navy:                   #0d2c54 !default;
+$color-navy-light:             lighten($color-navy, 10%) !default;
+$color-navy-dark:              darken($color-navy, 15%) !default;

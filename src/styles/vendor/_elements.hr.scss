@@ -1,0 +1,17 @@
+@if $use-element-hr == true {
+  // ELEMENTS - Horizontal rule
+
+  //
+  // HR variables
+  //
+
+  $color-hr-border:           $color-grey-light !default;
+
+
+
+  hr {
+    border: {
+      top: 1px dotted $color-hr-border;
+    }
+  }
+}

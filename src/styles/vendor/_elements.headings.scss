@@ -1,0 +1,67 @@
+@if $use-element-headings == true {
+  // ELEMENTS - Headings
+
+  //
+  //  Font sizes set for headline text. Using the font-size mixin will generate
+  //  pixel and rem valued font-sizes.
+  //
+
+  $h1-font-size:               36px !default;
+  $h2-font-size:               30px !default;
+  $h3-font-size:               24px !default;
+  $h4-font-size:               20px !default;
+  $h5-font-size:               18px !default;
+  $h6-font-size:               16px !default;
+
+
+
+  h1 {
+    @include font-heading($h1-font-size, $font-weight-sb);
+
+    //
+    // 1. Specifing lobotomized owl selector to override normalize margin
+    //    styles. This keep's the <h1> element inline with all other elements
+    //    or classes.
+    //
+
+    margin: 0;
+
+    + * {
+      margin-top: $global-spacing-unit; // [1 //
+
+      //
+      // Sets spacing for medium and small breakpoint if responsive is true
+      //
+
+      @if $global-responsive == true {
+        @include set-breakpoint-max(sm) {
+          margin-top: $global-spacing-unit-xs;
+        }
+
+        @include set-breakpoint-max(md) {
+          margin-top: $global-spacing-unit-sm;
+        }
+      } // endif
+    }
+  }
+
+  h2 {
+    @include font-heading($h2-font-size, $font-weight-sb);
+  }
+
+  h3 {
+    @include font-heading($h3-font-size, $font-weight-sb);
+  }
+
+  h4 {
+    @include font-heading($h4-font-size, $font-weight-sb);
+  }
+
+  h5 {
+    @include font-heading($h5-font-size, $font-weight-sb);
+  }
+
+  h6 {
+    @include font-heading($h6-font-size, $font-weight-sb);
+  }
+}

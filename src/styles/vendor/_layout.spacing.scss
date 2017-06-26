@@ -1,0 +1,39 @@
+@if $use-layout-spacing == true {
+  // LAYOUT - Spacing
+
+  //
+  // Lobotomized owl selector
+  //
+  // 1. The owl selector allows you to control flow content, each element which
+  //    follows another will be applied with margin-top to define spacing
+  //    equally. This system should antisipate spacing instead of setting
+  //    specifics.
+  //
+  //    .2 specifies the element directly to override normalize styles
+  //
+  // 2. Following elements do not require any margin at all, this should override
+  //    the global vertical rythm.
+  //
+
+  * {
+    margin: 0; // [1 //
+
+    + *,
+    + h1, // [1.2] //
+    + fieldset  {
+      margin-top: $global-spacing-unit; // [1 //
+    }
+  }
+
+  body,
+  main,
+  br,
+  li,
+  dt,
+  dd,
+  th,
+  td,
+  option {
+    margin: 0; // [2] //
+  }
+} // endif
