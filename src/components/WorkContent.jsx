@@ -7,14 +7,25 @@ import WorkControls from 'WorkControls';
 export default class WorkContent extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = ContentApi.getEverything(props.workId);
-	}
-	handleImageLoad(event) {
-		console.log('Image loaded ', event.target)
 
+		console.log(this.props)
+		this.state = {
+			...ContentApi.getEverything(props.workId),
+			currentPage: this.props.workId
+		};
+
+		this.handlePrevNext = this.handlePrevNext.bind(this);
+	}
+
+	handlePrevNext(wt) {
+		this.setState({
+			...ContentApi.getEverything(wt),
+			currentPage: wt
+		});
 	}
 
 	renderImgs() {
+		console.log(this.state)
 		let arr = this.state.images;
 		return arr.map((filename, index) => {
 			return {original: `/assets/${filename}.png`, sizes: '507x900'}
@@ -45,7 +56,7 @@ export default class WorkContent extends React.Component {
 						</p>
 					</div>
 				</div>
-				<WorkControls/>
+				<WorkControls handlePrevNext={this.handlePrevNext} currentPage={this.state.currentPage}/>
 			</div>
 		)
 	}
