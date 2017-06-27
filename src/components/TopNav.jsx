@@ -18,6 +18,8 @@ export default class TopNav extends React.Component {
 	componentWillMount() {}
 
 	render() {
+		/* TODO: DRY out render */
+
 		return (
 			<Router>
 				<div>
@@ -30,7 +32,7 @@ export default class TopNav extends React.Component {
 							</div>
 
 							<div className="tab blog">
-								<a href="http://blog.viera.io">
+								<a href="http://blog.viera.io" className="tabText">
 									<h4>Blog</h4>
 								</a>
 							</div>

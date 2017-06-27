@@ -4,28 +4,24 @@ import uuid from 'node-uuid';
 import ContentApi from 'ContentApi';
 import WorkControls from 'WorkControls';
 
-export default class WorkContent extends React.Component {
+class WorkContent extends React.Component {
 	constructor(props) {
 		super(props)
 
-		console.log(this.props)
 		this.state = {
 			...ContentApi.getEverything(props.workId),
 			currentPage: this.props.workId
 		};
-
-		this.handlePrevNext = this.handlePrevNext.bind(this);
 	}
 
-	handlePrevNext(wt) {
+	componentWillReceiveProps(a, b) {
 		this.setState({
-			...ContentApi.getEverything(wt),
-			currentPage: wt
+			...ContentApi.getEverything(a.workId),
+			currentPage: a.workId
 		});
 	}
 
 	renderImgs() {
-		console.log(this.state)
 		let arr = this.state.images;
 		return arr.map((filename, index) => {
 			return {original: `/assets/${filename}.png`, sizes: '507x900'}
@@ -38,6 +34,7 @@ export default class WorkContent extends React.Component {
 			items: this.renderImgs(),
 			slideInterval: 2000
 		}
+
 		return (
 			<div className="grid-row--no-gutter">
 				<div className="grid-row--center">
@@ -56,8 +53,10 @@ export default class WorkContent extends React.Component {
 						</p>
 					</div>
 				</div>
-				<WorkControls handlePrevNext={this.handlePrevNext} currentPage={this.state.currentPage}/>
+				<WorkControls currentPage={this.state.currentPage}/>
 			</div>
 		)
 	}
 }
+
+export default WorkContent;

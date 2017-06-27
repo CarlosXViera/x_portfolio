@@ -4,6 +4,7 @@
   h1 {
     font-size: 48px;
   }
+
   .title-divider {
     color: $todayII;
     font-size: 6px;
@@ -12,10 +13,9 @@
 
 .total-content {
   max-width: 1920px;
-
 }
+
 .left-content {
-  overflow-y: scroll;
   padding-top: 10px;
 
   .empty-border-button {
@@ -23,26 +23,25 @@
     max-width: 50px;
     height: 33px;
     padding: 0;
-    border-color:$todayII;
+    border-color: $todayII;
 
     h5 {
       line-height: 33px;
       margin: 0;
       font-family: lekton_regular;
       font-size: 14px;
-      color:$white;
+      color: $white;
       text-align: center;
       padding: 0;
-   }
+    }
   }
+
   .text-content {
     color: $white;
     font-size: 12px;
     margin: 0;
     padding: 0;
   }
-
-
 }
 
 .right-content {

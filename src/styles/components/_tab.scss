@@ -1,11 +1,10 @@
 .tab {
   float: left;
   margin: 0 10px;
-
   padding-top: 30px;
   padding-bottom: 30px;
-
 }
+
 .nav {
   display: flex;
   justify-content: center;
@@ -19,7 +18,12 @@ a {
 }
 
 div.tab.home {
-  margin: 0;
-  margin-top: -5px;
+  margin: -5px 0 0;
   padding: 0;
+}
+
+.tabText {
+  h4 {
+    margin: 0 auto;
+  }
 }

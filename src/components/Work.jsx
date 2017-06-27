@@ -209,20 +209,20 @@ const Svg = ({match}) => {
 	)
 }
 
-const RenderWork = ({match}) => {
-	return (<WorkContent workId={match.params.workId}/>)
-}
-
 export default class Work extends React.Component {
 	constructor(props) {
 		super(props)
+	}
+
+	renderWork({match}) {
+		return (<WorkContent workId={match.params.workId}/>)
 	}
 
 	render() {
 		return (
 			<div className="grid-row--center grid-row--no-gutter">
 				<div className="grid-xs-col-8 work-svg">
-					<Route path={`${this.props.match.url}/:workId`} component={RenderWork}/>
+					<Route path={`${this.props.match.url}/:workId`} component={this.renderWork}/>
 					<Route exact path={this.props.match.url} component={Svg}/>
 				</div>
 			</div>
