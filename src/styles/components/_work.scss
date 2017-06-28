@@ -1,5 +1,5 @@
 .work-svg {
-  width     : 950px;
+  width: 950px;
   text-align: center;
 
   .a,
@@ -13,7 +13,7 @@
   .e,
   .f,
   .g {
-    stroke           : #7fda89;
+    stroke: #7fda89;
     stroke-miterlimit: 10;
   }
 
@@ -40,9 +40,16 @@
 
   #content-svg {
     max-width: 704px;
-    display  : inline-block;
-    margin   : 0;
+    display: inline-block;
+    margin: 0;
   }
+}
+
+#deep-space-border,
+#hcme-border,
+#music-player-border,
+#pressing-game-border {
+  fill: rgba(124,240,10,0.0);
 }
 
 .image-gallery {
@@ -54,57 +61,57 @@
   }
 
   .image-gallery-left-nav:before {
-    width  : 44px;
-    height : 46px;
+    width: 44px;
+    height: 46px;
     content: url('/assets/left-arrow.png');
   }
 
   .image-gallery-right-nav:before {
-    width  : 44px;
-    height : 46px;
+    width: 44px;
+    height: 46px;
     content: url('/assets/right-arrow.png');
   }
 }
 
 .image-gallery-content {
-  position   : relative;
+  position: relative;
   line-height: 0;
-  top        : 0;
-  display    : block;
+  top: 0;
+  display: block;
 }
 @media (min-width: $lg) {
   .media-carousel {
-    width : 900px;
+    width: 900px;
     height: 507px;
   }
 }
 @media (min-width: $md) and (max-width:$lg) {
   .media-carousel {
-    width : 768px;
+    width: 768px;
     height: 432px;
   }
 }
 @media (min-width: $sm) and (max-width:$md) {
   .media-carousel {
-    width : 420px;
+    width: 420px;
     height: 263px;
   }
 }
 @media (min-width: $xs) and (max-width:$sm) {
   .media-carousel {
-    width : 320px;
+    width: 320px;
     height: 180px;
   }
 }
 
 .project-descriptor {
   text-align: center;
-  font-size : 16px;
+  font-size: 16px;
 }
 
 #work-controls {
-  fill  : none;
+  fill: none;
   stroke: $todayIII;
   height: 40px;
-  width : 165px;
+  width: 165px;
 }

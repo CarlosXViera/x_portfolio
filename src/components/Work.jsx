@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 import WorkContent from 'WorkContent';
+import {RouteTransition} from 'react-router-transition';
 
 /* TODO: Cleanup SVG transforms/tags.
 */
@@ -220,12 +221,20 @@ export default class Work extends React.Component {
 
 	render() {
 		return (
-			<div className="grid-row--center grid-row--no-gutter">
-				<div className="grid-xs-col-8 work-svg">
-					<Route path={`${this.props.match.url}/:workId`} component={this.renderWork}/>
-					<Route exact path={this.props.match.url} component={Svg}/>
+			<RouteTransition pathname={this.props.location.pathname} atEnter={{
+				translateY: 200
+			}} atLeave={{
+				translateY: -200
+			}} atActive={{
+				translateY: 0
+			}} mapStyles={styles => ({transform: `translateY(${styles.translateY}%)`})}>
+				<div className="grid-row--center grid-row--no-gutter">
+					<div className="grid-xs-col-8 work-svg">
+						<Route path={`${this.props.match.url}/:workId`} component={this.renderWork}/>
+						<Route exact path={this.props.match.url} component={Svg}/>
+					</div>
 				</div>
-			</div>
+			</RouteTransition>
 		)
 	}
 }

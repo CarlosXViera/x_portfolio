@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
 import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
+import {RouteTransition} from 'react-router-transition';
 
 const LeftContent = () => {
 	return (
@@ -60,7 +61,7 @@ export default class AboutMe extends React.Component {
 					</div>
 				</div>
 				<div className="grid-row skill-divs">
-					<div className="grid-row skill-container">
+					<div className="grid-row--center skill-container">
 						<div className="grid-xs-col-4 empty-border-button" onClick={() => this.onClick('front-end')}>
 							<h5>
 								Frontend
@@ -71,7 +72,7 @@ export default class AboutMe extends React.Component {
 								Backend
 							</h5>
 						</div>
-						<div className="grid-xs-col-4 empty-border-button" onClick={() => this.onClick('dev-ops')}>
+						<div className="grid-xs-col-4 empty-border-button" onClick={() => this.onClick('front-end')}>
 							<h5>
 								DevOps
 							</h5>
@@ -86,14 +87,22 @@ export default class AboutMe extends React.Component {
 
 	render() {
 		return (
-			<div className="grid-row total-content">
-				<div className="grid-xs-col-4 offset-xs-col-4 page-title">
-					<h1>Hello,</h1>
-					<p className="title-divider">■ ■ ■ ■</p>
+			<RouteTransition pathname={this.props.location.pathname} atEnter={{
+				translateY: 200
+			}} atLeave={{
+				translateY: -200
+			}} atActive={{
+				translateY: 0
+			}} mapStyles={styles => ({transform: `translateY(${styles.translateY}%)`})}>
+				<div className="grid-row total-content">
+					<div className="grid-xs-col-4 offset-xs-col-4 page-title">
+						<h1>Hello,</h1>
+						<p className="title-divider">■ ■ ■ ■</p>
+					</div>
+					{LeftContent()}
+					{this.renderRightContent()}
 				</div>
-				{LeftContent()}
-				{this.renderRightContent()}
-			</div>
+			</RouteTransition>
 		)
 	}
 }
