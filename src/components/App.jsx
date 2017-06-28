@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom'
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import HexContainer from 'HexContainer'
 import Hexagons from 'Hexagons'
 import TopNav from 'TopNav'

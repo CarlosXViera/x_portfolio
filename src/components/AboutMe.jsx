@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
+import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
 
 const LeftContent = () => {
 	return (
@@ -30,42 +31,68 @@ const LeftContent = () => {
 	)
 };
 
-const RightContent = () => {
-
-	return (
-		<div className="grid-xs-col-12 grid-xl-col-6 right-content">
-			<div className="grid-row--center">
-				<div className="grid-xs-col-10 offset-xs-col1 browser">
-					<Browser/>
-				</div>
-			</div>
-			<div className="grid-row">
-				<div className="grid-xs-col-6 offset-xs-col-3 skill-buttons">
-					<SkillButtons/>
-				</div>
-			</div>
-		</div>
-	)
-}
-
 export default class AboutMe extends React.Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			visualization: 'default'
+		}
 	}
 
-	onClick() {}
+	onClick(type) {
+		this.setState({visualization: type});
+
+	}
 
 	componentDidMount() {}
 
+	renderRightContent() {
+		return (
+			<div className="grid-xs-col-12 grid-xl-col-6 right-content">
+				<div className="grid-row--center">
+					<div className="grid-xs-col-10 offset-xs-col1 browser">
+						<Browser vis={this.state.visualization}/>
+					</div>
+				</div>
+				<div className="grid-row">
+					<div className="grid-xs-col-6 offset-xs-col-3 skill-buttons">
+						<SkillButtons handleClick={this.onClick.bind(this)}/>
+					</div>
+				</div>
+				<div className="grid-row skill-divs">
+					<div className="grid-row skill-container">
+						<div className="grid-xs-col-4 empty-border-button" onClick={() => this.onClick('front-end')}>
+							<h5>
+								Frontend
+							</h5>
+						</div>
+						<div className="grid-xs-col-4 empty-border-button" onClick={() => this.onClick('back-end')}>
+							<h5>
+								Backend
+							</h5>
+						</div>
+						<div className="grid-xs-col-4 empty-border-button" onClick={() => this.onClick('dev-ops')}>
+							<h5>
+								DevOps
+							</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
+	}
+
+	renderLeftContent() {}
+
 	render() {
 		return (
-			<div className="grid-row total-content" onClick={this.onClick}>
+			<div className="grid-row total-content">
 				<div className="grid-xs-col-4 offset-xs-col-4 page-title">
 					<h1>Hello,</h1>
 					<p className="title-divider">■ ■ ■ ■</p>
 				</div>
 				{LeftContent()}
-				{RightContent()}
+				{this.renderRightContent()}
 			</div>
 		)
 	}
