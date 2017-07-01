@@ -1,0 +1,26 @@
+.social-media-icons {
+  .social-media-icons-content {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    height: 30px;
+
+    #social-media-icons-item-svg {
+      width: 100px;
+      height: 30px;
+
+      .icon-border {
+        fill: none;
+        stroke: $white;
+        stroke-miterlimit: 10;
+      }
+
+      .icon {
+        fill: $white;
+      }
+
+    }
+
+  }
+
+}

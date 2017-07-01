@@ -45,11 +45,15 @@ const MediaIcons = () => {
 	};
 
 	return (
-		<svg id="social-media-icons" viewBox="0 0 92.3 26">
-			{LinkedInIcon(LinkedIn)}
-			{GitHubIcon(GitHub)}
-			{FaceBookIcon(FaceBook)}
-		</svg>
+		<div className="row social-media-icons">
+			<div className="col-sm-6 col-sm-offset-3 social-media-icons-content">
+				<svg id="social-media-icons-item-svg" viewBox=" 0 0 92.3 26">
+					{LinkedInIcon(LinkedIn)}
+					{GitHubIcon(GitHub)}
+					{FaceBookIcon(FaceBook)}
+				</svg>
+			</div>
+		</div>
 	)
 }
 

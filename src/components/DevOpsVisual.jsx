@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {select, selection} from 'd3-selection';
-import 'd3-transition';
 
 export default class DevOpsVisual extends React.Component {
 	constructor(props) {
@@ -27,7 +26,7 @@ export default class DevOpsVisual extends React.Component {
 	render() {
 		return (
 			<g className="DevOpsVisual">
-				<rect height="20" width="20" fill="Yellow"></rect>
+				<text fill="white" transform="translate(200, 200)">DevOps Visualisation</text>
 			</g>
 		)
 	}

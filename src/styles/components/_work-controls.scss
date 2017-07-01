@@ -1,0 +1,28 @@
+.work-controls-partial {
+  .work-controls-content {
+    display: flex;
+    justify-content: center;
+
+    #work-controls {
+      fill: none;
+      height: 40px;
+      width: 165px;
+
+      #exit {
+        fill: rgba(0,0,0,0);
+        stroke: $todayIII;
+      }
+
+      #next {
+        fill: rgba(0,0,0,0);
+        stroke: $todayIII;
+      }
+
+      #prev {
+        fill: rgba(0,0,0,0);
+        stroke: $todayIII;
+      }
+    }
+
+  }
+}

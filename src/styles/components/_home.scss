@@ -1,37 +1,6 @@
-#center-logo {
-  margin-top: 30v;
-  width: 200px;
-  height: 250px;
-  .colored-outline {
-    fill: $todayIV;
-  }
-
-  .white-outlines {
-    fill: $white;
-  }
-
-  .logo-name {
-    fill: $white;
-    font-size: 1.5rem;
-    font-family: 'lekton_regular';
-    stroke:$white;
-    stroke-miterlimit:10;
-    stroke-width:0.5px;
-    font-size: 35px;
-  }
-
-  .logo-text {
-    font-size: 40px;
-    fill:$todayII;
-  }
-
-}
-
 .home-content {
-  display: flex;
-  justify-content: center;
-}
 
-g#front.glasses{
-  fill:yellow;
+  //TODO: use media queries on height.
+  padding-top: 21vh;
+
 }

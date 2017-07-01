@@ -1,11 +1,6 @@
 import React, {PropTypes} from 'react';
-import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom';
-import AboutMe from 'AboutMe';
-import Work from 'Work';
-import Contact from 'Contact';
-import Home from 'Home';
-import Blog from 'Blog';
 import TopNavIcon from 'TopNavIcon';
+import {Link} from 'react-router-dom';
 
 export default class TopNav extends React.Component {
 
@@ -13,58 +8,39 @@ export default class TopNav extends React.Component {
 		super(props)
 	}
 
-	componentDidMount() {}
-
-	componentWillMount() {}
-
 	render() {
 		/* TODO: DRY out render */
 
 		return (
-			<Router>
-				<div>
-					<div className="grid-row top-nav">
-						<div className="grid-xs-col-4 offset-xs-col-4 nav">
-							<div className="tab about">
-								<NavLink to="/aboutme" className="tabText">
-									<h4>About Me</h4>
-								</NavLink>
-							</div>
-
-							<div className="tab blog">
-								<a href="http://blog.viera.io" className="tabText">
-									<h4>Blog</h4>
-								</a>
-							</div>
-
-							<div className="tab home">
-								<NavLink to="/" className="tabText">
-									<TopNavIcon/>
-								</NavLink>
-							</div>
-
-							<div className="tab work">
-								<NavLink to="/work" className="tabText">
-									<h4>Works</h4>
-								</NavLink>
-							</div>
-
-							<div className="tab contact">
-								<NavLink to="/contact" className="tabText">
-									<h4>Contact</h4>
-								</NavLink>
-							</div>
-						</div>
+			<div className="row top-nav">
+				<div className="col-sm-6 col-sm-offset-3 nav">
+					<div className="nav-item about">
+						<Link to='/about'>
+							<h5>About Me</h5>
+						</Link>
 					</div>
-
-					<div>
-						<Route path='/contact' component={Contact}/>
-						<Route path='/work' component={Work}/>
-						<Route path='/aboutme' component={AboutMe}/>
-						<Route exact path='/' component={Home}/>
+					<div className="nav-item blog">
+						<a href="http://blog.viera.io">
+							<h5>Blog</h5>
+						</a>
+					</div>
+					<div className="nav-item home">
+						<Link to='/'>
+							<TopNavIcon/>
+						</Link>
+					</div>
+					<div className="nav-item work">
+						<Link to='/work'>
+							<h5>Works</h5>
+						</Link>
+					</div>
+					<div className="nav-item contact">
+						<Link to='/contact'>
+							<h5>Contact</h5>
+						</Link>
 					</div>
 				</div>
-			</Router>
+			</div>
 		);
 	}
 }

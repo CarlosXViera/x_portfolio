@@ -1,0 +1,44 @@
+#top-nav-icon {
+  width: 91px;
+  height: 84px;
+
+  .icon-hexagon {
+    fill: $todayI;
+    stroke: $todayII;
+    stroke-miterlimit: 10;
+  }
+
+  .colored-arrow {
+    fill: $todayIV;
+  }
+
+  .white-arrow {
+    fill: $white;
+  }
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  padding: 0 15%;
+  height: auto;
+  text-align: center;
+
+  .nav-item {
+    margin: auto;
+    width: auto;
+    display: inline-block;
+
+    h5 {
+      text-align: center;
+    }
+  }
+
+  .about,
+  .blog,
+  .contact,
+  .work {
+    white-space: nowrap;
+  }
+
+}

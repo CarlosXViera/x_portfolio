@@ -1,67 +1,60 @@
-.page-title {
-  text-align: center;
+.about-me-content {
+  .code-arrows {
+    color: $todayIV;
+    font-size: 1rem;
+    margin: 1px;
 
-  h1 {
-    font-size: 48px;
   }
-
-  .title-divider {
-    color: $todayII;
-    font-size: 6px;
-  }
-}
-
-.total-content {
-  max-width: 1920px;
-}
-
-.left-content {
-  padding-top: 10px;
 
   .empty-border-button {
     border: solid 1px $todayII;
-    max-width: 50px;
     height: 33px;
     padding: 0;
 
     h5 {
       line-height: 33px;
       margin: 0;
-      font-family: lekton_regular;
-      font-size: 14px;
-      color: $white;
+      font-size: 0.9rem;
       text-align: center;
       padding: 0;
     }
   }
 
-  .text-content {
-    color: $white;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-  }
-}
+  .about-total {
+    margin: 10vh auto;
 
-.right-content {
-  padding-top: 10px;
+    .skill-content {
+      padding-top: 10px;
 
-  .empty-border-button {
-    border: solid 1px $todayII;
-    width: 100px;
-    margin: 0 auto;
-    height: 33px;
-    padding: 0;
-    cursor: pointer;
+      .skill-selectors {
+        display: flex;
+        justify-content: center;
+        padding-left: 15px;
 
-    h5 {
-      line-height: 33px;
-      margin: 0;
-      font-family: lekton_regular;
-      font-size: 14px;
-      color: $white;
-      text-align: center;
-      padding: 0;
+        .skill-selectors-content-back-end,
+        .skill-selectors-content-dev-ops,
+        .skill-selectors-content-front-end {
+          max-width: 100px;
+          margin: 0 auto;
+        }
+      }
+
+      .about-title-left,
+      .about-title-right {}
+
+    }
+
+    .bio-content {
+      .text-content {
+        text-align: justify;
+        text-justify: inter-word;
+
+        p {
+          font-size: 0.8rem;
+        }
+      }
+
     }
   }
+
 }

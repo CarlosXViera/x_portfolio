@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {select, selection} from 'd3-selection';
-import 'd3-transition';
 
 export default class BackEndVisual extends React.Component {
 	constructor(props) {
@@ -27,7 +26,7 @@ export default class BackEndVisual extends React.Component {
 	render() {
 		return (
 			<g className="BackEndVisual">
-				<rect height="20" width="20" fill="blue"></rect>
+				<text fill="white" transform="translate(200, 200)">BackEnd Visualisation</text>
 			</g>
 		)
 	}

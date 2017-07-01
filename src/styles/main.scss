@@ -1,16 +1,19 @@
 @import "base/variables";
+@import 'base/mini-everything';
+@import 'components/app';
+@import 'components/top-nav';
 @import "components/hexagon";
 @import "components/glasses";
-@import "components/topbar";
-@import "components/tab";
-@import 'components/content';
 @import 'components/home';
-@import 'components/icons';
+@import 'components/center-logo';
+@import 'components/media-icons';
 @import 'components/aboutme';
 @import 'components/browser';
 @import 'components/skill-buttons';
-@import 'components/work'; // foundation
-@import 'vendor/primocss';
+@import 'components/work';
+@import 'components/work-content';
+@import 'components/work-controls';
+// foundation
 @import '~react-image-gallery/styles/scss/image-gallery-no-icon.scss';
 
 ::-webkit-scrollbar {
@@ -19,13 +22,20 @@
 
 .html {
   background-color: $background;
+  overflow: hidden;
+}
+
+#root,
+.root {
+  overflow: hidden;
 }
 
 body {
   font-size: 12px;
   background-color: $background;
   margin: 0;
-  overflow: hidden;
+
+  height: 100vh;
 }
 
 svg#main {
@@ -35,15 +45,10 @@ svg#main {
   position: absolute;
   top: 0;
   z-index: 1;
+  width: 100vw;
+  height: 100vh;
 }
 
 h1 {
   color: $white;
-}
-
-.app-sandbox,
-app .image-gallery {
-  margin: 0 auto;
-  width: 65%;
-  transition: all 1s ease;
 }

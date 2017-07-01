@@ -14,12 +14,7 @@ class WorkContent extends React.Component {
 		};
 	}
 
-	componentWillReceiveProps(a, b) {
-		this.setState({
-			...ContentApi.getEverything(a.workId),
-			currentPage: a.workId
-		});
-	}
+	componentWillReceiveProps(a, b) {}
 
 	renderImgs() {
 		let arr = this.state.images;
@@ -36,18 +31,20 @@ class WorkContent extends React.Component {
 		}
 
 		return (
-			<div className="grid-row--no-gutter">
-				<div className="grid-row--center">
-					<div className="grid-xs-col-4 offset-xs-col-4 page-title">
+			<div className="col-sm-12 col-lg-10 col-lg-offset-1 work-content-page">
+				<div className="row page-title">
+					<div className="col-sm-6 col-sm-offset-3">
 						<h1>{this.state.title}</h1>
 						<p className="title-divider">■ ■ ■ ■</p>
 					</div>
 				</div>
-				<div className="grid-row-center">
-					<ImageGallery {...settings}></ImageGallery>
+				<div className="row image-gallery-container">
+					<div className="col-sm-10 col-sm-offset-1">
+						<ImageGallery {...settings}></ImageGallery>
+					</div>
 				</div>
-				<div className="grid-row--center project-descriptor">
-					<div className="grid-xs-col-4 offset-xs-col-4">
+				<div className="row project-descriptor">
+					<div className="col-sm-6 col-sm-offset-3">
 						<p>
 							{this.state.description}
 						</p>

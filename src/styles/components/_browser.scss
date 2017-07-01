@@ -1,15 +1,17 @@
 .browser {
-  width: 605px;
-  #browser-svg {
-    .a{
-      fill:none;
-      stroke:$todayII;
-      stroke-miterlimit:10;
-    }
-    .b{
-      fill:$todayII;
-    }
-  }
+  .browser-content {
+    #browser-item-svg {
+      .a {
+        fill: none;
+        stroke: $todayII;
+        stroke-miterlimit: 10;
+      }
 
+      .b {
+        fill: $todayII;
+      }
+    }
+
+  }
 
 }

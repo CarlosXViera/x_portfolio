@@ -1,0 +1,50 @@
+.app-container {
+  z-index: 3;
+  position: relative;
+  height: 99vh;
+  overflow-y: scroll;
+  margin: 0;
+  padding: 0;
+  transition: height 0.66s ease-out;
+}
+
+.content {}
+
+.slide-up-enter {
+  opacity: 0;
+  transform: translateY(3000px);
+  transition: all 1s ease;
+}
+
+.slide-up-enter.slide-up-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.slide-up-leave {
+  opacity: 0;
+}
+
+.slide-up-leave.slide-up-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.page-title {
+  text-align: center;
+  margin-top: 15px;
+
+  h1 {
+    font-size: 60px;
+    padding: 0;
+    margin-bottom: 0;
+  }
+
+  .title-divider {
+    color: $todayII;
+    font-size: 6px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+}

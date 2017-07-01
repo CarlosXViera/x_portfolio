@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const VENDORS = [
-	'react', 'react-router-dom', 'scream', 'd3-selection', 'react-dom', 'node-uuid']
+	'react', 'react-router-dom', 'd3-selection', 'react-dom', 'node-uuid', 'gsap', 'react-motion', 'react-image-gallery', 'react-router-transition', 'react-loader', 'css-loader!mini.css']
 
 module.exports = {
 	entry: {
@@ -38,7 +38,7 @@ module.exports = {
 				use: [{
 					loader: 'sass-loader',
 					options: {
-						includePaths: [path.resolve(__dirname, './src/styles/vendor'),
+						includePaths: [path.resolve(__dirname, './node_modules/mini.css/src/'),
 					path.resolve(__dirname, './node_modules/react-image-slider/lib/')]
 					}
 			}]
@@ -81,5 +81,6 @@ module.exports = {
 		historyApiFallback: true,
 		host: "0.0.0.0",
 		disableHostCheck: true
-	}
+	},
+	devtool: 'cheap-module-eval-source-map'
 };
