@@ -7,7 +7,9 @@ import AboutMe from 'AboutMe';
 import Work from 'Work';
 import Contact from 'Contact';
 import Home from 'Home';
-import {CSSTransitionGroup} from 'react-transition-group'
+import WorkControls from 'WorkControls';
+import {CSSTransitionGroup} from 'react-transition-group';
+import uuid from 'node-uuid';
 
 export default class App extends React.Component {
 
@@ -26,16 +28,14 @@ export default class App extends React.Component {
 				<Router>
 					<div className="container app-container">
 						<TopNav/>
-						<Route render={({location, history, match}) => {
+						<Route render={(props) => {
 							return (
-								<CSSTransitionGroup className="content" component="div" transitionName="slide-up" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
-									<Switch key={location.key} location={location}>
-										<Route path='/work' component={Work}/>
-										<Route path='/about' component={AboutMe}/>
-										<Route path='/contact' component={Contact}/>
-										<Route path='/' component={Home}/>
-									</Switch>
-								</CSSTransitionGroup>
+								<Switch>
+									<Route path='/work' component={Work}/>
+									<Route path='/about' component={AboutMe}/>
+									<Route path='/contact' component={Contact}/>
+									<Route path='/' component={Home}/>
+								</Switch>
 							);
 						}}/>
 					</div>

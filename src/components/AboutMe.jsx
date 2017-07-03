@@ -1,7 +1,8 @@
 import React, {PropTypes} from 'react';
 import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
-import {RouteTransition} from 'react-router-transition'
+import {RouteTransition} from 'react-router-transition';
+import {CSSTransitionGroup} from 'react-transition-group';
 
 const LeftContent = () => {
 	return (
@@ -76,18 +77,20 @@ export default class AboutMe extends React.Component {
 
 	render() {
 		return (
-			<div className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
-				<div className="row page-title">
-					<div className="col-sm-6 col-sm-offset-3">
-						<h1>Hello,</h1>
-						<p className="title-divider">■ ■ ■ ■</p>
+			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
+					<div className="row page-title">
+						<div className="col-sm-6 col-sm-offset-3">
+							<h2>Hello,</h2>
+							<p className="title-divider">■ ■ ■ ■</p>
+						</div>
+					</div>
+					<div className="row about-total">
+						{LeftContent()}
+						{this.renderRightContent()}
 					</div>
 				</div>
-				<div className="row about-total">
-					{LeftContent()}
-					{this.renderRightContent()}
-				</div>
-			</div>
+			</CSSTransitionGroup>
 		)
 	}
 }
