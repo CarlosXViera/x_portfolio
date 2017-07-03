@@ -69,7 +69,7 @@ class WorkContent extends React.Component {
 		return !beenHere
 			? (
 				<div className="row image-gallery-container">
-					<div className="col-sm-10 col-sm-offset-1">
+					<div className="col-sm-12 col-md-8 col-md-offset-2">
 						<ImageGallery {...settings}></ImageGallery>
 					</div>
 				</div>
@@ -77,7 +77,7 @@ class WorkContent extends React.Component {
 			: (
 				<CSSTransitionGroup transitionName={dir} transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 					<div key={uuid('key')} className="row image-gallery-container">
-						<div className="col-sm-10 col-sm-offset-1">
+						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
 							<ImageGallery {...settings}></ImageGallery>
 						</div>
 					</div>
@@ -96,17 +96,17 @@ class WorkContent extends React.Component {
 		return (
 			<SwitchAnimation {...this.props} beenHere={this.state.alreadyBeenHere}>
 
-				<div key={this.props.location.key} className="col-sm-12 col-lg-10 col-lg-offset-1 work-content-page">
+				<div key={this.props.location.key} className="col-sm-12 work-content-page">
 
 					<div className="row page-title">
-						<div className="col-sm">
+						<div className="col-sm-12">
 							<h2>{this.state.title}</h2>
 							<p className="title-divider">■ ■ ■ ■</p>
 						</div>
 					</div>
 					{this.renderGallery(this.state.alreadyBeenHere, settings, this.state.direction)}
-					<div className="row project-descriptor">
-						<div className="col-sm-10 col-sm-offset-1">
+					<div className="row project-descriptor responsive-padding">
+						<div className="col-sm">
 							<p>
 								{this.state.description}
 							</p>

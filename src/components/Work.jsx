@@ -10,7 +10,7 @@ const Svg = ({location, match}) => {
 	return (
 		<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 			<div key={location.key} className='row work-page'>
-				<div className="col-sm-10 col-sm-offset-1 work-content">
+				<div className="col-sm work-content">
 
 					<svg id="work-item-svg" viewBox="0 0 707.8 483.1">
 						<defs>
