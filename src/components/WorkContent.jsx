@@ -40,7 +40,6 @@ class WorkContent extends React.Component {
 	}
 
 	componentWillReceiveProps(a, b) {
-		console.log(a);
 		this.setState({
 			...ContentApi.getEverything(a.workId),
 			currentPage: a.workId,
@@ -60,9 +59,6 @@ class WorkContent extends React.Component {
 			...this.state,
 			direction: dir
 		})
-
-		console.log('state', this.state);
-
 	}
 
 	renderGallery(beenHere, settings, dir) {
@@ -106,7 +102,7 @@ class WorkContent extends React.Component {
 					</div>
 					{this.renderGallery(this.state.alreadyBeenHere, settings, this.state.direction)}
 					<div className="row project-descriptor responsive-padding">
-						<div className="col-sm">
+						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
 							<p>
 								{this.state.description}
 							</p>

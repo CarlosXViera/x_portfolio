@@ -18,7 +18,7 @@ module.exports = {
 		publicPath: '/'
 	},
 	resolve: {
-		modules: [path.resolve(__dirname, "./src"), "node_modules", path.resolve(__dirname, "./src/components"), path.resolve(__dirname, "./src/api")],
+		modules: [path.resolve(__dirname, "./src"), "node_modules", path.resolve(__dirname, "./src/components"), path.resolve(__dirname, "./src/api"), path.resolve(__dirname, "./src/vendors")],
 		alias: {
 			applicationStyles: path.resolve(__dirname, "./src/styles/main.scss")
 		},
