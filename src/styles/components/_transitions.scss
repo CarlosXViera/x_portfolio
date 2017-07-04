@@ -25,6 +25,41 @@
   transition: opacity 0.5s ease-in;
 }
 
+/* Slide Down */
+
+.slide-down-enter {
+  opacity: 0;
+  transform: translateY(-1000px);
+  transition: all 0.3s ease;
+}
+
+.slide-down-enter.slide-down-enter-active {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.slide-down-leave {
+  opacity: 0.01;
+  transition: all 0.3s ease-in;
+}
+
+.slide-down-leave.slide-down-leave-active {
+  opacity: 0.01;
+  transform: translateY(-1000px);
+  transition: all 0.3s ease-in;
+}
+
+.slide-down-appear {
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: all 0.3s ease;
+}
+
+.slide-down-appear.slide-down-appear-active {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
 /* Slide Up */
 
 .slide-up-enter {

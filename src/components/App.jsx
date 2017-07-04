@@ -26,7 +26,7 @@ export default class App extends React.Component {
 		return (
 			<div className="root">
 				<Router>
-					<div className="container app-container">
+					<div className="container app-container" onScroll={() => console.log('scrolling')}>
 						<TopNav/>
 						<Route render={(props) => {
 							return (
