@@ -3,17 +3,30 @@ import TopNavIcon from 'TopNavIcon';
 import {Link} from 'react-router-dom';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
+import DefineGlasses from 'Glasses';
 
 const NavButton = () => {
 	return (
-		<div className="nav-button">
-			<div className="nav-divider"></div>
-			<div className="nav-divider"></div>
-			<div className="nav-divider"></div>
+		<div className="col-sm-2 col-sm-offset-5 nav-button-container">
+			<div className="nav-button">
+				<div className="nav-divider"></div>
+				<div className="nav-divider"></div>
+				<div className="nav-divider"></div>
+				<div className="nav-divider"></div>
+			</div>
 		</div>
 	)
 }
 
+const LogoButton = () => {
+	return (
+		<div className="col-sm-2 mobile-logo-button-container">
+			<svg className="mobile-logo-button" viewBox="0 0 157 55">
+				<DefineGlasses position={'Front'} transformation={'scale(.8)'}/>
+			</svg>
+		</div>
+	)
+}
 const SlideNav = () => {
 	return (
 		<div className='slide-nav'>
@@ -83,14 +96,8 @@ export default class TopNav extends React.Component {
 
 		return (
 			<div className="row top-nav">
-
-				{this.renderBackDrop(this.state.showSlideIn)}
-				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left-nav" transitionEnterTimeout={100} transitionLeaveTimeout={100}>
-					{this.renderSlideIn(this.state.showSlideIn)}
-				</CSSTransitionGroup>
 				<div className="col-sm-6 col-sm-offset-3 nav hidden-sm ">
 					<hr></hr>
-
 					<div className="nav-item about hvr-pulse-shrink">
 						<Link to='/about' className="">
 							<h5>About Me</h5>
@@ -119,9 +126,17 @@ export default class TopNav extends React.Component {
 					<hr></hr>
 				</div>
 
-				<div className='col-sm-3 col-sm-offset-9 nav-mobile hidden-md hidden-lg' onClick={this.handleShowSlideIn.bind(this)}>
+				<div className='row nav-mobile hidden-md hidden-lg' onClick={this.handleShowSlideIn.bind(this)}>
+					<LogoButton/>
+					<div className="col-sm-3 logo-subtitle">
+						<h5>
+							<small>Viera.io
+								<br/>Web Developer</small>
+						</h5>
+					</div>
 					<NavButton/>
 				</div>
+
 			</div>
 		);
 	}
