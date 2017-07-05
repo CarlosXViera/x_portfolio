@@ -290,8 +290,7 @@ export default class Hexagons extends React.Component {
 				if (j === secondTotal - 1 && i === total - 1) {
 					tl.from(node.children[0], 2, {
 						transformOrigin: '50% 50%',
-						scale: .9,
-						fill: '#061A30',
+						fill: '#041122',
 						repeatDelay: i * .05,
 						repeat: 1,
 						cycle: 2,
@@ -306,8 +305,7 @@ export default class Hexagons extends React.Component {
 				} else {
 					tl.from(node.children[0], 2, {
 						transformOrigin: '50% 50%',
-						scale: .9,
-						fill: '#061A30',
+						fill: '#041122',
 						repeatDelay: i * .05,
 						repeat: 1,
 						cycle: 2,

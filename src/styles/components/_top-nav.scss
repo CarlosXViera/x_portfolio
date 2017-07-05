@@ -1,6 +1,45 @@
+@-webkit-keyframes hvr-pulse-shrink {
+  to {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+@keyframes hvr-pulse-shrink {
+  to {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+.hvr-pulse-shrink {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+}
+
+.hvr-pulse-shrink:active,
+.hvr-pulse-shrink:focus,
+.hvr-pulse-shrink:hover {
+  -webkit-animation-name: hvr-pulse-shrink;
+  animation-name: hvr-pulse-shrink;
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5;
+  -webkit-animation-timing-function: ease-out;
+  animation-timing-function: ease-out;
+  -webkit-animation-iteration-count: 2;
+  animation-iteration-count: 2;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+  color: green;
+}
+
 #top-nav-icon {
   width: 91px;
   height: 84px;
+
+  position: relative;
 
   .icon-hexagon {
     fill: $todayI;
@@ -15,12 +54,25 @@
   .white-arrow {
     fill: $white;
   }
+  z-index: 99;
 }
 
 .full-width-nav {
-  width: 100vw;
+
+  width: 60vw;
   height: 100vh;
   background-color: $todayI;
+  position: absolute;
+  right: 0;
+  z-index: 10;
+}
+
+.black-back-drop {
+  width: 100vw;
+  height: 110vh;
+  position: absolute;
+  background-color: rgba(0,0,0,.7);
+  z-index: 9;
 }
 
 .nav-mobile {
@@ -32,9 +84,9 @@
   .nav-button {
     border-radius: 3px;
     margin-top: 25%;
-    width: 50px;
-    height: 50px;
-    border: solid 1px $todayIV;
+    width: 35px;
+    height: 30px;
+    border: solid 0.5px $todayIV;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,8 +96,8 @@
       border-radius: 2px;
       margin-top: 2px;
       margin-bottom: 2px;
-      width: 60%;
-      height: 5px;
+      width: 25px;
+      height: 2px;
       background-color: $white;
     }
   }
@@ -73,10 +125,23 @@
   }
 }
 
+hr {
+  position: absolute;
+  width: 600px;
+  height: 1px;
+  top: 64px;
+  border: 0;
+  background-image: -webkit-linear-gradient(left, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+
+}
+
 .nav {
   display: flex;
   justify-content: center;
-  padding: 0 15%;
+  padding: 15px 15%;
   height: auto;
   text-align: center;
 
@@ -86,6 +151,7 @@
     display: inline-block;
 
     h5 {
+      font-weight: 100;
       text-align: center;
     }
   }

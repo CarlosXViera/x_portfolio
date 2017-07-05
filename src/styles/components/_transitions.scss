@@ -158,3 +158,37 @@
   opacity: 1;
   transform: translateX(0px);
 }
+
+// Slide left nav
+.slide-left-nav-enter {
+  opacity: 0;
+  transform: translateX(1000px);
+  transition: all 0.3s ease;
+}
+
+.slide-left-nav-enter.slide-left-nav-enter-active {
+  opacity: 1;
+  transform: translateX(60vw);
+}
+
+.slide-left-nav-leave {
+  opacity: 0.01;
+  transition: all 0.3s ease-in;
+}
+
+.slide-left-nav-leave.slide-left-nav-leave-active {
+  opacity: 0.01;
+  transform: translateX(1000px);
+  transition: all 0.3s ease-in;
+}
+
+.slide-left-nav-appear {
+  opacity: 0;
+  transform: translateX(1000px);
+  transition: all 0.3s ease;
+}
+
+.slide-left-nav-appear.slide-left-nav-appear-active {
+  opacity: 1;
+  transform: translateX(60vw);
+}

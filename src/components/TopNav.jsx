@@ -42,23 +42,23 @@ export default class TopNav extends React.Component {
 		super(props)
 
 		this.state = {
-			showDropDown: false
+			showSlideIn: false
 		}
 	}
 
-	handleShowDropDown() {
+	handleShowSlideIn() {
 		this.setState({
-			showDropDown: !this.state.showDropDown
+			showSlideIn: !this.state.showSlideIn
 		})
 		console.log(this.state);
 	}
 
-	renderDropDown(state) {
+	renderSlideIn(state) {
 		return state
 			? (
 
 				<div key={uuid('slide')} className="full-width-nav">
-					<div onClick={this.handleShowDropDown.bind(this)}>
+					<div onClick={this.handleShowSlideIn.bind(this)}>
 						<SlideNav/>
 					</div>
 				</div>
@@ -67,21 +67,36 @@ export default class TopNav extends React.Component {
 
 	}
 
+	renderBackDrop(state) {
+
+		return state
+			? (
+				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="example" transitionEnterTimeout={100} transitionLeaveTimeout={100}>
+					<div key={uuid('backDrop')} className="black-back-drop"></div>
+				</CSSTransitionGroup>
+			)
+			: '';
+	}
+
 	render() {
 		/* TODO: DRY out render */
 
 		return (
 			<div className="row top-nav">
-				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-down" transitionEnterTimeout={100} transitionLeaveTimeout={100}>
-					{this.renderDropDown(this.state.showDropDown)}
+
+				{this.renderBackDrop(this.state.showSlideIn)}
+				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left-nav" transitionEnterTimeout={100} transitionLeaveTimeout={100}>
+					{this.renderSlideIn(this.state.showSlideIn)}
 				</CSSTransitionGroup>
 				<div className="col-sm-6 col-sm-offset-3 nav hidden-sm ">
-					<div className="nav-item about">
-						<Link to='/about'>
+					<hr></hr>
+
+					<div className="nav-item about hvr-pulse-shrink">
+						<Link to='/about' className="">
 							<h5>About Me</h5>
 						</Link>
 					</div>
-					<div className="nav-item blog">
+					<div className="nav-item blog hvr-pulse-shrink">
 						<a href="http://blog.viera.io">
 							<h5>Blog</h5>
 						</a>
@@ -91,18 +106,20 @@ export default class TopNav extends React.Component {
 							<TopNavIcon/>
 						</Link>
 					</div>
-					<div className="nav-item work">
+					<div className="nav-item work hvr-pulse-shrink">
 						<Link to='/work'>
 							<h5>Works</h5>
 						</Link>
 					</div>
-					<div className="nav-item contact">
+					<div className="nav-item contact hvr-pulse-shrink">
 						<Link to='/contact'>
 							<h5>Contact</h5>
 						</Link>
 					</div>
+					<hr></hr>
 				</div>
-				<div className='col-sm-3 col-sm-offset-9 nav-mobile hidden-md hidden-lg' onClick={this.handleShowDropDown.bind(this)}>
+
+				<div className='col-sm-3 col-sm-offset-9 nav-mobile hidden-md hidden-lg' onClick={this.handleShowSlideIn.bind(this)}>
 					<NavButton/>
 				</div>
 			</div>

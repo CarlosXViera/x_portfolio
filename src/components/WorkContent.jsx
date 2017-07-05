@@ -73,7 +73,7 @@ class WorkContent extends React.Component {
 			: (
 				<CSSTransitionGroup transitionName={dir} transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 					<div key={uuid('key')} className="row image-gallery-container">
-						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+						<div className="col-sm-12 col-md-8 col-md-offset-2">
 							<ImageGallery {...settings}></ImageGallery>
 						</div>
 					</div>

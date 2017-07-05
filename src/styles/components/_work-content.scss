@@ -1,8 +1,11 @@
 .work-content-page {
   .image-gallery-container {
+    display: flex;
+    align-items: center;
+
     .image-gallery {
-      border: 1px solid $todayIII;
-      margin: 0;
+      margin: auto;
+      max-width: 1000px;
 
       .image-gallery-left-nav,
       .image-gallery-right-nav {
