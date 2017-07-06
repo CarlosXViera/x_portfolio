@@ -4,29 +4,21 @@ import {Link} from 'react-router-dom';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
 import DefineGlasses from 'Glasses';
+import {TimelineMax, Back} from 'gsap';
+import NavButton from 'NavButton';
 
-const NavButton = () => {
-	return (
-		<div className="col-sm-2 col-sm-offset-5 nav-button-container">
-			<div className="nav-button">
-				<div className="nav-divider"></div>
-				<div className="nav-divider"></div>
-				<div className="nav-divider"></div>
-				<div className="nav-divider"></div>
-			</div>
-		</div>
-	)
-}
+console.log(Back);
 
 const LogoButton = () => {
 	return (
 		<div className="col-sm-2 mobile-logo-button-container">
-			<svg className="mobile-logo-button" viewBox="0 0 157 55">
+			<svg className="mobile-logo-button" viewBox="0 0 157 60">
 				<DefineGlasses position={'Front'} transformation={'scale(.8)'}/>
 			</svg>
 		</div>
 	)
 }
+
 const SlideNav = () => {
 	return (
 		<div className='slide-nav'>
@@ -36,9 +28,6 @@ const SlideNav = () => {
 			<a className='slide-nav-item' href="http://blog.viera.io">
 				<h5>Blog</h5>
 			</a>
-			<Link className='slide-nav-item-home' to='/'>
-				<TopNavIcon/>
-			</Link>
 			<Link className='slide-nav-item' to='/work'>
 				<h5>Works</h5>
 			</Link>
@@ -49,6 +38,26 @@ const SlideNav = () => {
 	)
 }
 
+const LogoSubTitle = ({show}) => {
+	const sub = !show
+		? (
+			<small>Viera.io
+				<br/>Web Developer</small>
+		)
+		: '';
+
+	return (
+		<div className="col-sm-3 logo-subtitle">
+			<h5>
+				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+					{sub}
+				</CSSTransitionGroup>
+			</h5>
+		</div>
+	)
+
+}
+
 export default class TopNav extends React.Component {
 
 	constructor(props) {
@@ -57,38 +66,58 @@ export default class TopNav extends React.Component {
 		this.state = {
 			showSlideIn: false
 		}
+		this.colors = ['#259073', '#7FDA89', '#C8E98E', '#E6F99D']
 	}
 
-	handleShowSlideIn() {
-		this.setState({
-			showSlideIn: !this.state.showSlideIn
+	handleShowSlideIn({currentTarget}) {
+		let arr = [...currentTarget.firstChild.children];
+
+		let complete = () => {
+			this.setState({
+				showSlideIn: !this.state.showSlideIn
+			})
+			console.log(this.state);
+		}
+
+		if (this.state) {
+			console.log('true');
+		}
+
+		this.tlArr = arr.map((item, i, a) => {
+			let tl = new TimelineMax();
+			let completeProp = (i === a.length - 1)
+				? complete
+				: () => {};
+
+			return tl.to(item, .4, {
+				transformOrigin: '50% 50%',
+				x: -5,
+				opacity: 0,
+				repeat: 0,
+				delay: .05 * i,
+				backgroundColor: this.colors[i],
+				ease: Back.easeOut,
+				onComplete: completeProp
+			});
 		})
-		console.log(this.state);
+
 	}
 
-	renderSlideIn(state) {
-		return state
+	renderSlideIn(show) {
+		let slide = show
 			? (
-
-				<div key={uuid('slide')} className="full-width-nav">
-					<div onClick={this.handleShowSlideIn.bind(this)}>
-						<SlideNav/>
-					</div>
+				<div onClick={this.handleShowSlideIn.bind(this)}>
+					<SlideNav/>
 				</div>
 			)
 			: '';
+		return (
 
-	}
+			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+				{slide}
+			</CSSTransitionGroup>
+		)
 
-	renderBackDrop(state) {
-
-		return state
-			? (
-				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="example" transitionEnterTimeout={100} transitionLeaveTimeout={100}>
-					<div key={uuid('backDrop')} className="black-back-drop"></div>
-				</CSSTransitionGroup>
-			)
-			: '';
 	}
 
 	render() {
@@ -125,16 +154,12 @@ export default class TopNav extends React.Component {
 					</div>
 					<hr></hr>
 				</div>
-
-				<div className='row nav-mobile hidden-md hidden-lg' onClick={this.handleShowSlideIn.bind(this)}>
+				<div className='row nav-mobile hidden-md hidden-lg'>
+					{this.renderSlideIn(this.state.showSlideIn)}
 					<LogoButton/>
-					<div className="col-sm-3 logo-subtitle">
-						<h5>
-							<small>Viera.io
-								<br/>Web Developer</small>
-						</h5>
-					</div>
-					<NavButton/>
+					<LogoSubTitle show={this.state.showSlideIn}/>
+
+					<NavButton show={this.state.showSlideIn} onClick={this.handleShowSlideIn.bind(this)}/>
 				</div>
 
 			</div>

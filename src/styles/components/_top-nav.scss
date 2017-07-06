@@ -64,28 +64,48 @@
 
   .mobile-logo-button {
     padding: 0;
-    margin: -15px;
-
-    width: 75px;
+    margin-right: 4px;
+    width: 50px;
     height: 50px;
 
   }
 }
 
 .logo-subtitle {
+  padding-top: 15px;
+  padding-bottom: 15px;
   display: flex;
   align-items: center;
   white-space: nowrap;
   line-height: 8vh;
+  background: linear-gradient(to bottom, $todayI, $todayII, $todayI) left $todayI no-repeat;
+  background-size: 1px 60%;
 
   h5 {
     small {
-      color: $todayV;
+      color: $white;
     }
   }
 }
 
+.exit-button {
+  padding-top: 5%;
+
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 2px;
+
+  h3 {}
+
+}
+
 .nav-mobile {
+  box-shadow: 0 3px rgba(0,0,0,.3);
   height: 8.5vh;
   width: 100vw;
   padding-left: 3vw;
@@ -110,7 +130,6 @@
       justify-content: center;
 
       .nav-divider {
-        border-radius: 2px;
         margin-top: 2px;
         margin-bottom: 2px;
         width: 25px;
@@ -124,24 +143,16 @@
 }
 
 .slide-nav {
+
+  position: absolute;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-end;
   align-items: center;
+  left: 20vw;
+  top: 2vw;
 
-  .slide-nav-item {
-    // border-radius: 2px;
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    // border: solid 1px $todayII;
-    // width: 80%;
-    // height: 14vh;
-    // margin-top: 15px;
-    // margin-bottom: 10px;
-    // box-shadow: 0 2px 2px rgba(0,0,0,.5);
-
-  }
+  .slide-nav-item {}
 }
 
 hr {

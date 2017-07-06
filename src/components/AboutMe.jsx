@@ -73,8 +73,6 @@ export default class AboutMe extends React.Component {
 		)
 	}
 
-	renderLeftContent() {}
-
 	render() {
 		return (
 			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>

@@ -24,7 +24,8 @@ class MediaIcons extends React.Component {
 
 		this.mouseProps = {
 			onMouseOver: this.handleMouseOver.bind(this),
-			onMouseOut: this.handleMouseOut.bind(this)
+			onMouseOut: this.handleMouseOut.bind(this),
+			onClick: this.handleClick.bind(this)
 		}
 
 	}
@@ -52,6 +53,7 @@ class MediaIcons extends React.Component {
 			delay: .5
 		})
 	}
+	handleClick(e) {}
 
 	faceBookIcon() {
 		return (
