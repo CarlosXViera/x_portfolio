@@ -10,6 +10,7 @@ import Home from 'Home';
 import WorkControls from 'WorkControls';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
+import {mobileCheck} from 'utils';
 
 export default class App extends React.Component {
 
@@ -17,7 +18,8 @@ export default class App extends React.Component {
 		super(props);
 
 		this.state = {
-			orientation: 'landscape'
+			orientation: 'landscape',
+			hexagonVis: 'default'
 		}
 
 	}

@@ -7,15 +7,17 @@ import DefineGlasses from 'Glasses';
 import {TimelineMax, Back} from 'gsap';
 import NavButton from 'NavButton';
 
-console.log(Back);
-
 const LogoButton = () => {
 	return (
+
 		<div className="col-sm-2 mobile-logo-button-container">
-			<svg className="mobile-logo-button" viewBox="0 0 157 60">
-				<DefineGlasses position={'Front'} transformation={'scale(.8)'}/>
-			</svg>
+			<Link to="/">
+				<svg className="mobile-logo-button" viewBox="0 0 157 60">
+					<DefineGlasses position={'Front'} transformation={'scale(.8)'}/>
+				</svg>
+			</Link>
 		</div>
+
 	)
 }
 

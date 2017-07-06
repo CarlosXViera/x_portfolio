@@ -7,12 +7,16 @@
       width: 200px;
       height: 250px;
 
-      .colored-outline {
+      .colored-outlines {
         fill: $todayIV;
       }
 
       .white-outlines {
-        fill: $white;
+        fill: $offwhite;
+      }
+
+      .other-outlines {
+        fill: $todayIII;
       }
 
       .logo-name {

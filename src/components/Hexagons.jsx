@@ -30,7 +30,9 @@ export default class Hexagons extends React.Component {
 		this.renderHexagons(nextProps.orientation);
 	}
 
-	componentWillMount() {}
+	componentDidMount() {
+		console.log(this.state)
+	}
 
 	shouldComponentUpdate() {
 		return false;
