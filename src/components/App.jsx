@@ -10,7 +10,6 @@ import Home from 'Home';
 import WorkControls from 'WorkControls';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
-import {mobileCheck} from 'utils';
 
 export default class App extends React.Component {
 
@@ -19,20 +18,34 @@ export default class App extends React.Component {
 
 		this.state = {
 			orientation: 'landscape',
-			hexagonVis: 'default'
+			hexagonVis: 'default',
+			show: false
 		}
+	}
 
+	handleClick() {
+		this.setState({
+			...this.state,
+			show: false
+		})
+	}
+
+	handleShow() {
+		this.setState({
+			...this.state,
+			show: !this.state.show
+		})
 	}
 
 	render() {
 		return (
 			<div className="root">
 				<Router>
-					<div className="container app-container" onScroll={() => console.log('scrolling')}>
-						<TopNav/>
+					<div className="container app-container">
+						<TopNav show={this.state.show} handleShow={this.handleShow.bind(this)}/>
 						<Route render={(props) => {
 							return (
-								<Switch>
+								<Switch >
 									<Route path='/work' component={Work}/>
 									<Route path='/about' component={AboutMe}/>
 									<Route path='/contact' component={Contact}/>
@@ -42,7 +55,7 @@ export default class App extends React.Component {
 						}}/>
 					</div>
 				</Router>
-				<HexContainer onLayout={this.handleLayout} orientation={this.state.orientation}>
+				<HexContainer orientation={this.state.orientation}>
 					<Hexagons orientation={this.state.orientation}></Hexagons>
 				</HexContainer>
 			</div>

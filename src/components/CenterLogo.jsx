@@ -95,23 +95,23 @@ export default class CenterLogo extends React.Component {
 		];
 
 		let bounceIn = (item, iter) => {
-			let add = (iter * .2) + 1,
+			let add = (iter * .2) + 0,
 				params = {
 					transformOrigin: '50% 50%',
-					scale: 0,
-					opacity: 0,
+					scale: .8,
 					repeat: -1,
-					repeatDelay: 15,
+					repeatDelay: 3,
 					delay: add,
-					ease: Bounce.easeOut
+					ease: Bounce.easeOut,
+					yoyo: true
 				}
 
 			let tl = new TimelineMax();
 
-			tl.from(item, 1.5, params)
+			tl.to(item, 1.5, params)
 		}
 
-		arrowArray.forEach(bounceIn);
+		setTimeout(() => arrowArray.forEach(bounceIn), 1000);
 		this.float(document.getElementById('glasses-total'));
 
 	}

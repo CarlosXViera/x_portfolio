@@ -6,9 +6,11 @@ export default function HexContainer({orientation, children}) {
 		: `0 0 ${window.innerHeight} ${window.innerWidth}`;
 
 	return (
-		<svg id="main" className='hexcontainer' viewBox={viewBox} preserveAspectRatio="none">
-			{children}
-		</svg>
+		<div>
+			<svg id="main" className='hexcontainer' viewBox={viewBox} preserveAspectRatio="none">
+				{children}
+			</svg>
+		</div>
 	)
 }
 
