@@ -65,8 +65,12 @@ export default class TopNav extends React.Component {
 
 		return (
 			<div className="row top-nav">
-				<div className="col-sm-6 col-sm-offset-3 nav hidden-sm ">
+				<div className="middle-line hidden-sm">
 					<hr></hr>
+				</div>
+
+				<div className="col-sm-6 col-sm-offset-3 nav hidden-sm ">
+
 					<div className="nav-item about hvr-pulse-shrink">
 						<Link to='/about' className="">
 							<h5>About Me</h5>
@@ -92,14 +96,15 @@ export default class TopNav extends React.Component {
 							<h5>Contact</h5>
 						</Link>
 					</div>
-					<hr></hr>
 				</div>
-				<div className='row nav-mobile hidden-md hidden-lg'>
-					{this.renderSlideIn(this.props.show)}
-					<LogoButton/>
-					<LogoSubTitle show={this.props.show}/>
+				<div className="col-sm-12 hidden-md hidden-lg">
+					<div className='row nav-mobile'>
+						{this.renderSlideIn(this.props.show)}
+						<LogoButton/>
+						<LogoSubTitle show={this.props.show}/>
 
-					<NavButton show={this.props.show} onClick={this.handleShowSlideIn.bind(this)}/>
+						<NavButton show={this.props.show} onClick={this.handleShowSlideIn.bind(this)}/>
+					</div>
 				</div>
 
 			</div>

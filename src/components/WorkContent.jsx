@@ -35,7 +35,8 @@ class WorkContent extends React.Component {
 		this.state = {
 			...ContentApi.getEverything(props.workId),
 			currentPage: this.props.workId,
-			alreadyBeenHere: false
+			alreadyBeenHere: false,
+			direction: 'example'
 		};
 	}
 
@@ -55,6 +56,7 @@ class WorkContent extends React.Component {
 	}
 
 	nextOrPrev(dir) {
+		console.log(dir)
 		this.setState({
 			...this.state,
 			direction: dir
@@ -62,6 +64,7 @@ class WorkContent extends React.Component {
 	}
 
 	renderGallery(beenHere, settings, dir) {
+
 		return !beenHere
 			? (
 				<div className="row image-gallery-container">
@@ -91,9 +94,7 @@ class WorkContent extends React.Component {
 
 		return (
 			<SwitchAnimation {...this.props} beenHere={this.state.alreadyBeenHere}>
-
 				<div key={this.props.location.key} className="col-sm-12 work-content-page">
-
 					<div className="row page-title">
 						<div className="col-sm-12">
 							<h2>{this.state.title}</h2>

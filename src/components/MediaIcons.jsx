@@ -25,7 +25,7 @@ class MediaIcons extends React.Component {
 		this.mouseProps = {
 			onMouseOver: this.handleMouseOver.bind(this),
 			onMouseOut: this.handleMouseOut.bind(this),
-			onClick: this.handleClick.bind(this)
+			onClick: this.handleOnClick.bind(this)
 		}
 
 	}
@@ -43,6 +43,7 @@ class MediaIcons extends React.Component {
 	}
 
 	handleMouseOut({currentTarget}) {
+		console.log({currentTarget})
 		let g = currentTarget.children[0];
 
 		TweenLite.to(g.firstChild, 1, this.strokeBackTo);
@@ -53,12 +54,19 @@ class MediaIcons extends React.Component {
 			delay: .5
 		})
 	}
-	handleClick(e) {}
+	handleOnClick({currentTarget, preventDefault}) {
+		window.location.href = currentTarget.getAttribute('href');
+
+		preventDefault();
+
+		console.log(preventDefault);
+
+	}
 
 	faceBookIcon() {
 		return (
 			<a href={this.faceBook} {...this.mouseProps}>
-				<g id="facebook">
+				<g id="facebook" onClick={() => console.log(this)}>
 					<rect width="25" height="24.9" x="66.7" y=".5" className="icon-border" rx="2" ry="2" fill="#FFF"/>
 					<path d="M77.5 20h2.8v-7h2l.2-2.5h-2.2V9.3c0-.6 0-1 1-1h1.3V6h-2c-2.3 0-3 1-3 3v1.5H76V13h1.4z" className="icon"/>
 				</g>

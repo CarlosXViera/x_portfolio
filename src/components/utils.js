@@ -34,7 +34,6 @@ export function importTemplates(idArray) {
 		let s = select(`#${identifier}`);
 
 		obj[identifier] = s.html();
-		s.remove();
 	});
 
 	return obj;

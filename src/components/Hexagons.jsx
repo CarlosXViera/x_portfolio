@@ -3,12 +3,16 @@ import {selection, select, events} from 'd3-selection';
 import {importTemplates} from 'utils'
 import uuid from 'node-uuid'
 import {TimelineMax} from 'gsap';
+import {CSSTransitionGroup} from 'react-transition-group';
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.el = importTemplates(['originalHex']);
+		this.state = {
+			g: null,
+			el: importTemplates(['originalHex'])
+		}
 
 		this.colors = ['#343838', '#005F6B', '#008C9E', '#00B4CC', '#00DFFC'];
 
@@ -35,7 +39,7 @@ export default class Hexagons extends React.Component {
 	}
 
 	shouldComponentUpdate() {
-		return false;
+		return true;
 	}
 
 	generateData(selection, width, height) {
@@ -47,7 +51,7 @@ export default class Hexagons extends React.Component {
 		/* h/vSpacing spacing between each hexagon. offset x - spacing between every odd row.*/
 		const offset = -13.5;
 
-		let templateHexagon = this.el.originalHex;
+		let templateHexagon = this.state.el.originalHex;
 		let hCollection = [];
 		let count = 0;
 
@@ -277,7 +281,7 @@ export default class Hexagons extends React.Component {
 
 		this.hexagonArray = this.generateData(this.state.g, window.innerWidth + 60, window.innerHeight + 100);
 
-		console.log(window.outerWidth)
+		console.log(this.hexagonArray)
 
 		this.layers = this.selectHexagons();
 		this.animation = [];
@@ -285,39 +289,38 @@ export default class Hexagons extends React.Component {
 		this.layers.forEach((obj, i, a) => {
 			let total = a.length - 1;
 			if (obj.length === 0)
-				console.log('empty')
-				// obj.forEach((obj2, j, b) => {
-			// 	let node = this.hexagonArray[obj2.y][obj2.x].node();
-			// 	let secondTotal = b.length - 1;
-			//
-			// 	let tl = new TimelineMax();
-			// 	this.animation.push(tl);
-			// 	if (j === secondTotal - 1 && i === total - 1) {
-			// 		tl.from(node.children[0], 2, {
-			// 			transformOrigin: '50% 50%',
-			// 			fill: '#041122',
-			// 			repeatDelay: i * .05,
-			// 			repeat: 1,
-			// 			cycle: 2,
-			// 			yoyo: true,
-			// 			onComplete: () => {
-			//
-			// 				for (let v of this.animation) {
-			// 					v.restart();
-			// 				}
-			// 			}
-			// 		})
-			// 	} else {
-			// 		tl.from(node.children[0], 2, {
-			// 			transformOrigin: '50% 50%',
-			// 			fill: '#041122',
-			// 			repeatDelay: i * .05,
-			// 			repeat: 1,
-			// 			cycle: 2,
-			// 			yoyo: true
-			// 		});
-			// 	}
-			// })
+				obj.forEach((obj2, j, b) => {
+					let node = this.hexagonArray[obj2.y][obj2.x].node();
+					let secondTotal = b.length - 1;
+
+					let tl = new TimelineMax();
+					this.animation.push(tl);
+					if (j === secondTotal - 1 && i === total - 1) {
+						tl.from(node.children[0], 2, {
+							transformOrigin: '50% 50%',
+							fill: '#041122',
+							repeatDelay: i * .05,
+							repeat: 1,
+							cycle: 2,
+							yoyo: true,
+							onComplete: () => {
+
+								for (let v of this.animation) {
+									v.restart();
+								}
+							}
+						})
+					} else {
+						tl.from(node.children[0], 2, {
+							transformOrigin: '50% 50%',
+							fill: '#041122',
+							repeatDelay: i * .05,
+							repeat: 1,
+							cycle: 2,
+							yoyo: true
+						});
+					}
+				})
 		})
 
 	}

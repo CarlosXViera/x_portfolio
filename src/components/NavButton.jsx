@@ -13,12 +13,6 @@ export default class NavButton extends React.Component {
 
 	}
 
-	componentDidMount() {
-		console.log(this.refs.menuButton);
-		console.log(this.refs.exitButton);
-
-	}
-
 	onRefExitButton(ref) {
 		if (ref !== null) {
 			let tl = new TimelineMax();
@@ -33,11 +27,12 @@ export default class NavButton extends React.Component {
 		}
 
 	}
+
 	renderMenuButton(show) {
 		return show
 			? (
 				<div className='exit-button' ref={this.onRefExitButton}>
-					<h3>&#x2716;</h3>
+					<svg id='x-button' viewBox="0 0 192.4 192.4"><path d="M147.5 192.4l-51.3-51-51 51L0 147l51.3-50.8L0 45.2 45.3 0l51 51 51.2-51 45 45-51 51 51 51z"/></svg>
 				</div>
 			)
 			: (

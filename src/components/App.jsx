@@ -1,8 +1,8 @@
-import React from 'react'
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
-import HexContainer from 'HexContainer'
-import Hexagons from 'Hexagons'
-import TopNav from 'TopNav'
+import React from 'react';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import HexContainer from 'HexContainer';
+import Hexagons from 'Hexagons';
+import TopNav from 'TopNav';
 import AboutMe from 'AboutMe';
 import Work from 'Work';
 import Contact from 'Contact';
@@ -10,6 +10,8 @@ import Home from 'Home';
 import WorkControls from 'WorkControls';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
+import {Transition} from 'Transitions';
+import {mobileCheck} from 'utils';
 
 export default class App extends React.Component {
 
@@ -19,8 +21,28 @@ export default class App extends React.Component {
 		this.state = {
 			orientation: 'landscape',
 			hexagonVis: 'default',
-			show: false
+			show: false,
+			reRender: false
 		}
+
+		window.mobileCheck = mobileCheck;
+		if (!window.mobileCheck()) {
+			this.handleResize = this.handleResize.bind(this);
+			window.addEventListener('resize', this.handleResize);
+		}
+
+	}
+
+	handleResize() {
+		console.log(this)
+		function setReRender() {
+			this.setState({
+				...this.state,
+				reRender: !this.state.reRender
+			})
+		}
+		clearTimeout(window.resizedFinished);
+		window.resizedFinished = setTimeout(setReRender.bind(this), 200);
 	}
 
 	handleClick() {
@@ -55,8 +77,11 @@ export default class App extends React.Component {
 						}}/>
 					</div>
 				</Router>
-				<HexContainer orientation={this.state.orientation}>
-					<Hexagons orientation={this.state.orientation}></Hexagons>
+
+				<HexContainer key={uuid('fuck')} orientation={this.state.orientation}>
+
+					<Hexagons reRender={this.state.reRender} orientation={this.state.orientation}></Hexagons>
+
 				</HexContainer>
 			</div>
 		)
