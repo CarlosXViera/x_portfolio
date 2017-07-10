@@ -1,5 +1,6 @@
 import React from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
+import {Transition} from 'Transitions';
 import {Link} from 'react-router-dom';
 import DefineGlasses from 'Glasses';
 
@@ -47,9 +48,12 @@ export const LogoSubTitle = ({show}) => {
 	return (
 		<div className="col-sm-3 logo-subtitle">
 			<h5>
-				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+				<Transition settings={{
+					time: 300,
+					transition: 'slide-left'
+				}}>
 					{sub}
-				</CSSTransitionGroup>
+				</Transition>
 			</h5>
 		</div>
 	)

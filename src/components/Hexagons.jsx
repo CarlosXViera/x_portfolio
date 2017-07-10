@@ -274,7 +274,10 @@ export default class Hexagons extends React.Component {
 
 	renderHexagons(props) {
 		let all = this.state.g.selectAll('g.hex').remove();
-		this.hexagonArray = this.generateData(this.state.g, window.outerWidth + 60, window.outerHeight + 100);
+
+		this.hexagonArray = this.generateData(this.state.g, window.innerWidth + 60, window.innerHeight + 100);
+
+		console.log(window.outerWidth)
 
 		this.layers = this.selectHexagons();
 		this.animation = [];

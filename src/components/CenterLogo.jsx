@@ -31,7 +31,7 @@ export default class CenterLogo extends React.Component {
 	}
 
 	portraitGyro(e) {
-		let pos = null;
+		let pos = 'Front';
 
 		if (e.gamma < 20 && e.gamma > -20) {
 			pos = 'Front';

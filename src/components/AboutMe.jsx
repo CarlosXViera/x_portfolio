@@ -3,6 +3,7 @@ import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
 import {RouteTransition} from 'react-router-transition';
 import {CSSTransitionGroup} from 'react-transition-group';
+import {Transition} from 'Transitions';
 
 const LeftContent = () => {
 	return (
@@ -75,7 +76,10 @@ export default class AboutMe extends React.Component {
 
 	render() {
 		return (
-			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+			<Transition settings={{
+				transition: 'slide-up',
+				time: 300
+			}}>
 				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
 					<div className="row page-title">
 						<div className="col-sm-6 col-sm-offset-3">
@@ -88,7 +92,7 @@ export default class AboutMe extends React.Component {
 						{this.renderRightContent()}
 					</div>
 				</div>
-			</CSSTransitionGroup>
+			</Transition>
 		)
 	}
 }
