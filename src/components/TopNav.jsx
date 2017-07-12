@@ -20,8 +20,6 @@ export default class TopNav extends React.Component {
 
 		let complete = this.props.handleShow;
 
-		console.log(complete)
-
 		this.tlArr = arr.map((item, i, a) => {
 			let tl = new TimelineMax();
 			let completeProp = (i === a.length - 1)
@@ -41,9 +39,7 @@ export default class TopNav extends React.Component {
 		})
 
 	}
-	componentDidUpdate() {
-		console.log('top-nav updating')
-	}
+	componentDidUpdate() {}
 
 	renderSlideIn(show) {
 		let slide = show

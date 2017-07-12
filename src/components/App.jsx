@@ -34,7 +34,6 @@ export default class App extends React.Component {
 	}
 
 	handleResize() {
-		console.log(this)
 		function setReRender() {
 			this.setState({
 				...this.state,

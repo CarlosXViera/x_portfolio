@@ -11,7 +11,7 @@
   src: url('/fonts/Lekton-Regular.ttf') format('truetype');
 }
 
-/* ==COLORS== */
+/* == COLORS == */
 
 $black: #000;
 $white: #FFF;
@@ -24,7 +24,7 @@ $todayV: #E6F99D;
 $red: red;
 $transparent: rgba(0,0,0,0);
 
-//sizes
+/* == MEDIA BREAKPOINTS == */
 
 $xs: 320px;
 $sm: 420px;
@@ -32,7 +32,7 @@ $md: 768px;
 $lg: 1024px;
 $xl: 1280px;
 
-//image-gallery sizing
+/* == IMAGE GALLERY SIZING == */
 $image-gallery-buttons-size: 2.5rem;
 
 //variables

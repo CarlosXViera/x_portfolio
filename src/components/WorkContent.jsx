@@ -47,7 +47,6 @@ class WorkContent extends React.Component {
 				currentPage: a.workId,
 				alreadyBeenHere: true
 			})
-			console.log('updating');
 		}
 
 	}
@@ -73,9 +72,6 @@ class WorkContent extends React.Component {
 			...this.state,
 			direction: dir
 		})
-	}
-	componentDidUpdate() {
-		console.log(this.state)
 	}
 
 	shouldComponentUpdate(a) {

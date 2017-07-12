@@ -128,7 +128,7 @@ export default class CenterLogo extends React.Component {
 	onRef = (ref) => {
 		this.setState({
 			g: select(ref)
-		}, () => console.log('rendering!'))
+		}, () => {})
 	}
 
 	mouseMovement(e) {
