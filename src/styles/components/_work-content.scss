@@ -5,23 +5,21 @@
 
     .image-gallery {
       margin: auto;
-      max-width: 1000px;
+      max-width: 900px;
 
       .image-gallery-left-nav,
       .image-gallery-right-nav {
         padding: 0;
+        height: $image-gallery-buttons-size;
+        width: $image-gallery-buttons-size;
       }
 
-      .image-gallery-left-nav:before {
-        width: 44px;
-        height: 46px;
-        content: url('/assets/left-arrow.png');
+      .image-gallery-right-nav {
+        background-image: url('/assets/right-arrow.svg');
       }
 
-      .image-gallery-right-nav:before {
-        width: 44px;
-        height: 46px;
-        content: url('/assets/right-arrow.png');
+      .image-gallery-left-nav {
+        background-image: url('/assets/left-arrow.svg');
       }
     }
   }

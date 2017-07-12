@@ -15,6 +15,33 @@ export default class Hexagons extends React.Component {
 		}
 
 		this.colors = ['#343838', '#005F6B', '#008C9E', '#00B4CC', '#00DFFC'];
+		this.cubeDirections = [
+			{
+				x: + 1,
+				y: -1,
+				z: 0
+			}, {
+				x: + 1,
+				y: 0,
+				z: -1
+			}, {
+				x: 0,
+				y: + 1,
+				z: -1
+			}, {
+				x: -1,
+				y: + 1,
+				z: 0
+			}, {
+				x: -1,
+				y: 0,
+				z: + 1
+			}, {
+				x: 0,
+				y: -1,
+				z :+ 1
+			}
+		]
 
 	}
 
@@ -34,12 +61,68 @@ export default class Hexagons extends React.Component {
 		this.renderHexagons(nextProps.orientation);
 	}
 
-	componentDidMount() {
-		console.log(this.state)
+	offsetToCubeCoords(hex) {
+		let x = hex.col - (hex.row + (hex.row & 1)) / 2;
+		let z = hex.row;
+		let y = -x - z;
+
+		return {x, y, z}
+	}
+	getDirection(direction) {
+		return this.cubeDirections[direction]
 	}
 
+	addToHex(a, b) {
+		return {
+			x: a.x + b.x,
+			y: a.y + b.y,
+			z: a.z + b.z
+		}
+	}
+
+	subtractFromHex(a, b) {
+		return {
+			x: a.x - b.x,
+			y: a.y - b.y,
+			z: a.z - b.z
+		}
+	}
+
+	scaleHex(a, k) {
+		return {
+			x: a.x * k,
+			y: a.y * k,
+			z: a.z * k
+		}
+	}
+	hexLength(hex)
+	{
+		return Math.trunc((Math.abs(hex.x) + Math.abs(hex.y) + Math.abs(hex.z)) / 2);
+	}
+
+	findNeighbor(hex, direction)
+	{
+		return this.addToHex(hex, this.getDirection(direction));
+	}
+
+	cubeToOffsetCoords() {}
+
+	componentDidMount() {}
+
 	shouldComponentUpdate() {
-		return true;
+		return false;
+	}
+
+	hexRing(center, radius) {
+		let results = [];
+		let hex = this.addToHex(center, this.scaleHex(this.getDirection(4), radius));
+		for (let i = 0; i < 6; i++) {
+			for (let j = 0; j < radius; j++) {
+				results.push(hex);
+				hex = this.findNeighbor(hex, i);
+			}
+		}
+		return results;
 	}
 
 	generateData(selection, width, height) {
@@ -53,7 +136,10 @@ export default class Hexagons extends React.Component {
 
 		let templateHexagon = this.state.el.originalHex;
 		let hCollection = [];
+		let cubeHCollection = {};
 		let count = 0;
+		let offsetCoords = {};
+		let cubeCoords = {}
 
 		for (let vHexagons = 0; vHexagons < vAmount; vHexagons++) {
 			let row = [],
@@ -68,12 +154,23 @@ export default class Hexagons extends React.Component {
 					? `${calculatedHSpacing}, ${calculatedVSpacing}`
 					: `${calculatedHSpacing + offset}, ${calculatedVSpacing}`;
 
-				translatedHexagon = selection.append('g').attr('id', `${vHexagons}${hHexagons}`).attr('transform', `translate(${translate})`).attr('class', 'hex');
+				translatedHexagon = selection.append('g').attr('transform', `translate(${translate})`).attr('class', 'hex');
 
 				translatedHexagon.html(templateHexagon);
 
 				translatedHexagon.select('polygon').attr('class', 'hexagon').on('click', function(d) {});
 
+				offsetCoords = {
+					row: vHexagons,
+					col: hHexagons
+				};
+				cubeCoords = this.offsetToCubeCoords(offsetCoords);
+				translatedHexagon.attr('id', `${cubeCoords.x} ${cubeCoords.y} ${cubeCoords.z}`);
+
+				cubeHCollection[`${cubeCoords.x} ${cubeCoords.y} ${cubeCoords.z}`] = {
+					cubeCoords,
+					translatedHexagon
+				};
 				row.push(translatedHexagon);
 
 				count++
@@ -81,7 +178,7 @@ export default class Hexagons extends React.Component {
 			hCollection.push(row);
 		}
 
-		return hCollection;
+		return {hCollection, cubeHCollection};
 	}
 
 	selectHexagons() {
@@ -278,50 +375,61 @@ export default class Hexagons extends React.Component {
 
 	renderHexagons(props) {
 		let all = this.state.g.selectAll('g.hex').remove();
+		let data = this.generateData(this.state.g, window.innerWidth + 35, window.innerHeight + 35);
 
-		this.hexagonArray = this.generateData(this.state.g, window.innerWidth + 60, window.innerHeight + 100);
+		this.hexagonArray = data.hCollection;
+		this.hexagonCubeArray = data.cubeHCollection;
 
-		console.log(this.hexagonArray)
+		this.hexagonCubeArray["4 -4 0"].translatedHexagon.style('stroke', 'red')
 
-		this.layers = this.selectHexagons();
-		this.animation = [];
+		let s = this.hexagonCubeArray["5 -25 20"].cubeCoords;
+		let center = this.hexagonCubeArray[`${s.x} ${s.y} ${s.z}`].cubeCoords;
+		let res = this.hexRing(s, 10);
 
-		this.layers.forEach((obj, i, a) => {
-			let total = a.length - 1;
-			if (obj.length === 0)
-				obj.forEach((obj2, j, b) => {
-					let node = this.hexagonArray[obj2.y][obj2.x].node();
-					let secondTotal = b.length - 1;
-
-					let tl = new TimelineMax();
-					this.animation.push(tl);
-					if (j === secondTotal - 1 && i === total - 1) {
-						tl.from(node.children[0], 2, {
-							transformOrigin: '50% 50%',
-							fill: '#041122',
-							repeatDelay: i * .05,
-							repeat: 1,
-							cycle: 2,
-							yoyo: true,
-							onComplete: () => {
-
-								for (let v of this.animation) {
-									v.restart();
-								}
-							}
-						})
-					} else {
-						tl.from(node.children[0], 2, {
-							transformOrigin: '50% 50%',
-							fill: '#041122',
-							repeatDelay: i * .05,
-							repeat: 1,
-							cycle: 2,
-							yoyo: true
-						});
-					}
-				})
+		res.forEach((d) => {
+			this.hexagonCubeArray[`${d.x} ${d.y} ${d.z}`].translatedHexagon.style('stroke', 'yellow');
 		})
+
+		console.log(res)
+		// this.layers = this.selectHexagons();
+		// this.animation = [];
+
+		// this.layers.forEach((obj, i, a) => {
+		// 	let total = a.length - 1;
+		// 	if (obj.length === 0)
+		// 		obj.forEach((obj2, j, b) => {
+		// 			let node = this.hexagonArray[obj2.y][obj2.x].node();
+		// 			let secondTotal = b.length - 1;
+		//
+		// 			let tl = new TimelineMax();
+		// 			this.animation.push(tl);
+		// 			if (j === secondTotal - 1 && i === total - 1) {
+		// 				tl.from(node.children[0], 2, {
+		// 					transformOrigin: '50% 50%',
+		// 					fill: '#041122',
+		// 					repeatDelay: i * .05,
+		// 					repeat: 1,
+		// 					cycle: 2,
+		// 					yoyo: true,
+		// 					onComplete: () => {
+		//
+		// 						for (let v of this.animation) {
+		// 							v.restart();
+		// 						}
+		// 					}
+		// 				})
+		// 			} else {
+		// 				tl.from(node.children[0], 2, {
+		// 					transformOrigin: '50% 50%',
+		// 					fill: '#041122',
+		// 					repeatDelay: i * .05,
+		// 					repeat: 1,
+		// 					cycle: 2,
+		// 					yoyo: true
+		// 				});
+		// 			}
+		// 		})
+		// })
 
 	}
 

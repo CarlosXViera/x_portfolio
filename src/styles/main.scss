@@ -1,5 +1,6 @@
 @import "base/variables";
 @import 'base/mini-everything';
+@import 'base/image-gallery-no-icon';
 @import 'components/app';
 @import 'components/top-nav';
 @import "components/hexagon";
@@ -14,8 +15,6 @@
 @import 'components/work-content';
 @import 'components/work-controls';
 @import 'components/transitions';
-// foundation
-@import '~react-image-gallery/styles/scss/image-gallery-no-icon.scss';
 
 ::-webkit-scrollbar {
   display: none;

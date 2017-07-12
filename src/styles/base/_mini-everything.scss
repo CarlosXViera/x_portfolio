@@ -172,7 +172,7 @@ $link-hover-fore-color: $todayV;
 // Text color for <a> when hovered or focused
 $figcaption-font-size: 0.8125rem;
 // Font size of <figcaption> elements
-$figcaption-fore-color: $offwhite;
+$figcaption-fore-color: green;
 // Text color for <figcaption> elements
 //  Notes:
 // [1] - The value $base-root-font-size should be in `px` only! This rule is very important, as it will determine the root
@@ -313,13 +313,13 @@ $input-placeholder-fore-color: #616161;
 // Text color for input placeholder
 $select-padding-right: 1.5rem;
 // Right padding for <select> element
-$button-back-color: #dcdcdc;
+$button-back-color: transparent;
 // Back color for button elements
-$button-back-opacity: 0.75;
+$button-back-opacity: 0;
 // Background opacity for button elements
-$button-hover-back-opacity: 1;
+$button-hover-back-opacity: 0;
 // Background opacity for button elements on hover or focus
-$button-fore-color: $fore-color;
+$button-fore-color: transparent;
 // Text color for button elements
 $button-border-style: 0;
 // Border style for button elements
@@ -1003,47 +1003,47 @@ $include-center-block-name: false;
 /*
   Custom elements for forms and input elements.
 */
-@include make-button-alt-color ($button-variant1-name, $button-variant1-back-color, $button-variant1-back-opacity, $button-variant1-hover-back-opacity, $button-variant1-fore-color);
-@include make-button-alt-color ($button-variant2-name, $button-variant2-back-color, $button-variant2-back-opacity, $button-variant2-hover-back-opacity, $button-variant2-fore-color);
-@include make-button-alt-color ($button-variant3-name, $button-variant3-back-color, $button-variant3-back-opacity, $button-variant3-hover-back-opacity, $button-variant3-fore-color);
-@include make-button-alt-color ($button-variant4-name, $button-variant4-back-color, $button-variant4-back-opacity, $button-variant4-hover-back-opacity, $button-variant4-fore-color);
-@include make-button-alt-style ($button-style1-name, $button-style1-border-style, $button-style1-border-radius, $button-style1-padding, $button-style1-margin);
-@include make-button-alt-style ($button-style2-name, $button-style2-border-style, $button-style2-border-radius, $button-style2-padding, $button-style2-margin);
-@import 'mini/navigation';
-@import 'mini/table';
-@import 'mini/card';
+// @include make-button-alt-color ($button-variant1-name, $button-variant1-back-color, $button-variant1-back-opacity, $button-variant1-hover-back-opacity, $button-variant1-fore-color);
+// @include make-button-alt-color ($button-variant2-name, $button-variant2-back-color, $button-variant2-back-opacity, $button-variant2-hover-back-opacity, $button-variant2-fore-color);
+//@include make-button-alt-color ($button-variant3-name, $button-variant3-back-color, $button-variant3-back-opacity, $button-variant3-hover-back-opacity, $button-variant3-fore-color);
+//@include make-button-alt-color ($button-variant4-name, $button-variant4-back-color, $button-variant4-back-opacity, $button-variant4-hover-back-opacity, $button-variant4-fore-color);
+//@include make-button-alt-style ($button-style1-name, $button-style1-border-style, $button-style1-border-radius, $button-style1-padding, $button-style1-margin);
+//@include make-button-alt-style ($button-style2-name, $button-style2-border-style, $button-style2-border-radius, $button-style2-padding, $button-style2-margin);
+//@import 'mini/navigation';
+//@import 'mini/table';
+//@import 'mini/card';
 /*
   Custom elements for cards and containers.
 */
-@include make-card-alt-size ($card-size1-name, $card-size1-width);
-@include make-card-alt-size ($card-size2-name, $card-size2-width);
-@include make-card-alt-size ($card-size3-name, $card-size3-width);
-@include make-card-alt-color ($card-style1-name, $card-style1-back-color, $card-style1-fore-color, $card-style1-border-style, $card-style1-border-radius, $card-style1-section-border-style);
-@include make-card-alt-color ($card-style2-name, $card-style2-back-color, $card-style2-fore-color, $card-style2-border-style, $card-style2-border-radius, $card-style2-section-border-style);
-@include make-card-section-alt-color ($card-section-style1-name, $card-section-style1-back-color, $card-section-style1-fore-color);
-@include make-card-section-alt-color ($card-section-style2-name, $card-section-style2-back-color, $card-section-style2-fore-color);
-@include make-card-section-alt-style ($card-section-padding1-name, $card-section-padding1-padding);
-@import 'mini/tab';
-@import 'mini/contextual';
+//@include make-card-alt-size ($card-size1-name, $card-size1-width);
+//@include make-card-alt-size ($card-size2-name, $card-size2-width);
+//@include make-card-alt-size ($card-size3-name, $card-size3-width);
+//@include make-card-alt-color ($card-style1-name, $card-style1-back-color, //$card-style1-fore-color, $card-style1-border-style, $card-style1-border-radius, //$card-style1-section-border-style);
+//@include make-card-alt-color ($card-style2-name, $card-style2-back-color, //$card-style2-fore-color, $card-style2-border-style, $card-style2-border-radius, //$card-style2-section-border-style);
+//@include make-card-section-alt-color ($card-section-style1-name, //$card-section-style1-back-color, $card-section-style1-fore-color);
+//@include make-card-section-alt-color ($card-section-style2-name, //$card-section-style2-back-color, $card-section-style2-fore-color);
+//@include make-card-section-alt-style ($card-section-padding1-name, //$card-section-padding1-padding);
+//@import 'mini/tab';
+//@import 'mini/contextual';
 /*
   Custom contextual background elements and alerts.
 */
-@include make-mark-alt-color ($mark-variant1-name, $mark-variant1-back-color);
-@include make-mark-alt-color ($mark-variant2-name, $mark-variant2-back-color);
-@include make-mark-alt-style ($mark-style1-name, $mark-style1-border-style, $mark-style1-border-radius, $mark-style1-padding);
-@include make-mark-alt-style ($mark-style2-name, $mark-style2-border-style, $mark-style2-border-radius, $mark-style2-padding, $mark-style2-font-size, $mark-style2-line-height);
-@include make-toast-alt-style($toast-style1-name, $toast-style1-border-style, $toast-style1-border-radius, $toast-style1-padding);
-@include make-toast-alt-style($toast-style2-name, $toast-style2-border-style, $toast-style2-border-radius, $toast-style2-padding);
-@import 'mini/progress';
+//@include make-mark-alt-color ($mark-variant1-name, $mark-variant1-back-color);
+//@include make-mark-alt-color ($mark-variant2-name, $mark-variant2-back-color);
+//@include make-mark-alt-style ($mark-style1-name, $mark-style1-border-style, $mark-style1-border-radius, $mark-style1-padding);
+//@include make-mark-alt-style ($mark-style2-name, $mark-style2-border-style, $mark-style2-border-radius, $mark-style2-padding, $mark-style2-font-size, $mark-style2-line-height);
+//@include make-toast-alt-style($toast-style1-name, $toast-style1-border-style, $toast-style1-border-radius, $toast-style1-padding);
+//@include make-toast-alt-style($toast-style2-name, $toast-style2-border-style, $toast-style2-border-radius, $toast-style2-padding);
+//@import 'mini/progress';
 /*
   Custom elements for progress elements and spinners.
 */
-@include make-progress-inline ($progress-inline-name, $progress-inline-width);
-@include make-progress-alt-color ($progress-variant1-name, $progress-variant1-fore-color);
-@include make-progress-alt-color ($progress-variant2-name, $progress-variant2-fore-color);
-@include make-spinner-donut-alt-color ($spinner-donut-variant1-name, $spinner-donut-variant1-back-color, $spinner-donut-variant1-fore-color);
-@include make-spinner-donut-alt-color ($spinner-donut-variant2-name, $spinner-donut-variant2-back-color, $spinner-donut-variant2-fore-color);
-@include make-spinner-donut-alt-style ($spinner-donut-style1-name, $spinner-donut-style1-size, $spinner-donut-style1-border-thickness);
+//@include make-progress-inline ($progress-inline-name, $progress-inline-width);
+//@include make-progress-alt-color ($progress-variant1-name, //$progress-variant1-fore-color);
+//@include make-progress-alt-color ($progress-variant2-name, //$progress-variant2-fore-color);
+//@include make-spinner-donut-alt-color ($spinner-donut-variant1-name, //$spinner-donut-variant1-back-color, $spinner-donut-variant1-fore-color);
+//@include make-spinner-donut-alt-color ($spinner-donut-variant2-name, //$spinner-donut-variant2-back-color, $spinner-donut-variant2-fore-color);
+//@include make-spinner-donut-alt-style ($spinner-donut-style1-name, //$spinner-donut-style1-size, $spinner-donut-style1-border-thickness);
 @import 'mini/utility';
 /*
   Custom elements for utilities and helper classes.

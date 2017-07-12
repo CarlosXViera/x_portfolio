@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 export default class WorkControls extends React.Component {
 	constructor(props) {
@@ -32,12 +32,13 @@ export default class WorkControls extends React.Component {
 		let nextPage = (currentIndex + 1) > (this.urls.length - 1)
 			? null
 			: `/work/${this.urls[currentIndex + 1]}`;
+		this.currentPage = this.urls[currentIndex + 1];
 
 		if (nextPage !== null) {
 			return (
-				<NavLink to={nextPage}>
+				<Link to={nextPage}>
 					{this.rightArrowSvg()}
-				</NavLink>
+				</Link>
 			)
 		}
 	}
@@ -50,9 +51,9 @@ export default class WorkControls extends React.Component {
 
 		if (prevPage !== null) {
 			return (
-				<NavLink to={prevPage}>
+				<Link to={prevPage}>
 					{this.leftArrowSvg()}
-				</NavLink>
+				</Link>
 			)
 		}
 	}
@@ -61,13 +62,13 @@ export default class WorkControls extends React.Component {
 		return (
 			<div className="col-sm-4 col-sm-offset-4 work-controls-content">
 				<svg id="work-controls" viewBox="0 0 164.81 40.3">
-					<NavLink to="/work">
+					<Link to="/work">
 						<g id="exit">
 							<path className="a" d="M98.2 31.3a3.8 3.8 0 0 0 1.7-3V12A3.8 3.8 0 0 0 98 9l-14-8a3.8 3.8 0 0 0-3.5 0l-14 8a3.8 3.8 0 0 0-1.8 3v16.3a3.8 3.8 0 0 0 1.6 3l14 8a3.8 3.8 0 0 0 3.5 0z"/>
 							<path d="M80.2 15.4s1 2 2.2 3.6l2.2-3.6h.7l-2.5 4 2.6 4.4h-.7s-1-2.2-2.3-3.8c-1.2 1.7-2.3 3.8-2.3 3.8h-.6s1.5-2.6 2.6-4.3l-2.5-4z"/>
 							<path className="b" d="M86.3 24.3h-2V24l-2-3c-1 1.4-1.8 3-1.8 3v.3h-2l.5-.8 2.4-4-2.3-4-.3-.6h1.8v.2l2 3 1.7-3v-.3h2l-.5.6-2.4 4c1.2 1.6 2.5 3.8 2.5 4z"/>
 						</g>
-					</NavLink>
+					</Link>
 					{this.nextPage()}
 					{this.prevPage()}
 				</svg>

@@ -4,25 +4,16 @@
     justify-content: center;
 
     #work-controls {
-      fill: none;
+      fill: transparent;
       height: 40px;
       width: 165px;
+      stroke: $todayIII;
 
-      #exit {
-        fill: rgba(0,0,0,0);
-        stroke: $todayIII;
-      }
-
-      #next {
-        fill: rgba(0,0,0,0);
-        stroke: $todayIII;
-      }
-
+      #exit,
+      #next,
       #prev {
-        fill: rgba(0,0,0,0);
         stroke: $todayIII;
       }
     }
-
   }
 }

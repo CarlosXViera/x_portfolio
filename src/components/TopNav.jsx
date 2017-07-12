@@ -41,6 +41,9 @@ export default class TopNav extends React.Component {
 		})
 
 	}
+	componentDidUpdate() {
+		console.log('top-nav updating')
+	}
 
 	renderSlideIn(show) {
 		let slide = show

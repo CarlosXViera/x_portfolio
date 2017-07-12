@@ -41,11 +41,15 @@ class WorkContent extends React.Component {
 	}
 
 	componentWillReceiveProps(a, b) {
-		this.setState({
-			...ContentApi.getEverything(a.workId),
-			currentPage: a.workId,
-			alreadyBeenHere: true
-		})
+		if (this.props.location.pathname !== a.location.pathname) {
+			this.setState({
+				...ContentApi.getEverything(a.workId),
+				currentPage: a.workId,
+				alreadyBeenHere: true
+			})
+			console.log('updating');
+		}
+
 	}
 
 	renderImgs() {
@@ -55,12 +59,27 @@ class WorkContent extends React.Component {
 		});
 	}
 
+	renderRightNav(onClick, disabled) {
+		return (<button className='image-gallery-right-nav hvr-forward' disabled={disabled} onClick={onClick}/>)
+	}
+
+	renderLeftNav(onClick, disabled) {
+
+		return (<button className='image-gallery-left-nav hvr-backward' disabled={disabled} onClick={onClick}/>)
+	}
+
 	nextOrPrev(dir) {
-		console.log(dir)
 		this.setState({
 			...this.state,
 			direction: dir
 		})
+	}
+	componentDidUpdate() {
+		console.log(this.state)
+	}
+
+	shouldComponentUpdate(a) {
+		return (this.props.location.pathname !== a.location.pathname);
 	}
 
 	renderGallery(beenHere, settings, dir) {
@@ -87,9 +106,11 @@ class WorkContent extends React.Component {
 	render() {
 
 		let settings = {
-			showThumbnails: false,
+			showThumbnails: true,
 			items: this.renderImgs(),
-			slideInterval: 2000
+			slideInterval: 2000,
+			renderLeftNav: this.renderLeftNav,
+			renderRightNav: this.renderRightNav
 		}
 
 		return (

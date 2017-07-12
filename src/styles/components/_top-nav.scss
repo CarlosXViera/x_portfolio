@@ -16,43 +16,6 @@
   background: -o-linear-gradient(top, white, black);
   background: linear-gradient(to bottom, white, black);
 }
-@-webkit-keyframes hvr-pulse-shrink {
-  to {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
-  }
-}
-@keyframes hvr-pulse-shrink {
-  to {
-    -webkit-transform: scale(0.9);
-    transform: scale(0.9);
-  }
-}
-
-.hvr-pulse-shrink {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  -webkit-box-shadow: 0 0 1px transparent;
-  box-shadow: 0 0 1px transparent;
-}
-
-.hvr-pulse-shrink:active,
-.hvr-pulse-shrink:focus,
-.hvr-pulse-shrink:hover {
-  -webkit-animation-name: hvr-pulse-shrink;
-  animation-name: hvr-pulse-shrink;
-  -webkit-animation-duration: 0.5s;
-  animation-duration: 0.5;
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
-  -webkit-animation-iteration-count: 2;
-  animation-iteration-count: 2;
-  -webkit-animation-direction: alternate;
-  animation-direction: alternate;
-  color: green;
-}
 
 #top-nav-icon {
   width: 91px;
@@ -201,6 +164,7 @@
         height: 2px;
         background-color: $white;
       }
+
     }
 
   }
