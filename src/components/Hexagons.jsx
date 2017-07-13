@@ -1,27 +1,40 @@
 import React, {PropTypes} from 'react'
 import {importTemplates} from 'utils'
 import uuid from 'node-uuid'
-import {TimelineMax} from 'gsap';
+import {TweenMax} from 'gsap';
 import {CSSTransitionGroup} from 'react-transition-group';
+import {Transition} from 'Transitions';
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
 
-		let data = this.generateData(this.state.g, window.innerWidth + 50, window.innerHeight + 35);
+		this.width = window.innerWidth + 55;
+		this.height = window.innerHeight + 25;
+
+		let data = this.generateData(this.width, this.height);
 
 		this.state = {
 			...data
 		}
 
 	}
-
-	state = {
-		g: null
+	pad(num, size) {
+		let s = num + "";
+		while (s.length < size)
+			s = "0" + s;
+		return s;
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.renderHexagons(nextProps.orientation);
+	componentDidMount() {
+		this.setState({
+			...this.state,
+			ringLayers: this.getRingLayers()
+		})
+	}
+
+	componentDidUpdate() {
+		this.startWaveTransition(this.state.ringLayers);
 	}
 
 	offsetToCubeCoords(hex) {
@@ -30,6 +43,12 @@ export default class Hexagons extends React.Component {
 		let y = -x - z;
 
 		return {x, y, z}
+	}
+
+	cube_to_evenr(cube) {
+		let col = cube.x + (cube.z + (cube.z & 1)) / 2
+		let row = cube.z;
+		return {row, col}
 	}
 
 	getDirection(direction) {
@@ -97,7 +116,7 @@ export default class Hexagons extends React.Component {
 		return this.addToHex(hex, this.getDirection(direction));
 	}
 
-	hexRing(center, radius) {
+	getHexRing(center, radius) {
 		let results = [];
 		let hex = this.addToHex(center, this.scaleHex(this.getDirection(4), radius));
 		for (let i = 0; i < 6; i++) {
@@ -109,28 +128,47 @@ export default class Hexagons extends React.Component {
 		return results;
 	}
 
+	startWaveTransition(ringLayers) {
+
+		ringLayers.forEach((layer, i) => {
+			let stuff = {
+				transformOrigin: '50% 50%',
+				scale: .8,
+				fill: '#C8E98E',
+				repeatDelay: .1 * i,
+				repeat: 1,
+				yoyo: true
+			}
+
+			let tl = TweenMax.from(layer, 0.5 + (i * .05), stuff, .5)
+
+		})
+	}
+
 	getHexagonElement(hexCoords) {
-		return this.hexagonCubeArray[`${hexCoords.x} ${hexCoords.y} ${hexCoords.z}`].translatedHexagon;
-
+		let c = this.state.cubeCoordinates[`${hexCoords.x} ${hexCoords.y} ${hexCoords.z}`]
+		if (typeof c === 'undefined')
+			return null;
+		let key = c.translatedHexagon.pRef;
+		return this.refs[key];
+	}
+	getHexagonElementGroup(hexCoords) {
+		let key = this.state.cubeCoordinates[`${hexCoords.x} ${hexCoords.y} ${hexCoords.z}`].translatedHexagon.gRef;
+		return this.refs[key];
 	}
 
-	getHexagonCubicCoords() {
-		return this.hexagonCubeArray[`${hexCoords.x} ${hexCoords.y} ${hexCoords.z}`].cubeCoords;
+	getHexagonCubicCoords(offsetCoords) {
+		let x = Math.trunc(offsetCoords.x),
+			y = Math.trunc(offsetCoords.y);
 
-	}
-
-	createHexagonElement({id, transforms, gRef, pRef}) {
-		return () => {
-			return (
-				<g id={id} ref={gRef}>
-					<polygon transform={transforms} ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
-				</g>
-			)
-		}
+		let key = `${this.pad(x, 2)}${this.pad(y, 2)}`;
+		return this.state.offsetCoords[key].cubeCoords;
 	}
 
 	getHexagonData(row, col, t) {
-		let hexId = `${row}${col}`;
+		let r = this.pad(row, 2),
+			c = this.pad(col, 2);
+		let hexId = `${r}${c}`;
 		return {
 			id: hexId,
 			transforms: t,
@@ -143,7 +181,37 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
-	generateData(selection, width, height) {
+	getPixelToHexagon(width = this.width, height = this.height) {
+		width = Math.floor(width / 27.5);
+		height = Math.floor(height / 23.5);
+		return {width, height}
+	}
+
+	getRingLayers() {
+		let ringLayers = [];
+		const hSize = 15;
+		const {height, width} = this.getPixelToHexagon();
+		const longestSide = (width > height)
+			? width
+			: height;
+		const center = this.getHexagonCubicCoords({
+			y: width / 2,
+			x: height / 2
+		});
+
+		for (let i = 1; i < longestSide; i++) {
+			let l = this
+				.getHexRing(center, i)
+				.map(d => this.getHexagonElement(d))
+				.filter(d => d !== null);
+			if (l[0] != null)
+				ringLayers.push(l);
+			}
+
+		return ringLayers;
+	}
+
+	generateData(width, height) {
 		const hSize = 15;
 		const hSpacing = 12.5;
 		const vSpacing = 8.5;
@@ -151,10 +219,11 @@ export default class Hexagons extends React.Component {
 		const vAmount = Math.floor(height / (hSize + vSpacing));
 		/* h/vSpacing spacing between each hexagon. offset x - spacing between every odd row.*/
 		const offset = -13.5;
-		let hexagonsAttrs = [];
-		let hexagonMap = [];
-		let cubeCoordinates = {};
-		let cubeCoords = {}
+		let offsetCoords = {},
+			hexagonsAttrs = [],
+			hexagonMap = [],
+			cubeCoordinates = {},
+			cubeCoords = {}
 
 		for (let vHexagons = 0; vHexagons < vAmount; vHexagons++) {
 			let row = [],
@@ -169,17 +238,28 @@ export default class Hexagons extends React.Component {
 					? `${calculatedHSpacing}, ${calculatedVSpacing}`
 					: `${calculatedHSpacing + offset}, ${calculatedVSpacing}`;
 
-				translatedHexagon = this.getHexagonData(hHexagons, vHexagons, `translate(${translate})`);
+				translatedHexagon = this.getHexagonData(vHexagons, hHexagons, `translate(${translate})`);
+
 				cubeCoords = this.offsetToCubeCoords(translatedHexagon.offsetCoords);
 
-				cubeCoordinates[`${cubeCoords.x} ${cubeCoords.y} ${cubeCoords.z}`] = cubeCoords;
+				cubeCoordinates[`${cubeCoords.x} ${cubeCoords.y} ${cubeCoords.z}`] = {
+					...cubeCoords,
+					translatedHexagon
+				}
+
+				offsetCoords[`${translatedHexagon.id}`] = {
+					...translatedHexagon,
+					cubeCoords
+				};
+
 				hexagonsAttrs.push(translatedHexagon);
 				row.push(translatedHexagon);
 			}
 			hexagonMap.push(row);
+
 		}
 
-		return {hexagonMap, cubeCoordinates, hexagonsAttrs};
+		return {hexagonMap, cubeCoordinates, hexagonsAttrs, offsetCoords};
 	}
 
 	renderHexagons(attrs) {
@@ -190,9 +270,11 @@ export default class Hexagons extends React.Component {
 			pRef
 		}, i) => {
 			return (
-				<g key={i} id={id} ref={gRef}>
-					<polygon className="hexagon" transform={transforms} ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
+
+				<g key={i} id={id} ref={gRef} transform={transforms}>
+					<polygon className="hexagon" ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
 				</g>
+
 			)
 		})
 
