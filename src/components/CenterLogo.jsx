@@ -14,8 +14,12 @@ export default class CenterLogo extends React.Component {
 			glassesPos: 'LeftOne'
 		}
 
-		this.portraitGyro = this.portraitGyro.bind(this);
-		this.mouseMovement = this.mouseMovement.bind(this);
+		this.portraitGyro = this
+			.portraitGyro
+			.bind(this);
+		this.mouseMovement = this
+			.mouseMovement
+			.bind(this);
 
 		window.mobileCheck = mobileCheck;
 		if (window.mobileCheck()) {

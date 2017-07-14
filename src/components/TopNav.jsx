@@ -44,7 +44,9 @@ export default class TopNav extends React.Component {
 	renderSlideIn(show) {
 		let slide = show
 			? (
-				<div onClick={this.handleShowSlideIn.bind(this)}>
+				<div onClick={this
+					.handleShowSlideIn
+					.bind(this)}>
 					<SlideNav/>
 				</div>
 			)
@@ -63,7 +65,7 @@ export default class TopNav extends React.Component {
 		/* TODO: DRY out render */
 
 		return (
-			<div className="row top-nav">
+			<div className="row top-nav click-through-child">
 				<div className="middle-line hidden-sm">
 					<hr></hr>
 				</div>
@@ -102,7 +104,9 @@ export default class TopNav extends React.Component {
 						<LogoButton/>
 						<LogoSubTitle show={this.props.show}/>
 
-						<NavButton show={this.props.show} onClick={this.handleShowSlideIn.bind(this)}/>
+						<NavButton show={this.props.show} onClick={this
+							.handleShowSlideIn
+							.bind(this)}/>
 					</div>
 				</div>
 

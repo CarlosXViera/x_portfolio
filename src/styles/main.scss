@@ -20,6 +20,14 @@
   display: none;
 }
 
+.click-through {
+  pointer-events: none;
+}
+
+.click-through-child {
+  pointer-events: auto;
+}
+
 .html {
   background-color: $background;
   overflow: hidden;

@@ -25,7 +25,9 @@ export default class Home extends React.Component {
 			}}>
 				<div key={this.props.location.key} className="col-sm home-content">
 					<CenterLogo/>
-					<MediaIcons onHover={this.handleHover.bind(this)}/>
+					<MediaIcons onHover={this
+						.handleHover
+						.bind(this)}/>
 				</div>
 			</Transition>
 		)

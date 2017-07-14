@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {importTemplates} from 'utils'
 import uuid from 'node-uuid'
-import {TweenMax} from 'gsap';
+import {TweenMax, Sine} from 'gsap';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
 
@@ -9,16 +9,20 @@ export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
 
-		this.width = window.innerWidth + 55;
-		this.height = window.innerHeight + 25;
+		this.animation = [];
 
-		let data = this.generateData(this.width, this.height);
+		let data = this.generateData(props.width, props.height);
 
 		this.state = {
 			...data
 		}
 
+		this.handleMouseOver = this
+			.handleMouseOver
+			.bind(this);
+
 	}
+
 	pad(num, size) {
 		let s = num + "";
 		while (s.length < size)
@@ -27,15 +31,27 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentDidMount() {
+		let ringLayers = this.getRingLayers(this.props.height, this.props.width);
+		this.startWaveTransition(ringLayers);
+	}
+
+	componentWillReceiveProps(nextProps) {
 		this.setState({
-			...this.state,
-			ringLayers: this.getRingLayers()
+			...this.generateData(nextProps.width, nextProps.height)
 		})
 	}
 
 	componentDidUpdate() {
-		this.startWaveTransition(this.state.ringLayers);
+		let ringLayers = this.getRingLayers(this.props.height, this.props.width);
+		this.removeAnimations(this.animation);
+		this.startWaveTransition(ringLayers);
+
 	}
+	shouldComponentUpdate(nextProps, nextState) {
+		return JSON.stringify(nextProps) !== JSON.stringify(this.props);
+
+	}
+	componentWillUnmount() {}
 
 	offsetToCubeCoords(hex) {
 		let x = hex.col - (hex.row + (hex.row & 1)) / 2;
@@ -98,6 +114,16 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
+	removeAnimations(arr) {
+		for (let anim of arr) {
+			let layers = anim.target;
+			anim.kill()
+			anim.pause(0, true)
+			anim.invalidate()
+			TweenMax.set(layers, {clearProps: 'all'})
+		}
+		this.animation = [];
+	}
 	scaleHex(a, k) {
 		return {
 			x: a.x * k,
@@ -128,20 +154,30 @@ export default class Hexagons extends React.Component {
 		return results;
 	}
 
-	startWaveTransition(ringLayers) {
+	startWaveTransition(ringLayers, fill = '#071F3A') {
 
-		ringLayers.forEach((layer, i) => {
+		let amplitude = 1.2;
+		let frequency = 40;
+		let segments = ringLayers.length * 20;
+
+		ringLayers.forEach((layer, i, arr) => {
+			var norm = i / segments;
+			var scale = amplitude / 2;
 			let stuff = {
 				transformOrigin: '50% 50%',
-				scale: .8,
-				fill: '#C8E98E',
-				repeatDelay: .1 * i,
-				repeat: 1,
-				yoyo: true
+				scale: scale,
+				fill,
+				repeat: -1,
+				yoyo: true,
+				ease: Sine.easeIn
 			}
 
-			let tl = TweenMax.from(layer, 0.5 + (i * .05), stuff, .5)
-
+			let tl = TweenMax
+				.to(layer, 1, stuff)
+				.progress(norm * frequency);
+			this
+				.animation
+				.push(tl);
 		})
 	}
 
@@ -181,16 +217,16 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
-	getPixelToHexagon(width = this.width, height = this.height) {
+	getPixelToHexagon(width, height) {
 		width = Math.floor(width / 27.5);
 		height = Math.floor(height / 23.5);
 		return {width, height}
 	}
 
-	getRingLayers() {
+	getRingLayers(h, w) {
 		let ringLayers = [];
 		const hSize = 15;
-		const {height, width} = this.getPixelToHexagon();
+		const {height, width} = this.getPixelToHexagon(w, h);
 		const longestSide = (width > height)
 			? width
 			: height;
@@ -207,8 +243,26 @@ export default class Hexagons extends React.Component {
 			if (l[0] != null)
 				ringLayers.push(l);
 			}
+		return ringLayers
+	}
 
-		return ringLayers;
+	handleMouseOver({currentTarget}) {
+		TweenMax.to(currentTarget, .5, {
+			fill: 'white',
+			repeat: 1,
+			yoyo: true
+		})
+	}
+
+	updateLayers() {
+
+		for (let anim of this.animation) {
+			anim.updateTo({
+				stroke: 'yellow'
+			}, false);
+
+		}
+
 	}
 
 	generateData(width, height) {
@@ -272,7 +326,8 @@ export default class Hexagons extends React.Component {
 			return (
 
 				<g key={i} id={id} ref={gRef} transform={transforms}>
-					<polygon className="hexagon" ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
+
+					<polygon onClick={() => this.updateLayers()} fill='green' className="hexagon" ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
 				</g>
 
 			)
@@ -283,9 +338,15 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-			<g className='hexagons'>
-				{this.renderHexagons(hexagonsAttrs)}
-			</g>
+
+			<div>
+				<svg className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="none">
+					<g className='hexagons'>
+						{this.renderHexagons(hexagonsAttrs)}
+					</g>
+				</svg>
+			</div>
+
 		)
 	}
 }

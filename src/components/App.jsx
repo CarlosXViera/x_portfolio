@@ -1,6 +1,5 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import HexContainer from 'HexContainer';
 import Hexagons from 'Hexagons';
 import TopNav from 'TopNav';
 import AboutMe from 'AboutMe';
@@ -22,14 +21,21 @@ export default class App extends React.Component {
 			orientation: 'landscape',
 			hexagonVis: 'default',
 			show: false,
-			reRender: false
+			reRender: false,
+			initial: false
 		}
 
 		window.mobileCheck = mobileCheck;
 		if (!window.mobileCheck()) {
-			this.handleResize = this.handleResize.bind(this);
+			this.handleResize = this
+				.handleResize
+				.bind(this);
 			window.addEventListener('resize', this.handleResize);
 		}
+
+		this.handleInit = this
+			.handleInit
+			.bind(this);
 
 	}
 
@@ -41,7 +47,7 @@ export default class App extends React.Component {
 			})
 		}
 		clearTimeout(window.resizedFinished);
-		window.resizedFinished = setTimeout(setReRender.bind(this), 200);
+		window.resizedFinished = setTimeout(setReRender.bind(this), 1000);
 	}
 
 	handleClick() {
@@ -55,15 +61,26 @@ export default class App extends React.Component {
 		this.setState({
 			...this.state,
 			show: !this.state.show
-		})
+		});
+	}
+
+	componentDidUpdate() {}
+
+	handleInit() {
+		this.setState({
+			...this.state,
+			initial: !this.state.initial
+		});
 	}
 
 	render() {
 		return (
 			<div className="root">
 				<Router>
-					<div className="container app-container">
-						<TopNav show={this.state.show} handleShow={this.handleShow.bind(this)}/>
+					<div className="container app-container click-through">
+						<TopNav show={this.state.show} handleShow={this
+							.handleShow
+							.bind(this)}/>
 						<Route render={(props) => {
 							return (
 								<Switch >
@@ -77,11 +94,7 @@ export default class App extends React.Component {
 					</div>
 				</Router>
 
-				<HexContainer key={uuid('fuck')} orientation={this.state.orientation}>
-
-					<Hexagons reRender={this.state.reRender} orientation={this.state.orientation}></Hexagons>
-
-				</HexContainer>
+				<Hexagons reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 25} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}></Hexagons>
 			</div>
 		)
 	}
