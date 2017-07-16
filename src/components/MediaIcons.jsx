@@ -23,15 +23,9 @@ class MediaIcons extends React.Component {
 		}
 
 		this.mouseProps = {
-			onMouseOver: this
-				.handleMouseOver
-				.bind(this),
-			onMouseOut: this
-				.handleMouseOut
-				.bind(this),
-			onClick: this
-				.handleOnClick
-				.bind(this)
+			onMouseOver: this.handleMouseOver.bind(this),
+			onMouseOut: this.handleMouseOut.bind(this),
+			onClick: this.handleOnClick.bind(this)
 		}
 
 	}
@@ -49,7 +43,6 @@ class MediaIcons extends React.Component {
 	}
 
 	handleMouseOut({currentTarget}) {
-		console.log({currentTarget})
 		let g = currentTarget.children[0];
 
 		TweenLite.to(g.firstChild, 1, this.strokeBackTo);
@@ -109,7 +102,7 @@ class MediaIcons extends React.Component {
 		return (
 			<div className="row social-media-icons click-through">
 				<div className="col-sm-6 col-sm-offset-3 social-media-icons-content click-through">
-					<svg id="social-media-icons-item-svg" viewBox=" 0 0 92.3 26">
+					<svg id="social-media-icons-item-svg" className="click-through-child" viewBox=" 0 0 92.3 26">
 						{this.linkedInIcon()}
 						{this.gitHubIcon()}
 						{this.faceBookIcon()}

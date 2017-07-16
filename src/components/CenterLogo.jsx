@@ -191,7 +191,7 @@ export default class CenterLogo extends React.Component {
 
 	render() {
 		return (
-			<div className="row center-logo">
+			<div className="row center-logo click-through">
 				<div className="col-sm-6 col-sm-offset-3 center-logo-content">
 					<div></div>
 					<svg id="center-logo-svg" viewBox="0 0 292.2 333.9" ref={this.onRef}>

@@ -3,4 +3,21 @@
   //TODO: use media queries on height.
   padding-top: 21vh;
 
+  .swipe-container {
+    margin-top: 4rem;
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .swipe {
+      fill: none;
+      stroke: $white;
+      stroke-miterlimit: 10;
+      width: 33px;
+      height: 65px;
+    }
+  }
+
 }

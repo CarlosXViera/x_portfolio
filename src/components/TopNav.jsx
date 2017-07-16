@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import TopNavIcon from 'TopNavIcon';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
 import DefineGlasses from 'Glasses';
@@ -8,7 +8,7 @@ import {TimelineMax, Back} from 'gsap';
 import NavButton from 'NavButton';
 import {SlideNav, LogoSubTitle, LogoButton} from 'MobileNav';
 
-export default class TopNav extends React.Component {
+class TopNav extends React.Component {
 
 	constructor(props) {
 		super(props)
@@ -44,9 +44,7 @@ export default class TopNav extends React.Component {
 	renderSlideIn(show) {
 		let slide = show
 			? (
-				<div onClick={this
-					.handleShowSlideIn
-					.bind(this)}>
+				<div onClick={this.handleShowSlideIn.bind(this)}>
 					<SlideNav/>
 				</div>
 			)
@@ -98,15 +96,13 @@ export default class TopNav extends React.Component {
 						</Link>
 					</div>
 				</div>
-				<div className="col-sm-12 hidden-md hidden-lg">
+				<div className="col-sm-12 hidden-md hidden-lg nav-mobile-container">
 					<div className='row nav-mobile'>
 						{this.renderSlideIn(this.props.show)}
 						<LogoButton/>
 						<LogoSubTitle show={this.props.show}/>
 
-						<NavButton show={this.props.show} onClick={this
-							.handleShowSlideIn
-							.bind(this)}/>
+						<NavButton show={this.props.show} onClick={this.handleShowSlideIn.bind(this)}/>
 					</div>
 				</div>
 
@@ -114,3 +110,5 @@ export default class TopNav extends React.Component {
 		);
 	}
 }
+
+export default withRouter(TopNav);

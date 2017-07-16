@@ -15,8 +15,8 @@ const SVG = ({location, match}) => {
 						<path d="M588 405.7V272.2l-115.5-66.8-115.7 66.8v133.5l115.7 66.8L588 405.7z" className="a"/>
 					</clipPath>
 				</defs>
-				<path id="blank" d="M346.5 408.2a9.6 9.6 0 0 0 4.3-7.5V277.2a9.6 9.6 0 0 0-4.3-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0l-107 61.7a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
-				<NavLink to={`${match.url}/deepspace`}>
+				<path id="blank" className="click-through-child" d="M346.5 408.2a9.6 9.6 0 0 0 4.3-7.5V277.2a9.6 9.6 0 0 0-4.3-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0l-107 61.7a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
+				<NavLink className="click-through-child" to={`${match.url}/deepspace`}>
 					<g id="deep-space" className="c">
 						<path id="deep-space-border" d="M583.8 408.2a9.6 9.6 0 0 0 4.3-7.5V277.2a9.6 9.6 0 0 0-4.2-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0l-107 61.7a9.6 9.6 0 0 0-4.2 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5L468 470a9.6 9.6 0 0 0 8.8 0z" className="b"/>
 						<circle cx="351.4" cy="354.1" r="128.5" className="b"/>
@@ -82,7 +82,7 @@ const SVG = ({location, match}) => {
 						<path d="M489.4 355l-.2-.6-.6.2.3-.5h-.7l.6-.3-.4-.5.6.2.2-.5.2.4.5-.2-.2.5.6.2h-.6l.3.6-.4-.2-.2.5" className="d"/>
 					</g>
 				</NavLink>
-				<NavLink to={`${match.url}/pressinggame`}>
+				<NavLink className="click-through-child" to={`${match.url}/pressinggame`}>
 					<g id="pressing-game">
 						<path id="pressing-game-border" d="M227.5 202a9.6 9.6 0 0 0 4.3-7.5V71a9.6 9.6 0 0 0-4.3-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0L4.8 63.5A9.6 9.6 0 0 0 .5 71v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 						<path d="M17.5 164.5l184 32.4" className="e"/>
@@ -108,7 +108,7 @@ const SVG = ({location, match}) => {
 						<circle cx="201.6" cy="196.9" r="11.9" className="f"/>
 					</g>
 				</NavLink>
-				<NavLink to={`${match.url}/musicplayer`}>
+				<NavLink className="click-through-child" to={`${match.url}/musicplayer`}>
 					<g id="music-player">
 						<path id="music-player-border" d="M703 201.8a9.6 9.6 0 0 0 4.3-7.5V70.8a9.6 9.6 0 0 0-4.3-7.5L596 1.5a9.6 9.6 0 0 0-8.7 0l-107 61.8a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 						<circle cx="588.1" cy="134.8" r="75.7" className="b"/>
@@ -119,7 +119,7 @@ const SVG = ({location, match}) => {
 						<circle cx="588.1" cy="134.8" r="95.7" className="b"/>
 					</g>
 				</NavLink>
-				<NavLink to={`${match.url}/hmce`}>
+				<NavLink className="click-through-child" to={`${match.url}/hmce`}>
 					<g id="hcme">
 						<path id="hcme-border" d="M465 201.8a9.6 9.6 0 0 0 4.5-7.5V70.8a9.6 9.6 0 0 0-4.4-7.5L358 1.5a9.6 9.6 0 0 0-8.5 0l-107 61.8a9.6 9.6 0 0 0-4.4 7.5v123.5a9.6 9.6 0 0 0 4.5 7.5l107 61.8a9.6 9.6 0 0 0 8.6 0z" className="b"/>
 						<path d="M274.2 53.4h159.4v159.4H274.2z" className="a"/>

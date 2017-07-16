@@ -20,6 +20,7 @@
     "node-uuid": "^1.4.8",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-easy-swipe": "0.0.13",
     "react-gsap-enhancer": "^0.3.0",
     "react-image-gallery": "^0.8.3",
     "react-loader": "^2.4.0",
@@ -27,7 +28,10 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-transition": "^0.1.1",
-    "react-transition-group": "^1.2.0"
+    "react-swipeable": "^4.0.1",
+    "react-touch-events": "^2.1.0",
+    "react-transition-group": "^1.2.0",
+    "react-waypoint": "^7.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

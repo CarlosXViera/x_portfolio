@@ -1,4 +1,8 @@
 .about-me-content {
+  overflow-y: scroll;
+  height: 90vh;
+  pointer-events: all;
+
   .code-arrows {
     color: $todayIV;
     font-size: 1rem;
@@ -21,6 +25,8 @@
   }
 
   .about-total {
+    pointer-events: none;
+
     margin: 10vh auto;
 
     .skill-content {

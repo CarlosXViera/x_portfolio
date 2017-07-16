@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react'
 import {importTemplates} from 'utils'
+import {withRouter} from 'react-router-dom';
 import uuid from 'node-uuid'
-import {TweenMax, Sine} from 'gsap';
+import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
-
 		this.animation = [];
 
 		let data = this.generateData(props.width, props.height);
@@ -17,9 +17,7 @@ export default class Hexagons extends React.Component {
 			...data
 		}
 
-		this.handleMouseOver = this
-			.handleMouseOver
-			.bind(this);
+		this.handleMouseOver = this.handleMouseOver.bind(this);
 
 	}
 
@@ -35,10 +33,13 @@ export default class Hexagons extends React.Component {
 		this.startWaveTransition(ringLayers);
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			...this.generateData(nextProps.width, nextProps.height)
-		})
+	componentWillReceiveProps({width, height}) {
+		if (width != this.props.width || height != this.props.height) {
+			this.setState({
+				...this.generateData(width, height)
+			})
+		}
+
 	}
 
 	componentDidUpdate() {
@@ -48,8 +49,8 @@ export default class Hexagons extends React.Component {
 
 	}
 	shouldComponentUpdate(nextProps, nextState) {
-		return JSON.stringify(nextProps) !== JSON.stringify(this.props);
 
+		return (JSON.stringify(nextProps) !== JSON.stringify(this.props)) && JSON.stringify(nextState) !== JSON.stringify(this.state);
 	}
 	componentWillUnmount() {}
 
@@ -92,7 +93,7 @@ export default class Hexagons extends React.Component {
 			}, {
 				x: 0,
 				y: -1,
-				z :+ 1
+				z: + 1
 			}
 		]
 		return cubeDirections[direction]
@@ -132,13 +133,11 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
-	hexLength(hex)
-	{
+	hexLength(hex) {
 		return Math.trunc((Math.abs(hex.x) + Math.abs(hex.y) + Math.abs(hex.z)) / 2);
 	}
 
-	findNeighbor(hex, direction)
-	{
+	findNeighbor(hex, direction) {
 		return this.addToHex(hex, this.getDirection(direction));
 	}
 
@@ -168,16 +167,13 @@ export default class Hexagons extends React.Component {
 				scale: scale,
 				fill,
 				repeat: -1,
+				repeatDelay: .5,
 				yoyo: true,
 				ease: Sine.easeIn
 			}
 
-			let tl = TweenMax
-				.to(layer, 1, stuff)
-				.progress(norm * frequency);
-			this
-				.animation
-				.push(tl);
+			let tl = TweenMax.to(layer, 1, stuff).progress(norm * frequency);
+			this.animation.push(tl);
 		})
 	}
 
@@ -236,10 +232,7 @@ export default class Hexagons extends React.Component {
 		});
 
 		for (let i = 1; i < longestSide; i++) {
-			let l = this
-				.getHexRing(center, i)
-				.map(d => this.getHexagonElement(d))
-				.filter(d => d !== null);
+			let l = this.getHexRing(center, i).map(d => this.getHexagonElement(d)).filter(d => d !== null);
 			if (l[0] != null)
 				ringLayers.push(l);
 			}
@@ -247,19 +240,29 @@ export default class Hexagons extends React.Component {
 	}
 
 	handleMouseOver({currentTarget}) {
-		TweenMax.to(currentTarget, .5, {
-			fill: 'white',
+		let tl = new TimelineMax;
+		tl.to(currentTarget, 1, {
+			stroke: '#E6F99D',
+			strokeWidth: .1,
+			opacity: 0,
 			repeat: 1,
-			yoyo: true
+			yoyo: true,
+			ease: Sine.easeInOut,
+			onComplete: d => tl.set(currentTarget, {clearProps: 'stroke, opacity, strokeWidth'})
 		})
+
 	}
 
 	updateLayers() {
 
 		for (let anim of this.animation) {
 			anim.updateTo({
-				stroke: 'yellow'
-			}, false);
+				css: {
+					transformOrigin: '50% 50%',
+					scale: 1.2 / 2,
+					fill: 'yellow'
+				}
+			}, true);
 
 		}
 
@@ -324,12 +327,9 @@ export default class Hexagons extends React.Component {
 			pRef
 		}, i) => {
 			return (
-
 				<g key={i} id={id} ref={gRef} transform={transforms}>
-
-					<polygon onClick={() => this.updateLayers()} fill='green' className="hexagon" ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
+					<polygon onMouseOver={this.handleMouseOver} className="hexagon" ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
 				</g>
-
 			)
 		})
 
@@ -338,15 +338,11 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-
-			<div>
-				<svg className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="none">
-					<g className='hexagons'>
-						{this.renderHexagons(hexagonsAttrs)}
-					</g>
-				</svg>
-			</div>
-
+			<svg className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="none">
+				<g className='hexagons'>
+					{this.renderHexagons(hexagonsAttrs)}
+				</g>
+			</svg>
 		)
 	}
 }

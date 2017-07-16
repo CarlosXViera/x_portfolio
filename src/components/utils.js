@@ -3,6 +3,30 @@ import {
 	select
 } from 'd3-selection';
 
+export function handleSwipeUp(props) {
+	let urls = ['/', '/about', '/work', '/contact'],
+		index = urls.indexOf(props.location.pathname),
+		next = index + 1;
+
+	if (next > urls.length - 1)
+		return;
+	props.history.push(urls[next]);
+}
+
+export function handleSwipeDown(props) {
+	let urls = ['/', '/about', '/work', '/contact'],
+		index = urls.indexOf(props.location.pathname),
+		previous = index - 1;
+	if (previous < 0) {
+		return;
+	}
+
+	props.history.push(urls[previous]);
+}
+
+
+
+
 export function mobileCheck() {
 	var check = false;
 	(function (a) {
@@ -64,6 +88,8 @@ export function randomColor(colors) {
 
 	return colors[getRandomInt(0, colors.length)];
 }
+
+
 
 export function endAll(transition, callback) {
 	let n = 0;

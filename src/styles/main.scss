@@ -20,12 +20,12 @@
   display: none;
 }
 
-.click-through {
-  pointer-events: none;
+div.click-through {
+  pointer-events: all;
 }
 
 .click-through-child {
-  pointer-events: auto;
+  pointer-events: all;
 }
 
 .html {
@@ -42,8 +42,6 @@ body {
   font-size: 12px;
   background-color: $background;
   margin: 0;
-
-  height: 100vh;
 }
 
 svg#main {
@@ -52,11 +50,15 @@ svg#main {
   padding: 0;
   position: absolute;
   top: 0;
-  z-index: 1;
+  z-index: -1;
   width: 100vw;
-  height: 100vh;
+  height: 99vh;
 }
 
 h1 {
   color: $white;
+}
+
+.end-page {
+  margin-top: 6rem;
 }

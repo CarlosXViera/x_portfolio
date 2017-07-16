@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import Hexagons from 'Hexagons';
 import TopNav from 'TopNav';
 import AboutMe from 'AboutMe';
@@ -11,12 +11,12 @@ import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
 import {Transition} from 'Transitions';
 import {mobileCheck} from 'utils';
+import Swipeable from 'react-swipeable'
+import {handleSwipeUp, handleSwipeDown} from 'utils';
 
 export default class App extends React.Component {
-
 	constructor(props) {
 		super(props);
-
 		this.state = {
 			orientation: 'landscape',
 			hexagonVis: 'default',
@@ -27,17 +27,15 @@ export default class App extends React.Component {
 
 		window.mobileCheck = mobileCheck;
 		if (!window.mobileCheck()) {
-			this.handleResize = this
-				.handleResize
-				.bind(this);
+			this.handleResize = this.handleResize.bind(this);
 			window.addEventListener('resize', this.handleResize);
 		}
 
-		this.handleInit = this
-			.handleInit
-			.bind(this);
+		this.handleInit = this.handleInit.bind(this);
 
 	}
+
+	componentWillReceiveProps(nextProps, nextState) {}
 
 	handleResize() {
 		function setReRender() {
@@ -73,28 +71,48 @@ export default class App extends React.Component {
 		});
 	}
 
+	renderMainPages(props) {
+		let pages = {
+			work: Work,
+			about: AboutMe,
+			contact: Contact
+		};
+		const CurrentPage = pages[props.match.params.page];
+
+		return (
+			<Swipeable delta={150} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
+				<CurrentPage {...props}/>
+			</Swipeable>
+		)
+	}
+
+	renderHome(props) {
+		return (
+			<Swipeable delta={150} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
+				<Home {...props}/>
+			</Swipeable>
+		)
+
+	}
+
 	render() {
 		return (
 			<div className="root">
 				<Router>
-					<div className="container app-container click-through">
-						<TopNav show={this.state.show} handleShow={this
-							.handleShow
-							.bind(this)}/>
-						<Route render={(props) => {
+					<div className="container app-container click-through-child">
+						<TopNav show={this.state.show} handleShow={this.handleShow.bind(this)}/>
+						<Route render={({location, history, match}) => {
+							console.log(match);
 							return (
 								<Switch >
-									<Route path='/work' component={Work}/>
-									<Route path='/about' component={AboutMe}/>
-									<Route path='/contact' component={Contact}/>
-									<Route path='/' component={Home}/>
+									<Route path={`${match.url}:page`} component={this.renderMainPages}/>
+									<Route path='/' component={this.renderHome}/>
 								</Switch>
 							);
 						}}/>
+						<Hexagons reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 25} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
 					</div>
 				</Router>
-
-				<Hexagons reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 25} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}></Hexagons>
 			</div>
 		)
 	}
