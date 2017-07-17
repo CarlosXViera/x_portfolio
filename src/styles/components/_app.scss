@@ -28,3 +28,20 @@
     margin-bottom: 10px;
   }
 }
+
+.swipe-container {
+  height: 20vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .swipe {
+    fill: none;
+    stroke: $white;
+    stroke-miterlimit: 10;
+    width: 29px;
+    height: 60px;
+
+  }
+}

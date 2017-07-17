@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import NotifySwipe from 'NotifySwipe';
 
 export default class Contact extends React.Component {
 	constructor(props) {
@@ -7,8 +8,11 @@ export default class Contact extends React.Component {
 
 	render() {
 		return (
-			<div id="two">
-				CONTACT PAGE
+			<div>
+				<div id="two">
+					CONTACT PAGE
+				</div>
+				<NotifySwipe/>
 			</div>
 		)
 	}

@@ -1,8 +1,16 @@
 .work-page {
+  overflow-y: scroll;
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .work-content {
 
     display: flex;
     justify-content: center;
+    align-items: center;
 
     .a,
     .b,

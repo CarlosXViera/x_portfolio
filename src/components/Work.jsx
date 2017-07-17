@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom';
 import WorkContent from 'WorkContent';
 import {CSSTransitionGroup} from 'react-transition-group';
+import NotifySwipe from 'NotifySwipe';
 
 /* TODO: Cleanup SVG transforms/tags.
 */
@@ -229,6 +230,7 @@ export default class Work extends React.Component {
 			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 				<div key={location.key} className='row work-page'>
 					<SVG {...props}/>
+					<NotifySwipe/>
 				</div>
 			</CSSTransitionGroup>
 		)

@@ -15,6 +15,7 @@
 @import 'components/work-content';
 @import 'components/work-controls';
 @import 'components/transitions';
+@import 'components/notify-swipe';
 
 ::-webkit-scrollbar {
   display: none;
@@ -30,18 +31,16 @@ div.click-through {
 
 .html {
   background-color: $background;
-  overflow: hidden;
 }
 
 #root,
-.root {
-  overflow: hidden;
-}
+.root {}
 
 body {
   font-size: 12px;
   background-color: $background;
   margin: 0;
+
 }
 
 svg#main {
@@ -52,7 +51,8 @@ svg#main {
   top: 0;
   z-index: -1;
   width: 100vw;
-  height: 99vh;
+  height: 100vh;
+
 }
 
 h1 {
@@ -60,5 +60,6 @@ h1 {
 }
 
 .end-page {
-  margin-top: 6rem;
+  height: 1rem;
+  width: 1rem;
 }

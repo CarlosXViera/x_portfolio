@@ -4,6 +4,7 @@ import SkillButtons from 'SkillButtons';
 import {RouteTransition} from 'react-router-transition';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
+import NotifySwipe from 'NotifySwipe';
 
 const LeftContent = () => {
 	return (
@@ -81,7 +82,7 @@ export default class AboutMe extends React.Component {
 				time: 300
 			}}>
 				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
-					<div className="row page-title">
+					<div ref='aboutMe' className="row page-title">
 						<div className="col-sm-6 col-sm-offset-3">
 							<h2>Hello,</h2>
 							<p className="title-divider">■ ■ ■ ■</p>
@@ -90,6 +91,12 @@ export default class AboutMe extends React.Component {
 					<div className="row about-total">
 						{LeftContent()}
 						{this.renderRightContent()}
+
+					</div>
+					<div className="row">
+						<div className="col-sm-12">
+							<NotifySwipe/>
+						</div>
 					</div>
 				</div>
 			</Transition>

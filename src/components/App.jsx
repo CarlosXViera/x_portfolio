@@ -11,12 +11,12 @@ import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
 import {Transition} from 'Transitions';
 import {mobileCheck} from 'utils';
-import Swipeable from 'react-swipeable'
-import {handleSwipeUp, handleSwipeDown} from 'utils';
+import Swipeable from 'react-swipeable';
 
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			orientation: 'landscape',
 			hexagonVis: 'default',
@@ -34,6 +34,7 @@ export default class App extends React.Component {
 		this.handleInit = this.handleInit.bind(this);
 
 	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(nextProps, nextState) {}
 
@@ -64,13 +65,14 @@ export default class App extends React.Component {
 
 	componentDidUpdate() {}
 
-	handleInit() {
-		this.setState({
-			...this.state,
-			initial: !this.state.initial
-		});
-	}
+	renderHomePage(props) {
+		return (
+			<Swipeable delta={300} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
+				<Home {...props}/>
+			</Swipeable>
+		)
 
+	}
 	renderMainPages(props) {
 		let pages = {
 			work: Work,
@@ -80,37 +82,36 @@ export default class App extends React.Component {
 		const CurrentPage = pages[props.match.params.page];
 
 		return (
-			<Swipeable delta={150} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
+			<Swipeable delta={300} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
 				<CurrentPage {...props}/>
 			</Swipeable>
 		)
+
 	}
 
-	renderHome(props) {
-		return (
-			<Swipeable delta={150} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
-				<Home {...props}/>
-			</Swipeable>
-		)
-
+	handleInit() {
+		this.setState({
+			...this.state,
+			initial: !this.state.initial
+		});
 	}
 
 	render() {
+
 		return (
 			<div className="root">
 				<Router>
 					<div className="container app-container click-through-child">
 						<TopNav show={this.state.show} handleShow={this.handleShow.bind(this)}/>
 						<Route render={({location, history, match}) => {
-							console.log(match);
 							return (
 								<Switch >
 									<Route path={`${match.url}:page`} component={this.renderMainPages}/>
-									<Route path='/' component={this.renderHome}/>
+									<Route path='/' component={this.renderHomePage}/>
 								</Switch>
 							);
 						}}/>
-						<Hexagons reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 25} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
+						<Hexagons reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 55} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
 					</div>
 				</Router>
 			</div>
