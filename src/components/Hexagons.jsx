@@ -5,6 +5,7 @@ import uuid from 'node-uuid'
 import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
+import {pad} from 'utils';
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
@@ -21,13 +22,6 @@ export default class Hexagons extends React.Component {
 
 	}
 
-	pad(num, size) {
-		let s = num + "";
-		while (s.length < size)
-			s = "0" + s;
-		return s;
-	}
-
 	componentDidMount() {
 		let ringLayers = this.getRingLayers(this.props.height, this.props.width);
 		this.startWaveTransition(ringLayers);
@@ -35,22 +29,40 @@ export default class Hexagons extends React.Component {
 
 	componentWillReceiveProps({width, height}) {
 		if (width != this.props.width || height != this.props.height) {
+
+			let {refreshPane, hexcontainer, refreshPaneContainer} = this.refs;
+
+			let tl = new TimelineMax();
+
+			tl.to(hexcontainer, 0, {zIndex: 1000});
+
+			tl.to(refreshPaneContainer, 0, {visibility: 'visible'}).to(refreshPane, .3, {width: '100%'})
+
 			this.setState({
 				...this.generateData(width, height)
 			})
 		}
-
 	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+
+		return (JSON.stringify(nextProps) !== JSON.stringify(this.props)) && JSON.stringify(nextState) !== JSON.stringify(this.state);
+	}
+
+	componentWillUpdate() {}
 
 	componentDidUpdate() {
 		let ringLayers = this.getRingLayers(this.props.height, this.props.width);
 		this.removeAnimations(this.animation);
 		this.startWaveTransition(ringLayers);
 
-	}
-	shouldComponentUpdate(nextProps, nextState) {
+		let tl = new TimelineMax();
+		let {hexcontainer, refreshPaneContainer, refreshPane} = this.refs;
+		tl.to(refreshPane, .5, {
+			width: '0%',
+			delay: 1
+		}).to(refreshPaneContainer, -1, {visibility: 'hidden'}).to(hexcontainer, -1, {zIndex: -1});
 
-		return (JSON.stringify(nextProps) !== JSON.stringify(this.props)) && JSON.stringify(nextState) !== JSON.stringify(this.state);
 	}
 	componentWillUnmount() {}
 
@@ -115,16 +127,6 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
-	removeAnimations(arr) {
-		for (let anim of arr) {
-			let layers = anim.target;
-			anim.kill()
-			anim.pause(0, true)
-			anim.invalidate()
-			TweenMax.set(layers, {clearProps: 'all'})
-		}
-		this.animation = [];
-	}
 	scaleHex(a, k) {
 		return {
 			x: a.x * k,
@@ -153,30 +155,6 @@ export default class Hexagons extends React.Component {
 		return results;
 	}
 
-	startWaveTransition(ringLayers, fill = '#071F3A') {
-
-		let amplitude = 1.2;
-		let frequency = 40;
-		let segments = ringLayers.length * 20;
-
-		ringLayers.forEach((layer, i, arr) => {
-			var norm = i / segments;
-			var scale = amplitude / 2;
-			let stuff = {
-				transformOrigin: '50% 50%',
-				scale: scale,
-				fill,
-				repeat: -1,
-				repeatDelay: .5,
-				yoyo: true,
-				ease: Sine.easeIn
-			}
-
-			let tl = TweenMax.to(layer, 1, stuff).progress(norm * frequency);
-			this.animation.push(tl);
-		})
-	}
-
 	getHexagonElement(hexCoords) {
 		let c = this.state.cubeCoordinates[`${hexCoords.x} ${hexCoords.y} ${hexCoords.z}`]
 		if (typeof c === 'undefined')
@@ -193,13 +171,13 @@ export default class Hexagons extends React.Component {
 		let x = Math.trunc(offsetCoords.x),
 			y = Math.trunc(offsetCoords.y);
 
-		let key = `${this.pad(x, 2)}${this.pad(y, 2)}`;
+		let key = `${pad(x, 2)}${pad(y, 2)}`;
 		return this.state.offsetCoords[key].cubeCoords;
 	}
 
 	getHexagonData(row, col, t) {
-		let r = this.pad(row, 2),
-			c = this.pad(col, 2);
+		let r = pad(row, 2),
+			c = pad(col, 2);
 		let hexId = `${r}${c}`;
 		return {
 			id: hexId,
@@ -254,7 +232,6 @@ export default class Hexagons extends React.Component {
 	}
 
 	updateLayers() {
-
 		for (let anim of this.animation) {
 			anim.updateTo({
 				css: {
@@ -263,9 +240,42 @@ export default class Hexagons extends React.Component {
 					fill: 'yellow'
 				}
 			}, true);
-
 		}
+	}
 
+	removeAnimations(arr) {
+		for (let anim of arr) {
+			let layers = anim.target;
+			anim.kill()
+			anim.pause(0, true)
+			anim.invalidate()
+			TweenMax.set(layers, {clearProps: 'all'})
+			anim.remove();
+		}
+		this.animation = [];
+	}
+
+	startWaveTransition(ringLayers, fill = '#071F3A') {
+		let amplitude = 1.2,
+			frequency = 40,
+			segments = ringLayers.length * 20;
+
+		ringLayers.forEach((layer, i, arr) => {
+			let norm = i / segments,
+				scale = amplitude / 2,
+				stuff = {
+					transformOrigin: '50% 50%',
+					scale: scale,
+					fill,
+					repeat: -1,
+					repeatDelay: .5,
+					yoyo: true,
+					ease: Sine.easeIn
+				}
+
+			let tl = TweenMax.to(layer, 1, stuff).progress(norm * frequency);
+			this.animation.push(tl);
+		})
 	}
 
 	generateData(width, height) {
@@ -338,9 +348,12 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-			<svg className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="none">
+			<svg ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="none">
 				<g className='hexagons'>
 					{this.renderHexagons(hexagonsAttrs)}
+				</g>
+				<g ref='refreshPaneContainer' className='refresh-pane-container'>
+					<rect ref='refreshPane' className='refresh-pane'></rect>
 				</g>
 			</svg>
 		)

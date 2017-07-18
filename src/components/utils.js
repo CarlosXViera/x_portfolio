@@ -24,7 +24,12 @@ export function handleSwipeDown(props) {
 	props.history.push(urls[previous]);
 }
 
-
+export function pad(num, size) {
+	let s = num + "";
+	while (s.length < size)
+		s = "0" + s;
+	return s;
+}
 
 
 export function mobileCheck() {

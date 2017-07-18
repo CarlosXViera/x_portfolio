@@ -51,7 +51,7 @@ export default class AboutMe extends React.Component {
 
 	renderRightContent() {
 		return (
-			<div className="col-sm-12 col-md-6 col-lg-6 skill-content">
+			<div className="col-sm-12 col-md-6 skill-content">
 				<Browser vis={this.state.visualization}/>
 				<SkillButtons handleClick={this.onClick.bind(this)}/>
 				<div className="row skill-selectors">
@@ -79,7 +79,7 @@ export default class AboutMe extends React.Component {
 		return (
 			<Transition settings={{
 				transition: 'slide-up',
-				time: 300
+				time: 2000
 			}}>
 				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
 					<div ref='aboutMe' className="row page-title">

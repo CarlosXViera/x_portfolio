@@ -6,6 +6,7 @@
   width: 100%;
 
   .swipe {
+    visibility: hidden;
     fill: none;
     stroke: $white;
     stroke-miterlimit: 10;
@@ -15,6 +16,7 @@
   }
 
   .scroll {
+    visibility: hidden;
     width: 2rem;
     height: 3.7rem;
     stroke-miterlimit: 10;

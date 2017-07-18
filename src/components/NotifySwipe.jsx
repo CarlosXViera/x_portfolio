@@ -12,18 +12,18 @@ export default class NofiySwipe extends React.Component {
 			swipe: window.mobileCheck()
 
 		}
-
-		console.log();
 		this.swipeAnimation = new TimelineMax();
 		this.mouseScrollAnimation = new TimelineMax();
 
 	}
 
 	handleSwiperEnter() {
+
 		this.swipeAnimation.restart()
 		this.state.swipe
 			? ''
 			: this.mouseScrollAnimation.restart();
+
 	}
 
 	animateSwipe() {
@@ -40,6 +40,7 @@ export default class NofiySwipe extends React.Component {
 		this.swipeAnimation.to([
 			swiper, phone
 		], 2, {
+			visibility: 'visible',
 			transformOrigin: '50%, 50%',
 			opacity: 1,
 			drawSVG: '100%'
@@ -66,13 +67,17 @@ export default class NofiySwipe extends React.Component {
 
 		TweenMax.to(mouse, 0, {
 			transformOrigin: '50%, 50%',
+			visibility: 'visible',
 			opacity: 0,
 			drawSVG: '0%'
 		});
 
 		TweenMax.to([
 			circle1, circle2, circle3
-		], 0, {opacity: 0});
+		], 0, {
+			visibility: 'visible',
+			opacity: 0
+		});
 
 		this.swipeAnimation.to(mouse, 1, {
 			opacity: 1,
@@ -108,8 +113,8 @@ export default class NofiySwipe extends React.Component {
 	componentDidMount() {
 
 		this.state.swipe
-			? this.animateSwipe()
-			: this.animateScroll();
+			? setTimeout(this.animateSwipe.bind(this), 3000)
+			: setTimeout(this.animateScroll.bind(this), 3000);
 
 	}
 

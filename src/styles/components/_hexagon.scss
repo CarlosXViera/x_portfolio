@@ -1,3 +1,13 @@
 .hexagon {
   fill: $todayI;
 }
+
+.refresh-pane-container {
+  visibility: hidden;
+}
+
+.refresh-pane {
+  width: 0;
+  height: 100%;
+  fill: $todayI;
+}

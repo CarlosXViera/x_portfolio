@@ -1,11 +1,7 @@
 .app-container {
   z-index: 3;
-  position: relative;
-  height: 99vh;
-  overflow-y: scroll;
   margin: 0;
   padding: 0;
-  transition: height 0.66s ease-out;
 }
 
 .content {}
@@ -26,22 +22,5 @@
     margin: 0;
     padding: 0;
     margin-bottom: 10px;
-  }
-}
-
-.swipe-container {
-  height: 20vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .swipe {
-    fill: none;
-    stroke: $white;
-    stroke-miterlimit: 10;
-    width: 29px;
-    height: 60px;
-
   }
 }

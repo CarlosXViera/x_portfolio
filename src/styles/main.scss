@@ -37,9 +37,11 @@ div.click-through {
 .root {}
 
 body {
+  height: 100vh;
   font-size: 12px;
   background-color: $background;
   margin: 0;
+  overflow: hidden;
 
 }
 

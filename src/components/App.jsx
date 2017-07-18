@@ -12,6 +12,8 @@ import uuid from 'node-uuid';
 import {Transition} from 'Transitions';
 import {mobileCheck} from 'utils';
 import Swipeable from 'react-swipeable';
+import {handleSwipeUp, handleSwipeDown} from 'utils';
+import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -34,19 +36,23 @@ export default class App extends React.Component {
 		this.handleInit = this.handleInit.bind(this);
 
 	}
-	componentDidMount() {}
+	componentDidMount() {
+		console.log(this.props.children);
+	}
 
 	componentWillReceiveProps(nextProps, nextState) {}
 
 	handleResize() {
 		function setReRender() {
+
 			this.setState({
 				...this.state,
 				reRender: !this.state.reRender
-			})
+			});
+
 		}
 		clearTimeout(window.resizedFinished);
-		window.resizedFinished = setTimeout(setReRender.bind(this), 1000);
+		window.resizedFinished = setTimeout(setReRender.bind(this), 150);
 	}
 
 	handleClick() {
@@ -111,7 +117,7 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-						<Hexagons reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 55} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
+						<Hexagons ref='hexagons' reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 55} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
 					</div>
 				</Router>
 			</div>
