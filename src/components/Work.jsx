@@ -219,6 +219,10 @@ export default class Work extends React.Component {
 		super(props)
 	}
 
+	componentDidMount() {
+		this.props.onUnSwipeable();
+	}
+
 	renderWork(props) {
 		return (<WorkContent location={props.location} workId={props.match.params.workId}/>)
 	}
@@ -229,7 +233,7 @@ export default class Work extends React.Component {
 			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 				<div key={location.key} className='row work-page'>
 					<SVG {...props}/>
-					<NotifySwipe/>
+					<NotifySwipe {...this.props}/>
 				</div>
 			</CSSTransitionGroup>
 		)
@@ -239,12 +243,11 @@ export default class Work extends React.Component {
 	render() {
 
 		return (
-
 			<Route render={({location, history, match}) => {
 				return (
 					<Switch>
 						<Route path={`${match.url}/:workId`} component={this.renderWork}/>
-						<Route path={match.url} component={this.renderSvg}/>
+						<Route path={match.url} component={this.renderSvg.bind(this)}/>
 					</Switch>
 				)
 			}}/>

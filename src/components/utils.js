@@ -3,21 +3,22 @@ import {
 	select
 } from 'd3-selection';
 
-export function handleSwipeUp(props) {
+export function handleSwipeUp(props, possible) {
 	let urls = ['/', '/about', '/work', '/contact'],
 		index = urls.indexOf(props.location.pathname),
 		next = index + 1;
 
-	if (next > urls.length - 1)
+	if (next > urls.length - 1 || possible == false)
 		return;
 	props.history.push(urls[next]);
 }
 
-export function handleSwipeDown(props) {
+export function handleSwipeDown(props, possible) {
 	let urls = ['/', '/about', '/work', '/contact'],
 		index = urls.indexOf(props.location.pathname),
 		previous = index - 1;
-	if (previous < 0) {
+
+	if (previous < 0 || possible == false) {
 		return;
 	}
 

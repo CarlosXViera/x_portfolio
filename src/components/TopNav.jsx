@@ -13,12 +13,17 @@ class TopNav extends React.Component {
 	constructor(props) {
 		super(props)
 		this.colors = ['#259073', '#7FDA89', '#C8E98E', '#E6F99D']
+
+		this.state = {
+			show: false
+		}
 	}
 
 	handleShowSlideIn({currentTarget}) {
+
 		let arr = [...currentTarget.firstChild.children];
 
-		let complete = this.props.handleShow;
+		let complete = this.handleShow.bind(this);
 
 		this.tlArr = arr.map((item, i, a) => {
 			let tl = new TimelineMax();
@@ -39,7 +44,25 @@ class TopNav extends React.Component {
 		})
 
 	}
+
+	componentWillReceiveProps() {
+		console.log('receiving');
+	}
 	componentDidUpdate() {}
+
+	handleClick() {
+		this.setState({
+			...this.state,
+			show: false
+		})
+	}
+
+	handleShow() {
+		this.setState({
+			...this.state,
+			show: !this.state.show
+		});
+	}
 
 	renderSlideIn(show) {
 		let slide = show
@@ -98,11 +121,11 @@ class TopNav extends React.Component {
 				</div>
 				<div className="col-sm-12 hidden-md hidden-lg nav-mobile-container">
 					<div className='row nav-mobile'>
-						{this.renderSlideIn(this.props.show)}
+						{this.renderSlideIn(this.state.show)}
 						<LogoButton/>
-						<LogoSubTitle show={this.props.show}/>
+						<LogoSubTitle show={this.state.show}/>
 
-						<NavButton show={this.props.show} onClick={this.handleShowSlideIn.bind(this)}/>
+						<NavButton show={this.state.show} onClick={this.handleShowSlideIn.bind(this)}/>
 					</div>
 				</div>
 

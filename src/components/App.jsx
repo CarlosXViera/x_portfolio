@@ -24,7 +24,8 @@ export default class App extends React.Component {
 			hexagonVis: 'default',
 			show: false,
 			reRender: false,
-			initial: false
+			initial: false,
+			swipeable: false
 		}
 
 		window.mobileCheck = mobileCheck;
@@ -38,7 +39,25 @@ export default class App extends React.Component {
 	}
 	componentDidMount() {}
 
-	componentWillReceiveProps(nextProps, nextState) {}
+	componentWillReceiveProps(nextProps, nextState) {
+		console.log('receiving at app')
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+
+		if (this.state.reRender !== nextState.reRender) {
+			return true;
+		}
+
+		if (this.state.hexagonVis !== nextState.hexagonVis) {
+			return true;
+		}
+
+		if (this.state.swipeable || !this.state.swipeable || nextState.swipeable || !nextState.swipeable) {
+			return false;
+		}
+
+	}
 
 	handleResize() {
 		function setReRender() {
@@ -53,17 +72,16 @@ export default class App extends React.Component {
 		window.resizedFinished = setTimeout(setReRender.bind(this), 150);
 	}
 
-	handleClick() {
+	handleSwipeable() {
 		this.setState({
 			...this.state,
-			show: false
-		})
+			swipeable: true
+		});
 	}
-
-	handleShow() {
+	handleUnSwipeable() {
 		this.setState({
 			...this.state,
-			show: !this.state.show
+			swipeable: false
 		});
 	}
 
@@ -71,8 +89,8 @@ export default class App extends React.Component {
 
 	renderHomePage(props) {
 		return (
-			<Swipeable delta={300} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
-				<Home {...props}/>
+			<Swipeable delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+				<Home onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
 
@@ -86,8 +104,8 @@ export default class App extends React.Component {
 		const CurrentPage = pages[props.match.params.page];
 
 		return (
-			<Swipeable delta={300} onSwipedDown={() => handleSwipeDown(props)} onSwipedUp={() => handleSwipeUp(props)}>
-				<CurrentPage {...props}/>
+			<Swipeable delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
 
@@ -106,12 +124,12 @@ export default class App extends React.Component {
 			<div className="root">
 				<Router>
 					<div className="container app-container click-through-child">
-						<TopNav show={this.state.show} handleShow={this.handleShow.bind(this)}/>
+						<TopNav/>
 						<Route render={({location, history, match}) => {
 							return (
 								<Switch >
-									<Route path={`${match.url}:page`} component={this.renderMainPages}/>
-									<Route path='/' component={this.renderHomePage}/>
+									<Route path={`${match.url}:page`} component={this.renderMainPages.bind(this)}/>
+									<Route path='/' component={this.renderHomePage.bind(this)}/>
 								</Switch>
 							);
 						}}/>

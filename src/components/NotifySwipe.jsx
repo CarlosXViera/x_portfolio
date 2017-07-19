@@ -18,7 +18,7 @@ export default class NofiySwipe extends React.Component {
 	}
 
 	handleSwiperEnter() {
-
+		this.props.onSwipeable()
 		this.swipeAnimation.restart()
 		this.state.swipe
 			? ''
@@ -118,7 +118,10 @@ export default class NofiySwipe extends React.Component {
 
 	}
 
-	handleSwipeLeave() {}
+	handleSwipeLeave() {
+		this.props.onUnSwipeable()
+		console.log('leaving');
+	}
 
 	renderNotification(scroll) {
 		return scroll

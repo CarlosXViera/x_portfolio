@@ -48,9 +48,9 @@ export default class AboutMe extends React.Component {
 
 	}
 
-	drawBrowser
-
-	componentDidMount() {}
+	componentDidMount() {
+		this.props.onUnSwipeable();
+	}
 
 	renderRightContent() {
 		return (
@@ -98,7 +98,7 @@ export default class AboutMe extends React.Component {
 					</div>
 					<div className="row">
 						<div className="col-sm-12">
-							<NotifySwipe/>
+							<NotifySwipe {...this.props}/>
 						</div>
 					</div>
 				</div>

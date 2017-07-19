@@ -17,8 +17,14 @@ export default class Home extends React.Component {
 	handleHover() {
 		this.setState({hover: true});
 	}
+	componentWillReceiveProps(nextProps) {}
+	componentDidMount() {
+		this.props.onUnSwipeable();
+	}
 
-	componentDidMount() {}
+	shouldComponentUpdate() {
+		return false;
+	}
 
 	render() {
 		return (
@@ -29,7 +35,7 @@ export default class Home extends React.Component {
 				<div key={this.props.location.key} className="col-sm home-content click-through-child">
 					<CenterLogo className="click-through click-through-child"/>
 					<MediaIcons onHover={this.handleHover.bind(this)}/>
-					<NotifySwipe/>
+					<NotifySwipe {...this.props}/>
 				</div>
 			</Transition>
 		)

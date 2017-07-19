@@ -5,6 +5,9 @@ export default class Contact extends React.Component {
 	constructor(props) {
 		super(props)
 	}
+	componentDidMount() {
+		this.props.onUnSwipeable();
+	}
 
 	render() {
 		return (
@@ -12,7 +15,7 @@ export default class Contact extends React.Component {
 				<div id="two">
 					CONTACT PAGE
 				</div>
-				<NotifySwipe/>
+				<NotifySwipe {...this.props}/>
 			</div>
 		)
 	}
