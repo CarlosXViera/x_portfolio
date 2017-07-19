@@ -209,7 +209,6 @@ const SVG = ({location, match}) => {
 					</g>
 				</NavLink>
 			</svg>
-
 		</div>
 
 	)

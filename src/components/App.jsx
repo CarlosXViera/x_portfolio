@@ -36,9 +36,7 @@ export default class App extends React.Component {
 		this.handleInit = this.handleInit.bind(this);
 
 	}
-	componentDidMount() {
-		console.log(this.props.children);
-	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(nextProps, nextState) {}
 

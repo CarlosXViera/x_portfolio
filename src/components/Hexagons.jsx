@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {importTemplates} from 'utils'
 import {withRouter} from 'react-router-dom';
 import uuid from 'node-uuid'
-import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
+import {TweenMax, TimeLineMax, Sine, Bounce, Power4} from 'gsap';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
 import {pad, shuffle, getRandomFloat, getRandomInt, transpose} from 'utils';
@@ -24,13 +24,13 @@ export default class Hexagons extends React.Component {
 	componentDidMount() {
 		this.refresh = this.getRefreshAnimation();
 		this.updateAnimations();
-		this.waveAnimation.play();
+		this.matrixAnimation.play();
 	}
 
 	componentWillReceiveProps({width, height}) {
 		if (width != this.props.width || height != this.props.height) {
 			this.waveAnimation.pause(0);
-			this.refresh.reverse(0);
+			this.refresh.play().eventCallback('onComplete', () => this.refresh.reverse(0))
 
 			this.setState({
 				...this.generateData(width, height)
@@ -47,8 +47,7 @@ export default class Hexagons extends React.Component {
 
 	componentDidUpdate() {
 		this.updateAnimations(true);
-		this.refresh.eventCallback('onReverseComplete', () => this.waveAnimation.play());
-		this.refresh.reverse(0);
+		this.refresh.eventCallback('onReverseComplete', () => this.matrixAnimation.play());
 
 	}
 
@@ -267,13 +266,12 @@ export default class Hexagons extends React.Component {
 		refreshTl.fromTo(refreshPaneContainer, 0, {
 			visibility: 'hidden'
 		}, {visibility: 'visible'});
-		refreshTl.fromTo(refreshPane, 3, {
+		refreshTl.fromTo(refreshPane, 1, {
 			width: '0%',
-			delay: 2,
-			ease: Bounce.easeOut
+			ease: Power4.easeInOut
 		}, {
 			width: '100%',
-			ease: Bounce.easeInOut
+			ease: Power4.easeInOut
 		});
 
 		return refreshTl.reverse();
@@ -294,7 +292,7 @@ export default class Hexagons extends React.Component {
 			let lineTl = new TimelineMax(),
 				stroke = fills[getRandomInt(0, 6)],
 				speed = getRandomFloat(.1, 5),
-				lineDelay = 10 * getRandomInt(0, rowIndex),
+				lineDelay = 5 * getRandomInt(0, 10),
 				linePosition = rowIndex / rowArr;
 
 			row.forEach((col, colIndex, colArr) => {

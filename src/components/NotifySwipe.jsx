@@ -113,8 +113,8 @@ export default class NofiySwipe extends React.Component {
 	componentDidMount() {
 
 		this.state.swipe
-			? setTimeout(this.animateSwipe.bind(this), 3000)
-			: setTimeout(this.animateScroll.bind(this), 3000);
+			? setTimeout(this.animateSwipe.bind(this), 300)
+			: setTimeout(this.animateScroll.bind(this), 300);
 
 	}
 
