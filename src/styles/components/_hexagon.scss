@@ -1,5 +1,7 @@
 .hexagon {
   fill: $todayI;
+  stroke: $todayI;
+  stroke-opacity: 0;
 }
 
 .refresh-pane-container {
@@ -9,5 +11,5 @@
 .refresh-pane {
   width: 0;
   height: 100%;
-  fill: $todayI;
+  fill: $todayII;
 }

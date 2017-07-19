@@ -5,12 +5,11 @@ import uuid from 'node-uuid'
 import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
-import {pad} from 'utils';
+import {pad, shuffle, getRandomFloat, getRandomInt, transpose} from 'utils';
 
 export default class Hexagons extends React.Component {
 	constructor(props) {
 		super(props)
-		this.animation = [];
 
 		let data = this.generateData(props.width, props.height);
 
@@ -23,20 +22,15 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentDidMount() {
-		let ringLayers = this.getRingLayers(this.props.height, this.props.width);
-		this.startWaveTransition(ringLayers);
+		this.refresh = this.getRefreshAnimation();
+		this.updateAnimations();
+		this.waveAnimation.play();
 	}
 
 	componentWillReceiveProps({width, height}) {
 		if (width != this.props.width || height != this.props.height) {
-
-			let {refreshPane, hexcontainer, refreshPaneContainer} = this.refs;
-
-			let tl = new TimelineMax();
-
-			tl.to(hexcontainer, 0, {zIndex: 1000});
-
-			tl.to(refreshPaneContainer, 0, {visibility: 'visible'}).to(refreshPane, .3, {width: '100%'})
+			this.waveAnimation.pause(0);
+			this.refresh.reverse(0);
 
 			this.setState({
 				...this.generateData(width, height)
@@ -52,18 +46,12 @@ export default class Hexagons extends React.Component {
 	componentWillUpdate() {}
 
 	componentDidUpdate() {
-		let ringLayers = this.getRingLayers(this.props.height, this.props.width);
-		this.removeAnimations(this.animation);
-		this.startWaveTransition(ringLayers);
-
-		let tl = new TimelineMax();
-		let {hexcontainer, refreshPaneContainer, refreshPane} = this.refs;
-		tl.to(refreshPane, .5, {
-			width: '0%',
-			delay: 1
-		}).to(refreshPaneContainer, -1, {visibility: 'hidden'}).to(hexcontainer, -1, {zIndex: -1});
+		this.updateAnimations(true);
+		this.refresh.eventCallback('onReverseComplete', () => this.waveAnimation.play());
+		this.refresh.reverse(0);
 
 	}
+
 	componentWillUnmount() {}
 
 	offsetToCubeCoords(hex) {
@@ -228,7 +216,6 @@ export default class Hexagons extends React.Component {
 			ease: Sine.easeInOut,
 			onComplete: d => tl.set(currentTarget, {clearProps: 'stroke, opacity, strokeWidth'})
 		})
-
 	}
 
 	updateLayers() {
@@ -243,39 +230,118 @@ export default class Hexagons extends React.Component {
 		}
 	}
 
-	removeAnimations(arr) {
-		for (let anim of arr) {
-			let layers = anim.target;
-			anim.kill()
-			anim.pause(0, true)
-			anim.invalidate()
-			TweenMax.set(layers, {clearProps: 'all'})
-			anim.remove();
+	updateAnimations(tlExists = false) {
+		let rings = this.getRingLayers(this.props.height, this.props.width);
+
+		if (tlExists) {
+			this.removeAnimations(this.waveAnimation);
+			this.removeAnimations(this.matrixAnimation);
 		}
-		this.animation = [];
+
+		this.waveAnimation = this.getWaveAnimation(rings);
+		this.matrixAnimation = this.getMatrixAnimation(this.state.transposedHexagonMap);
 	}
 
-	startWaveTransition(ringLayers, fill = '#071F3A') {
+	removeAnimations(tl) {
+		let children = tl.getChildren();
+		tl.pause();
+		tl.clear();
+		tl.invalidate();
+		tl.kill();
+		tl.remove();
+
+		for (let child of children) {
+			child.pause(0);
+			child.kill();
+			child.invalidate();
+			TweenMax.set(child, {clearProps: 'all'});
+		}
+	}
+
+	getRefreshAnimation() {
+		let refreshTl = new TimelineMax(), {hexcontainer, refreshPaneContainer, refreshPane} = this.refs;
+
+		refreshTl.fromTo(hexcontainer, 0, {
+			zIndex: -1
+		}, {zIndex: 1000});
+		refreshTl.fromTo(refreshPaneContainer, 0, {
+			visibility: 'hidden'
+		}, {visibility: 'visible'});
+		refreshTl.fromTo(refreshPane, 3, {
+			width: '0%',
+			delay: 2,
+			ease: Bounce.easeOut
+		}, {
+			width: '100%',
+			ease: Bounce.easeInOut
+		});
+
+		return refreshTl.reverse();
+	}
+
+	getMatrixAnimation(matrix, fills = [
+		'#259073',
+		'#7FDA89',
+		'#C8E98E',
+		'#E6F99D',
+		'#FFFFFF',
+		'#000000'
+	]) {
+		let shuffled = shuffle(matrix.slice()),
+			matrixTl = new TimelineMax({repeat: -1});
+
+		shuffled.forEach((row, rowIndex, rowArr) => {
+			let lineTl = new TimelineMax(),
+				stroke = fills[getRandomInt(0, 6)],
+				speed = getRandomFloat(.1, 5),
+				lineDelay = 10 * getRandomInt(0, rowIndex),
+				linePosition = rowIndex / rowArr;
+
+			row.forEach((col, colIndex, colArr) => {
+				let hexagon = this.refs[col.pRef],
+					placement = colIndex / colArr,
+					params = {
+						transformOrigin: '50% 50%',
+						scale: -.8,
+						stroke,
+						fill: '#000C1D',
+						strokeOpacity: speed,
+						delay: .05 * colIndex,
+						repeat: 1,
+						yoyo: true,
+						repeatDelay: 1,
+						ease: Sine.easeIn
+					};
+
+				lineTl.add(TweenMax.to(hexagon, speed, params), placement);
+			})
+			matrixTl.add(lineTl.delay(lineDelay), linePosition);
+
+		})
+		return matrixTl.pause();
+
+	}
+
+	getWaveAnimation(rings, fill = '#071F3A') {
 		let amplitude = 1.2,
 			frequency = 40,
-			segments = ringLayers.length * 20;
+			segments = rings.length * 40,
+			tl = new TimelineMax({repeat: -1}),
+			params = {
+				transformOrigin: '50% 50%',
+				scale: .8,
+				fill,
+				yoyo: true,
+				ease: Sine.easeInOut,
+				repeat: 1
+			}
 
-		ringLayers.forEach((layer, i, arr) => {
-			let norm = i / segments,
-				scale = amplitude / 2,
-				stuff = {
-					transformOrigin: '50% 50%',
-					scale: scale,
-					fill,
-					repeat: -1,
-					repeatDelay: .5,
-					yoyo: true,
-					ease: Sine.easeIn
-				}
-
-			let tl = TweenMax.to(layer, 1, stuff).progress(norm * frequency);
-			this.animation.push(tl);
+		rings.forEach((layer, index) => {
+			let norm = index / segments;
+			tl.add(TweenMax.to(layer, .7, params), norm * frequency);
 		})
+
+		return tl.pause();
 	}
 
 	generateData(width, height) {
@@ -294,6 +360,7 @@ export default class Hexagons extends React.Component {
 
 		for (let vHexagons = 0; vHexagons < vAmount; vHexagons++) {
 			let row = [],
+				col = [],
 				translate,
 				translatedHexagon;
 
@@ -326,7 +393,7 @@ export default class Hexagons extends React.Component {
 
 		}
 
-		return {hexagonMap, cubeCoordinates, hexagonsAttrs, offsetCoords};
+		return {hexagonMap, cubeCoordinates, hexagonsAttrs, offsetCoords, transposedHexagonMap: transpose(hexagonMap)};
 	}
 
 	renderHexagons(attrs) {

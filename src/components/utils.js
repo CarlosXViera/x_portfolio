@@ -50,6 +50,25 @@ export function polarToRectangular(radius, degrees) {
 	}
 }
 
+export function shuffle(array) {
+	for (var i = array.length - 1; i > 0; i--) {
+		var j = Math.floor(Math.random() * (i + 1));
+		var temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	}
+	return array;
+}
+
+export function transpose(matrix) {
+	return Object.keys(matrix[0])
+		.map(colNumber => matrix.map(rowNumber => rowNumber[colNumber]));
+}
+
+export function getRandomFloat(min, max) {
+	return Math.random() * (max - min) + min;
+}
+
 export function getRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
