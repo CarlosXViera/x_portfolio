@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const VENDORS = [
-	'react', 'react-router-dom', 'd3-selection', 'react-dom', 'node-uuid', 'gsap', 'react-motion', 'react-image-gallery', 'react-router-transition', 'react-loader', 'css-loader!mini.css']
+	'react', 'react-router-dom', 'd3-selection', 'node-uuid', 'gsap', 'react-image-gallery', 'react-router-transition', 'css-loader!mini.css', "react-swipeable", "react-transition-group"]
 
 module.exports = {
 	entry: {
@@ -60,20 +60,20 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 		}),
-		// new webpack.optimize.UglifyJsPlugin({
-		// 	mangle: true,
-		// 	compress: {
-		// 		warnings: false, // Suppress uglification warnings
-		// 		pure_getters: true,
-		// 		unsafe: true,
-		// 		unsafe_comps: true,
-		// 		screw_ie8: true
-		// 	},
-		// 	output: {
-		// 		comments: false,
-		// 	},
-		// 	exclude: [/\.min\.js$/gi] // skip pre-minified libs
-		// })
+		new webpack.optimize.UglifyJsPlugin({
+			mangle: true,
+			compress: {
+				warnings: false, // Suppress uglification warnings
+				pure_getters: false,
+				unsafe: true,
+				unsafe_comps: true,
+				screw_ie8: true
+			},
+			output: {
+				comments: false,
+			},
+			exclude: [/\.min\.js$/gi] // skip pre-minified libs
+		})
 	],
 	devServer: {
 		contentBase: path.join(__dirname, "public"),

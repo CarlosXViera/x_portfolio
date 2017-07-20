@@ -4,9 +4,8 @@
   "description": "interactive portfolio",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build && node server.js",
     "test": "npm run build && npm run webdriver-launch",
-    "build": "webpack --display-error-details",
+    "build": "NODE_ENV=production webpack -p",
     "serve": "webpack-dev-server --inline --content-base public/",
     "webdriver-launch": "./node_modules/.bin/wdio wdio.conf.js & WEBDRIVER=$!"
   },
@@ -20,19 +19,13 @@
     "node-uuid": "^1.4.8",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-easy-swipe": "0.0.13",
-    "react-gsap-enhancer": "^0.3.0",
     "react-image-gallery": "^0.8.3",
-    "react-loader": "^2.4.0",
-    "react-motion": "^0.5.0",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-transition": "^0.1.1",
     "react-swipeable": "^4.0.1",
-    "react-touch-events": "^2.1.0",
     "react-transition-group": "^1.2.0",
-    "react-waypoint": "^7.0.4",
-    "uuid": "^3.1.0"
+    "react-waypoint": "^7.0.4"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
