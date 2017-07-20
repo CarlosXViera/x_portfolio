@@ -53,6 +53,10 @@ export default class App extends React.Component {
 			return true;
 		}
 
+		if (this.state.initial !== nextState.initial) {
+			return false;
+		}
+
 		if (this.state.swipeable || !this.state.swipeable || nextState.swipeable || !nextState.swipeable) {
 			return false;
 		}
@@ -89,7 +93,7 @@ export default class App extends React.Component {
 
 	renderHomePage(props) {
 		return (
-			<Swipeable delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+			<Swipeable trackMouse={true} delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
 				<Home onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
@@ -104,7 +108,7 @@ export default class App extends React.Component {
 		const CurrentPage = pages[props.match.params.page];
 
 		return (
-			<Swipeable delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+			<Swipeable trackMouse={true} delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
 				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)

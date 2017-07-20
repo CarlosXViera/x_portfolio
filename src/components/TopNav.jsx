@@ -19,6 +19,8 @@ class TopNav extends React.Component {
 		}
 	}
 
+	componentDidMount() {}
+
 	handleShowSlideIn({currentTarget}) {
 
 		let arr = [...currentTarget.firstChild.children];
@@ -58,16 +60,24 @@ class TopNav extends React.Component {
 	}
 
 	handleShow() {
+		console.log('handling Show');
 		this.setState({
 			...this.state,
-			show: !this.state.show
+			show: true
+		});
+	}
+	handleHide() {
+		console.log('handling hide');
+		this.setState({
+			...this.state,
+			show: false
 		});
 	}
 
 	renderSlideIn(show) {
 		let slide = show
 			? (
-				<div onClick={this.handleShowSlideIn.bind(this)}>
+				<div onClick={this.handleHide.bind(this)}>
 					<SlideNav/>
 				</div>
 			)
@@ -124,8 +134,7 @@ class TopNav extends React.Component {
 						{this.renderSlideIn(this.state.show)}
 						<LogoButton/>
 						<LogoSubTitle show={this.state.show}/>
-
-						<NavButton show={this.state.show} onClick={this.handleShowSlideIn.bind(this)}/>
+						<NavButton ref="navButton" show={this.state.show} onShow={this.handleShow.bind(this)} onHide={this.handleHide.bind(this)}/>
 					</div>
 				</div>
 
