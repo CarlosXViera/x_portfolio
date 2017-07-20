@@ -28,6 +28,7 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentWillReceiveProps({width, height}) {
+		console.log('here');
 		if (width != this.props.width || height != this.props.height) {
 			this.waveAnimation.pause(0);
 			this.refresh.play().eventCallback('onComplete', () => this.refresh.reverse(0))
@@ -43,7 +44,9 @@ export default class Hexagons extends React.Component {
 		return (JSON.stringify(nextProps) !== JSON.stringify(this.props)) && JSON.stringify(nextState) !== JSON.stringify(this.state);
 	}
 
-	componentWillUpdate() {}
+	componentWillUpdate() {
+		console.log('here');
+	}
 
 	componentDidUpdate() {
 		this.updateAnimations(true);
@@ -290,20 +293,20 @@ export default class Hexagons extends React.Component {
 
 		shuffled.forEach((row, rowIndex, rowArr) => {
 			let lineTl = new TimelineMax(),
-				stroke = fills[getRandomInt(0, 6)],
+				fill = fills[getRandomInt(0, 6)],
 				speed = getRandomFloat(.1, 5),
 				lineDelay = 5 * getRandomInt(0, 10),
 				linePosition = rowIndex / rowArr;
 
 			row.forEach((col, colIndex, colArr) => {
-				let hexagon = this.refs[col.pRef],
+				let hexagon = this.refs[col.gRef],
 					placement = colIndex / colArr,
 					params = {
 						transformOrigin: '50% 50%',
+						useFrames: true,
 						scale: -.8,
-						stroke,
-						fill: '#000C1D',
-						strokeOpacity: speed,
+						fill,
+						opacity: speed,
 						delay: .05 * colIndex,
 						repeat: 1,
 						yoyo: true,
@@ -403,7 +406,8 @@ export default class Hexagons extends React.Component {
 		}, i) => {
 			return (
 				<g key={i} id={id} ref={gRef} transform={transforms}>
-					<polygon onMouseOver={this.handleMouseOver} className="hexagon" ref={pRef} points="11.8 9.42 11.8 -5.48 11.8 -5.48 -1.19 -13 -14.19 -5.48 -14.19 9.42 -1.19 17 11.8 9.42"></polygon>
+					<path onMouseOver={this.handleMouseOver} className="hexagon" ref={pRef} d="M26 22.42V7.52L13 0 0 7.52v14.9L13 30l13-7.58"/>
+					<path className='hexagon-stroke' d="M26 7.52L13 0 0 7.52v14.9L13 30l13-7.58zM13 29.08L.8 22V8L13 .92 25.19 8v14z"/>
 				</g>
 			)
 		})

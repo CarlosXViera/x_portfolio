@@ -9,13 +9,28 @@ export default class Contact extends React.Component {
 		this.props.onUnSwipeable();
 	}
 
+	componentWillUpdate() {
+		console.log('will update');
+
+	}
+	componentDidUpdate() {
+		console.log('did update');
+	}
+
+	componentWillReceiveProps() {
+		console.log('will receive');
+
+	}
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<div>
-				<div id="two">
+				<div id="huge">
 					CONTACT PAGE
 				</div>
-				<NotifySwipe {...this.props}/>
 			</div>
 		)
 	}

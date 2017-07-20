@@ -233,7 +233,7 @@ export default class Work extends React.Component {
 			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 				<div key={location.key} className='row work-page'>
 					<SVG {...props}/>
-					<NotifySwipe {...this.props}/>
+
 				</div>
 			</CSSTransitionGroup>
 		)

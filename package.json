@@ -4,7 +4,7 @@
   "description": "interactive portfolio",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "npm run build && node server.js",
     "test": "npm run build && npm run webdriver-launch",
     "build": "webpack --display-error-details",
     "serve": "webpack-dev-server --inline --content-base public/",

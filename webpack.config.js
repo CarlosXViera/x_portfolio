@@ -81,6 +81,5 @@ module.exports = {
 		historyApiFallback: true,
 		host: "0.0.0.0",
 		disableHostCheck: true
-	},
-	devtool: 'cheap-module-eval-source-map'
+	}
 };
