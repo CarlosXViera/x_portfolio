@@ -355,7 +355,7 @@ export default class Hexagons extends React.Component {
 			hexagonsAttrs = [],
 			hexagonMap = [],
 			cubeCoordinates = {},
-			cubeCoords = {}
+			cubeCoords = {};
 
 		for (let vHexagons = 0; vHexagons < vAmount; vHexagons++) {
 			let row = [],
