@@ -24,7 +24,7 @@ export default class Hexagons extends React.Component {
 	componentDidMount() {
 		this.refresh = this.getRefreshAnimation();
 		this.updateAnimations();
-		this.matrixAnimation.play();
+		this.waveAnimation.play();
 	}
 
 	componentWillReceiveProps({width, height}) {
@@ -50,7 +50,7 @@ export default class Hexagons extends React.Component {
 
 	componentDidUpdate() {
 		this.updateAnimations(true);
-		this.refresh.eventCallback('onReverseComplete', () => this.matrixAnimation.play());
+		this.refresh.eventCallback('onReverseComplete', () => this.waveAnimation.play());
 
 	}
 
@@ -189,7 +189,7 @@ export default class Hexagons extends React.Component {
 
 	getRingLayers(h, w) {
 		let ringLayers = [];
-		const hSize = 15;
+		const hSize = 19;
 		const {height, width} = this.getPixelToHexagon(w, h);
 		const longestSide = (width > height)
 			? width
@@ -240,7 +240,7 @@ export default class Hexagons extends React.Component {
 			this.removeAnimations(this.matrixAnimation);
 		}
 
-		this.waveAnimation = this.getWaveAnimation(rings);
+		this.waveAnimation = this.getWaveAnimation(rings, '#C8E98E');
 		this.matrixAnimation = this.getMatrixAnimation(this.state.transposedHexagonMap);
 	}
 
@@ -293,20 +293,18 @@ export default class Hexagons extends React.Component {
 
 		shuffled.forEach((row, rowIndex, rowArr) => {
 			let lineTl = new TimelineMax(),
-				fill = fills[getRandomInt(0, 6)],
+				stroke = fills[getRandomInt(0, 6)],
 				speed = getRandomFloat(.1, 5),
 				lineDelay = 5 * getRandomInt(0, 10),
 				linePosition = rowIndex / rowArr;
 
 			row.forEach((col, colIndex, colArr) => {
-				let hexagon = this.refs[col.gRef],
+				let hexagon = this.refs[col.pRef],
 					placement = colIndex / colArr,
 					params = {
 						transformOrigin: '50% 50%',
-						useFrames: true,
-						scale: -.8,
-						fill,
-						opacity: speed,
+						scale: .5,
+						stroke,
 						delay: .05 * colIndex,
 						repeat: 1,
 						yoyo: true,
@@ -323,15 +321,15 @@ export default class Hexagons extends React.Component {
 
 	}
 
-	getWaveAnimation(rings, fill = '#071F3A') {
+	getWaveAnimation(rings, stroke = '#071F3A') {
 		let amplitude = 1.2,
 			frequency = 40,
 			segments = rings.length * 40,
 			tl = new TimelineMax({repeat: -1}),
 			params = {
 				transformOrigin: '50% 50%',
-				scale: .8,
-				fill,
+				scale: -.2,
+				stroke,
 				yoyo: true,
 				ease: Sine.easeInOut,
 				repeat: 1
@@ -339,20 +337,20 @@ export default class Hexagons extends React.Component {
 
 		rings.forEach((layer, index) => {
 			let norm = index / segments;
-			tl.add(TweenMax.to(layer, .7, params), norm * frequency);
+			tl.add(TweenMax.to(layer, 1.5, params), norm * frequency);
 		})
 
 		return tl.pause();
 	}
 
 	generateData(width, height) {
-		const hSize = 15;
+		const hSize = 19;
 		const hSpacing = 12.5;
 		const vSpacing = 8.5;
 		const hAmount = Math.floor(width / (hSize + hSpacing));
 		const vAmount = Math.floor(height / (hSize + vSpacing));
 		/* h/vSpacing spacing between each hexagon. offset x - spacing between every odd row.*/
-		const offset = -13.5;
+		const offset = -16.5;
 		let offsetCoords = {},
 			hexagonsAttrs = [],
 			hexagonMap = [],
@@ -406,8 +404,7 @@ export default class Hexagons extends React.Component {
 		}, i) => {
 			return (
 				<g key={i} id={id} ref={gRef} transform={transforms}>
-					<path onMouseOver={this.handleMouseOver} className="hexagon" ref={pRef} d="M26 22.42V7.52L13 0 0 7.52v14.9L13 30l13-7.58"/>
-					<path className='hexagon-stroke' d="M26 7.52L13 0 0 7.52v14.9L13 30l13-7.58zM13 29.08L.8 22V8L13 .92 25.19 8v14z"/>
+					<path className='hexagon' ref={pRef} d="M29 8.4L14.5 0 0 8.4V25l14.5 8.4L29 25zM14.5 33l-14-8.3v-16l14-8 14 8v16z"/>
 				</g>
 			)
 		})
@@ -417,7 +414,7 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-			<svg ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="none">
+			<svg ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox} preserveAspectRatio="xMinYMin meet">
 				<g className='hexagons'>
 					{this.renderHexagons(hexagonsAttrs)}
 				</g>

@@ -137,7 +137,7 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-						<Hexagons ref='hexagons' reRender={this.state.reRender} width={window.innerWidth + 55} height={window.innerHeight + 55} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
+						<Hexagons ref='hexagons' reRender={this.state.reRender} width={window.innerWidth + 35} height={window.innerHeight + 35} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
 					</div>
 				</Router>
 			</div>
