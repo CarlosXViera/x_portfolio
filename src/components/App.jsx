@@ -122,7 +122,17 @@ export default class App extends React.Component {
 		});
 	}
 
+	clip(number, min, max) {
+		return Math.max(min, Math.min(number, max));
+	}
+
 	render() {
+		let clippedWidth = window.innerWidth;
+		let clippedHeight = window.innerHeight;
+		if (window.innerWidth > 900 || window.innerHeight > 900) {
+			clippedWidth = clippedWidth * .75;
+			clippedHeight = clippedHeight * .75;
+		}
 
 		return (
 			<div className="root">
@@ -137,7 +147,7 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-						<Hexagons ref='hexagons' reRender={this.state.reRender} width={window.innerWidth + 35} height={window.innerHeight + 35} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${window.innerWidth} ${window.innerHeight}`}/>
+						<Hexagons ref='hexagons' reRender={this.state.reRender} width={clippedWidth + 200} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
 					</div>
 				</Router>
 			</div>

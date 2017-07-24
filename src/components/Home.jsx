@@ -35,7 +35,6 @@ export default class Home extends React.Component {
 				<div key={this.props.location.key} className="col-sm home-content click-through-child">
 					<CenterLogo className="click-through click-through-child"/>
 					<MediaIcons onHover={this.handleHover.bind(this)}/>
-					<NotifySwipe {...this.props}/>
 				</div>
 			</Transition>
 		)

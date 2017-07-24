@@ -1,6 +1,9 @@
-.hexagon {
-  stroke-width: 1.3px;
-  stroke: $todayI;
+.outerHexagon {
+  fill: $todayI;
+}
+
+.innerHexagon {
+  fill: $todayI;
 }
 
 .refresh-pane-container {
