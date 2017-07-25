@@ -17,24 +17,25 @@ export default class Hexagons extends React.Component {
 			...data
 		}
 
+		this.waveAnimation = null;
+		this.matrixAnimaton = null;
+		this.hexagonRefs = {};
 		this.handleMouseOver = this.handleMouseOver.bind(this);
+		this.updateAnimations = this.updateAnimations.bind(this);
+		this.getWaveAnimation = this.getWaveAnimation.bind(this);
+		this.getMatrixAnimation = this.getMatrixAnimation.bind(this);
 
 	}
 
 	componentDidMount() {
-		this.refresh = this.getRefreshAnimation();
 		this.updateAnimations();
-		this.outerWaveAnimation.play();
-		TweenMax.ticker.fps(30);
-		TweenMax.ticker.lagSmoothing(2000, 300);
-		TweenMax.useRAF(true);
+		this.matrixAnimation.play();
+		TweenMax.ticker.fps(15)
+		TweenMax.ticker.lagSmoothing(1000, 1000)
 	}
 
 	componentWillReceiveProps({width, height}) {
-		console.log('will receive props');
 		if (width != this.props.width || height != this.props.height) {
-
-			this.refresh.play().eventCallback('onComplete', () => this.refresh.reverse(0))
 
 			this.setState({
 				...this.generateData(width, height)
@@ -48,21 +49,22 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentWillUpdate() {
-		console.log('will update');
+		this.removeAnimations(this.outerWaveAnimation);
+		this.removeAnimations(this.matrixAnimation);
 	}
 
 	componentDidUpdate() {
-		this.updateAnimations(true);
-		this.refresh.eventCallback('onReverseComplete', () => {
-			this.outerWaveAnimation.play();
-		});
 
-		console.log('did update');
+		this.updateAnimations();
+
+		this.matrixAnimation.play()
+
+		console.log(TweenMax.getAllTweens(true));
 
 	}
 
 	componentWillUnmount() {
-		console.log('unmounting');
+		console.log('unmount');
 	}
 
 	offsetToCubeCoords(hex) {
@@ -194,12 +196,12 @@ export default class Hexagons extends React.Component {
 	}
 
 	getPixelToHexagon(width, height) {
-		width = Math.floor(width / 32);
-		height = Math.floor(height / 30);
+		width = Math.floor(width / 28);
+		height = Math.floor(height / 22);
 		return {width, height}
 	}
 
-	getRingLayers(h, w, type) {
+	getRingLayers(h, w) {
 		let ringLayers = [];
 		const hSize = 15;
 		const {height, width} = this.getPixelToHexagon(w, h);
@@ -233,23 +235,25 @@ export default class Hexagons extends React.Component {
 	}
 
 	updateAnimations(tlExists = false) {
-		if (tlExists) {
-			this.removeAnimations(this.outerWaveAnimation);
-			this.removeAnimations(this.matrixAnimation);
-		}
-
 		let rings = this.getRingLayers(this.props.height, this.props.width);
 
-		this.outerWaveAnimation = this.getWaveAnimation(rings);
 		this.matrixAnimation = this.getMatrixAnimation(this.state.transposedHexagonMap);
 	}
 
 	removeAnimations(tl) {
-		let children = tl.getChildren(false, true, true, 0);
+
+		for (let child of tl.getChildren(false, true, false)) {
+			for (let target of child.target) {
+				console.log(target);
+				TweenMax.set(target, {clearProps: 'all'});
+			}
+			child.pause(0);
+			child.invalidate();
+
+		}
 		tl.pause(0);
-		tl.clear();
-		tl.invalidate();
-		tl.kill()
+		// tl.remove(tl.getChildren());
+
 	}
 
 	getRefreshAnimation() {
@@ -285,9 +289,9 @@ export default class Hexagons extends React.Component {
 
 		shuffled.forEach((row, rowIndex, rowArr) => {
 			let lineTl = new TimelineMax(),
-				fill = fills[getRandomInt(0, 6)],
+				stroke = fills[getRandomInt(0, 6)],
 				speed = getRandomFloat(.1, 5),
-				lineDelay = 5 * getRandomInt(0, 15),
+				lineDelay = 5 * getRandomInt(0, 10),
 				linePosition = rowIndex / rowArr;
 
 			row.forEach((col, colIndex, colArr) => {
@@ -295,8 +299,9 @@ export default class Hexagons extends React.Component {
 					placement = colIndex / colArr,
 					params = {
 						transformOrigin: '50% 50%',
+						strokeOpacity: 1,
 						scale: -.8,
-						fill,
+						stroke,
 						delay: .05 * colIndex,
 						repeat: 1,
 						yoyo: true,
@@ -331,10 +336,14 @@ export default class Hexagons extends React.Component {
 
 		rings.forEach((layer, index) => {
 			let norm = index / segments;
-			waveTl.add(TweenMax.to(layer, 2, params), norm * frequency);
+			waveTl.to(layer, 2, params, norm * frequency);
 		})
 
-		return waveTl.pause()
+		return waveTl.addLabel('wave-animation').pause(0);
+	}
+
+	pOnRef(ref) {
+		console.log(ref);
 	}
 
 	generateData(width, height) {
@@ -403,10 +412,12 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-			<svg ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox} shapeRendering="optimizeSpeed">
-				<g className='hexagons' transform='translate(-100,0)'>
+			<svg ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox}>
+
+				<g className='hexagons' transform='translate(1,-10)'>
 					{this.renderHexagons(hexagonsAttrs)}
 				</g>
+
 				<g ref='refreshPaneContainer' className='refresh-pane-container'>
 					<rect ref='refreshPane' className='refresh-pane'></rect>
 				</g>

@@ -50,7 +50,15 @@ class TopNav extends React.Component {
 	componentWillReceiveProps() {
 		console.log('receiving');
 	}
-	componentDidUpdate() {}
+
+	componentDidUpdate() {
+		console.log('topnav updated');
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+
+		return nextState.show != this.state.show;
+	}
 
 	handleClick() {
 		this.setState({
@@ -60,14 +68,13 @@ class TopNav extends React.Component {
 	}
 
 	handleShow() {
-		console.log('handling Show');
 		this.setState({
 			...this.state,
 			show: true
 		});
 	}
+
 	handleHide() {
-		console.log('handling hide');
 		this.setState({
 			...this.state,
 			show: false

@@ -25,6 +25,11 @@ export function handleSwipeDown(props, possible) {
 	props.history.push(urls[previous]);
 }
 
+export function removeTlAnimation(tl) {
+	tl.pause(0);
+	tl.kill();
+}
+
 export function pad(num, size) {
 	let s = num + "";
 	while (s.length < size)

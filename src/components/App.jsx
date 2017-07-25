@@ -37,7 +37,9 @@ export default class App extends React.Component {
 		this.handleInit = this.handleInit.bind(this);
 
 	}
-	componentDidMount() {}
+	componentDidMount() {
+		console.log('did mount');
+	}
 
 	componentWillReceiveProps(nextProps, nextState) {
 		console.log('receiving at app')
@@ -73,7 +75,7 @@ export default class App extends React.Component {
 
 		}
 		clearTimeout(window.resizedFinished);
-		window.resizedFinished = setTimeout(setReRender.bind(this), 150);
+		window.resizedFinished = setTimeout(setReRender.bind(this), 1000);
 	}
 
 	handleSwipeable() {
@@ -89,7 +91,9 @@ export default class App extends React.Component {
 		});
 	}
 
-	componentDidUpdate() {}
+	componentDidUpdate() {
+		console.log('updated');
+	}
 
 	renderHomePage(props) {
 		return (
@@ -127,12 +131,8 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		let clippedWidth = window.innerWidth;
-		let clippedHeight = window.innerHeight;
-		if (window.innerWidth > 900 || window.innerHeight > 900) {
-			clippedWidth = clippedWidth * .75;
-			clippedHeight = clippedHeight * .75;
-		}
+		let clippedWidth = window.innerWidth * .80;
+		let clippedHeight = window.innerHeight * .80;
 
 		return (
 			<div className="root">
@@ -147,9 +147,12 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-						<Hexagons ref='hexagons' reRender={this.state.reRender} width={clippedWidth + 200} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+
+						<Hexagons ref='hexagons' reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<div className='vignette'></div>
 					</div>
 				</Router>
+
 			</div>
 		)
 	}
