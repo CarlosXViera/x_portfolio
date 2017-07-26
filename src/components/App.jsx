@@ -94,7 +94,7 @@ export default class App extends React.Component {
 	}
 
 	componentDidUpdate() {
-		console.log('updated');
+		console.log('updatedd');
 	}
 
 	renderHomePage(props) {
