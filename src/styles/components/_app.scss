@@ -24,3 +24,13 @@
     margin-bottom: 10px;
   }
 }
+
+.refresh-pane {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $todayII;
+  stroke: red;
+  z-index: 1000;
+}

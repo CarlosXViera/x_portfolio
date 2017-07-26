@@ -1,7 +1,5 @@
 .outerHexagon {
   fill: $todayI;
-  stroke: $todayI;
-  stroke-opacity: 0;
 }
 
 .innerHexagon {
@@ -23,10 +21,9 @@
   position: absolute;
   top: 0;
   opacity: 1;
-  background-image: url('/assets/vignette.png');
+  background-image: url('/assets/vignette-min.png');
   width: 100vw;
   height: 100vh;
   background-size: 100% 100%;
   z-index: -1;
-  mix-blend-mode: hard-light;
 }

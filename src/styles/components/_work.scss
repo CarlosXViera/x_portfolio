@@ -56,6 +56,16 @@
       width: 708px;
       height: 484px;
 
+      #hcme {
+
+        fill: none;
+        stroke: $todayIII;
+
+        #hcme-item {
+          transform: translate(270px,50px);
+        }
+      }
+
       #deep-space-border,
       #hcme-border,
       #music-player-border,

@@ -17,7 +17,7 @@ export default class Hexagons extends React.Component {
 			...data
 		}
 
-		this.waveAnimation = null;
+		this.outerWaveAnimation = null;
 		this.matrixAnimaton = null;
 		this.hexagonRefs = {};
 		this.handleMouseOver = this.handleMouseOver.bind(this);
@@ -28,14 +28,25 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentDidMount() {
-		this.updateAnimations();
-		this.matrixAnimation.play();
-		TweenMax.ticker.fps(15)
-		TweenMax.ticker.lagSmoothing(1000, 1000)
+
+		setTimeout(() => {
+			this.updateAnimations();
+			this.outerWaveAnimation.play()
+			TweenMax.ticker.fps(30)
+			TweenMax.ticker.lagSmoothing(1000, 1000)
+
+			this.refresh = this.props.onRefresh();
+			this.refresh.eventCallback('onComplete', () => this.refresh.reverse(0).delay(3));
+			this.refresh.eventCallback('onReverseComplete', () => this.outerWaveAnimation.play());
+		}, 400)
+
 	}
 
 	componentWillReceiveProps({width, height}) {
 		if (width != this.props.width || height != this.props.height) {
+			this.removeAnimations(this.outerWaveAnimation);
+			this.removeAnimations(this.matrixAnimation);
+			this.refresh.play();
 
 			this.setState({
 				...this.generateData(width, height)
@@ -48,19 +59,10 @@ export default class Hexagons extends React.Component {
 		return (JSON.stringify(nextProps) !== JSON.stringify(this.props)) && JSON.stringify(nextState) !== JSON.stringify(this.state);
 	}
 
-	componentWillUpdate() {
-		this.removeAnimations(this.outerWaveAnimation);
-		this.removeAnimations(this.matrixAnimation);
-	}
+	componentWillUpdate() {}
 
 	componentDidUpdate() {
-
 		this.updateAnimations();
-
-		this.matrixAnimation.play()
-
-		console.log(TweenMax.getAllTweens(true));
-
 	}
 
 	componentWillUnmount() {
@@ -234,46 +236,24 @@ export default class Hexagons extends React.Component {
 		})
 	}
 
-	updateAnimations(tlExists = false) {
+	updateAnimations() {
 		let rings = this.getRingLayers(this.props.height, this.props.width);
 
+		this.outerWaveAnimation = this.getWaveAnimation(rings);
 		this.matrixAnimation = this.getMatrixAnimation(this.state.transposedHexagonMap);
 	}
 
 	removeAnimations(tl) {
-
+		tl.pause(0);
 		for (let child of tl.getChildren(false, true, false)) {
 			for (let target of child.target) {
-				console.log(target);
 				TweenMax.set(target, {clearProps: 'all'});
 			}
 			child.pause(0);
 			child.invalidate();
-
 		}
-		tl.pause(0);
-		// tl.remove(tl.getChildren());
+		tl.kill()
 
-	}
-
-	getRefreshAnimation() {
-		let refreshTl = new TimelineMax(), {hexcontainer, refreshPaneContainer, refreshPane} = this.refs;
-
-		refreshTl.fromTo(hexcontainer, 0, {
-			zIndex: -1
-		}, {zIndex: 1000});
-		refreshTl.fromTo(refreshPaneContainer, 0, {
-			visibility: 'hidden'
-		}, {visibility: 'visible'});
-		refreshTl.fromTo(refreshPane, 1, {
-			width: '0%',
-			ease: Power4.easeInOut
-		}, {
-			width: '100%',
-			ease: Power4.easeInOut
-		});
-
-		return refreshTl.reverse();
 	}
 
 	getMatrixAnimation(matrix, fills = [
@@ -309,14 +289,18 @@ export default class Hexagons extends React.Component {
 						ease: Power4.easeIn,
 						opacity: speed
 					};
-
+				// lineTl.add(TweenMax.set(hexagon, {
+				// 	stroke: 'transparent',
+				// 	strokeOpacity: 1
+				// }, "+=2"), "+=2")
 				lineTl.add(TweenMax.to(hexagon, speed, params), placement);
 
 			})
+			lineTl.addLabel(`line-${rowIndex}`);
 			matrixTl.add(lineTl.delay(lineDelay), linePosition);
 
 		})
-		return matrixTl.pause();
+		return matrixTl.addLabel('matrix-animation').pause(0, true);
 
 	}
 
@@ -340,10 +324,6 @@ export default class Hexagons extends React.Component {
 		})
 
 		return waveTl.addLabel('wave-animation').pause(0);
-	}
-
-	pOnRef(ref) {
-		console.log(ref);
 	}
 
 	generateData(width, height) {
@@ -412,14 +392,10 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-			<svg ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox}>
+			<svg data-depth="0.00" ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox}>
 
-				<g className='hexagons' transform='translate(1,-10)'>
+				<g data-depth="0.50" className='hexagons' transform='translate(1,0)'>
 					{this.renderHexagons(hexagonsAttrs)}
-				</g>
-
-				<g ref='refreshPaneContainer' className='refresh-pane-container'>
-					<rect ref='refreshPane' className='refresh-pane'></rect>
 				</g>
 			</svg>
 		)

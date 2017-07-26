@@ -1,4 +1,8 @@
 /* Put your CSS code in the left column, instead of example, to put or remove unnecessary prefixes. */
+.full-nav-container {
+  background-color: $todayI;
+
+}
 
 .example {
   display: -webkit-box;
@@ -18,8 +22,8 @@
 }
 
 #top-nav-icon {
-  width: 91px;
-  height: 84px;
+  width: 73px;
+  height: 73px;
 
   position: relative;
 
@@ -137,6 +141,7 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+    z-index: 3;
 
     .nav-button {
       padding-left: 10px;
@@ -199,7 +204,7 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding: 15px 15%;
+  padding: 5px 25%;
   height: auto;
   text-align: center;
 
@@ -224,18 +229,27 @@
 }
 
 .middle-line {
-  top: 62px;
+  // background-blend-mode: darken;
+  // background-image: url('/assets/top-nav-bg.png');
+  // background-size: 100% 100%;
+
+  box-shadow: 0 1px 0 rgba(0,0,0,.9);
+  background-color: $todayI;
+  top: 0;
   padding: 0;
   margin: 0;
+  height: -10vh;
   width: 100vw;
   display: flex;
   justify-content: center;
-  z-index: 10;
+  z-index: 0;
   position: absolute;
 
   hr {
 
-    width: 600px;
+    margin-top: 85px;
+    margin-bottom: 0;
+    width: 70vw;
     height: 1px;
     border: 0;
     background-image: -webkit-linear-gradient(left, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI);

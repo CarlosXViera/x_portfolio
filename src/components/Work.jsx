@@ -123,89 +123,11 @@ const SVG = ({location, match}) => {
 				<NavLink className="click-through-child" to={`${match.url}/hmce`}>
 					<g id="hcme">
 						<path id="hcme-border" d="M465 201.8a9.6 9.6 0 0 0 4.5-7.5V70.8a9.6 9.6 0 0 0-4.4-7.5L358 1.5a9.6 9.6 0 0 0-8.5 0l-107 61.8a9.6 9.6 0 0 0-4.4 7.5v123.5a9.6 9.6 0 0 0 4.5 7.5l107 61.8a9.6 9.6 0 0 0 8.6 0z" className="b"/>
-						<path d="M274.2 53.4h159.4v159.4H274.2z" className="a"/>
-						<path d="M274.2 53.4h159.4v159.4H274.2z" className="b"/>
-						<path d="M315 94h78v78.2h-78z" className="b"/>
-						<path d="M274.2 212.8l40.7-40.6" className="b"/>
-						<path d="M274.2 53.4L315 94" className="b"/>
-						<path d="M433.6 53.4L393 94" className="b"/>
-						<path d="M393 172.2l40.6 40.6" className="b"/>
-						<path d="M309.6 88.8v89" className="g"/>
-						<path d="M304 83v101" className="g"/>
-						<path d="M297.2 76.4v113" className="g"/>
-						<path d="M290.4 69.5V197" className="g"/>
-						<path d="M281 60.3v146.2" className="g"/>
-						<path d="M309.6 177.8h89" className="g"/>
-						<path d="M304 184h100.7" className="g"/>
-						<path d="M297.2 189.3h113.5" className="g"/>
-						<path d="M290.4 197h128.4" className="g"/>
-						<path d="M281 206.5H427" className="g"/>
-						<path d="M398.5 177.8v-89" className="g"/>
-						<path d="M309.6 88.8h89" className="g"/>
-						<path d="M304 83h100.7" className="g"/>
-						<path d="M297.2 76.4h113.5" className="g"/>
-						<path d="M290.4 69.5H417" className="g"/>
-						<path d="M281 60.3H427" className="g"/>
-						<path d="M404.7 83v100" className="g"/>
-						<path d="M410.7 76.4v113" className="g"/>
-						<path d="M418.8 197V69.4" className="g"/>
-						<path d="M426.8 60.3v145" className="g"/>
-						<path d="M322 172.2l-32.8 40.6" className="g"/>
-						<path d="M329 172.2l-14 40.6" className="g"/>
-						<path d="M340.3 172.2l-5.7 40.6" className="g"/>
-						<path d="M385.2 172.2l33 40.6" className="g"/>
-						<path d="M378.5 172.2l14 40.6" className="g"/>
-						<path d="M367 172.2l5.8 40.6" className="g"/>
-						<path d="M351 172.2v40.6" className="g"/>
-						<path d="M322 93.7L289.3 53" className="g"/>
-						<path d="M329 93.7L315 53" className="g"/>
-						<path d="M340.3 93.7L334.6 53" className="g"/>
-						<path d="M385.2 93.7l33-40.7" className="g"/>
-						<path d="M378.5 93.7l14-40.7" className="g"/>
-						<path d="M367 93.7L373 53" className="g"/>
-						<path d="M351 93.7V53" className="g"/>
-						<path d="M393.3 165l40.7 32.8" className="g"/>
-						<path d="M393.3 158l40.7 14" className="g"/>
-						<path d="M393.3 146.7l40.7 5.7" className="g"/>
-						<path d="M393.3 101.8l40.7-33" className="g"/>
-						<path d="M393.3 108.5l40.7-14" className="g"/>
-						<path d="M393.3 120l40.7-5.8" className="g"/>
-						<path d="M393.3 136H434" className="g"/>
-						<path d="M314.8 165l-40.6 32.8" className="g"/>
-						<path d="M314.8 158l-40.6 14" className="g"/>
-						<path d="M314.8 146.7l-40.6 5.7" className="g"/>
-						<path d="M314.8 101.8l-40.6-33" className="g"/>
-						<path d="M314.8 108.5l-40.6-14" className="g"/>
-						<path d="M314.8 120l-40.6-5.8" className="g"/>
-						<path d="M314.8 136h-40.6" className="g"/>
-						<path d="M322 93.7v78.5" className="g"/>
-						<path d="M329 93.7v78.5" className="g"/>
-						<path d="M340.3 93.7v78.5" className="g"/>
-						<path d="M351 93.7v78.5" className="g"/>
-						<path d="M367 93.7v78.5" className="g"/>
-						<path d="M378.5 93.7v78.5" className="g"/>
-						<path d="M385.2 93.7v78.5" className="g"/>
-						<path d="M314.8 101.8h78.5" className="g"/>
-						<path d="M393.3 108.5h-78.5" className="g"/>
-						<path d="M314.8 120H393" className="g"/>
-						<path d="M393.3 136h-78.5" className="g"/>
-						<path d="M314.8 146.7h78.5" className="g"/>
-						<path d="M393.3 158h-78.5" className="g"/>
-						<path d="M314.8 165H393" className="g"/>
-						<path d="M289.2 53v159.8" className="b"/>
-						<path d="M315 53v159.8" className="b"/>
-						<path d="M334.6 53v159.8" className="b"/>
-						<path d="M351 53v159.8" className="b"/>
-						<path d="M372.8 53v159.8" className="b"/>
-						<path d="M392.5 53v159.8" className="b"/>
-						<path d="M418.2 53v159.8" className="b"/>
-						<path d="M274.2 68.8H434" className="b"/>
-						<path d="M274.2 94.5h159.4" className="b"/>
-						<path d="M274.2 114.2h159.4" className="b"/>
-						<path d="M274.2 136H434" className="b"/>
-						<path d="M274.2 152.4H434" className="b"/>
-						<path d="M274.2 172h159.3" className="b"/>
-						<path d="M274.2 197.8H434" className="b"/>
+						<g id='hcme-item'>
+							<path d="M.5.6H160V160H.4z"/><path d="M41.2 41.2h78v78h-78zM.5 160l40.7-40.7M.5.6l40.7 40.6M160 .6l-40.7 40.6M119.3 119.3L160 160"/>
+							<path d="M36 36v89M30 30.2v101M23.5 23.6v113M16.6 16.7V144M7.4 7.5v146M36 125h88.8M30 131h101M23.5 136.5H137M16.6 144h128.6M7.4 153.6H153M124.8 125V36M36 36h88.8M30 30.2h101M23.5 23.6H137M16.6 16.7h127M7.4 7.5H153M131 30.2v100M137 23.6v113M145.2 144V16.7M153 7.5v144.8M48.5 119.3l-33 40.7M55.2 119.3l-14 40.7M66.6 119.3L61 160M111.5 119.3l33 40.7M104.8 119.3l14 40.7M93.4 119.3L99 160M77.3 119.3V160M48.5 40.8L15.5.2M55.2 40.8L41.2.2M66.6 40.8L61 .2M111.5 40.8l33-40.6M104.8 40.8l14-40.6M93.4 40.8L99 .2M77.3 40.8V.2M119.6 112l40.7 33M119.6 105.3l40.7 14M119.6 93.8l40.7 5.7M119.6 49l40.7-33M119.6 55.7l40.7-14M119.6 67l40.7-5.6M119.6 83.2h40.7M41 112L.6 145M41 105.3l-40.5 14M41 93.8L.6 99.5M41 49L.6 16M41 55.7L.6 41.7M41 67L.6 61.5M41 83.2H.6M48.5 40.8v78.5M55.2 40.8v78.5M66.6 40.8v78.5M77.3 40.8v78.5M93.4 40.8v78.5M104.8 40.8v78.5M111.5 40.8v78.5M41 49h78.6M119.6 55.7H41M41 67h78.3M119.6 83.2H41M41 93.8h78.6M119.6 105.3H41M41 112h78.3"/>
+							<path d="M15.5.2V160M41.2.2V160M61 .2V160M77.3.2V160M99 .2V160M118.8.2V160M144.5.2V160M.5 16h159.8M.5 41.7H160M.5 61.4H160M.5 83.2h159.8M.5 99.5h159.8M.5 119.3h159.3M.5 145h159.8"/>
+						</g>
 					</g>
 				</NavLink>
 			</svg>

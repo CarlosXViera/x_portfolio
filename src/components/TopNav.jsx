@@ -17,6 +17,7 @@ class TopNav extends React.Component {
 		this.state = {
 			show: false
 		}
+		this.mouseOverHome = this.mouseOverHome.bind(this);
 	}
 
 	componentDidMount() {}
@@ -47,6 +48,35 @@ class TopNav extends React.Component {
 
 	}
 
+	componentDidMount() {
+		setTimeout(() => this.hoverArrows = this.getTopNavHover(), 300)
+
+	}
+
+	getTopNavHover() {
+		let arrows = this.refs.topper.children[0].children[0].children;
+
+		let whiteArrows = [arrows[0], arrows[2]];
+		let coloredArrows = [arrows[1], arrows[3]];
+		let glasses = arrows[4];
+
+		let arrowsTl = new TimelineMax({repeat: 1, yoyo: true});
+		arrowsTl.to(whiteArrows, .5, {
+			transformOrigin: '50% 50%',
+			scale: 1.05,
+			fill: '#259073',
+			ease: Back.easeInOut
+		});
+
+		arrowsTl.to(glasses, .5, {
+			transformOrigin: '50% 50%',
+			scale: .4,
+			ease: Back.easeInOut
+		}, .7);
+
+		return arrowsTl.pause(0);
+	}
+
 	componentWillReceiveProps() {
 		console.log('receiving');
 	}
@@ -75,10 +105,14 @@ class TopNav extends React.Component {
 	}
 
 	handleHide() {
-		this.setState({
+		setTimeout(() => this.setState({
 			...this.state,
 			show: false
-		});
+		}), 301)
+	}
+
+	mouseOverHome() {
+		this.hoverArrows.restart();
 	}
 
 	renderSlideIn(show) {
@@ -104,7 +138,7 @@ class TopNav extends React.Component {
 
 		return (
 			<div className="row top-nav click-through-child">
-				<div className="middle-line hidden-sm">
+				<div className="middle-line hidden-sm ">
 					<hr></hr>
 				</div>
 
@@ -112,27 +146,27 @@ class TopNav extends React.Component {
 
 					<div className="nav-item about hvr-pulse-shrink">
 						<Link to='/about' className="">
-							<h5>About Me</h5>
+							<h6>About Me</h6>
 						</Link>
 					</div>
 					<div className="nav-item blog hvr-pulse-shrink">
 						<a href="http://blog.viera.io">
-							<h5>Blog</h5>
+							<h6>Blog</h6>
 						</a>
 					</div>
-					<div className="nav-item home">
+					<div onMouseOver={this.mouseOverHome} ref='topper' className="nav-item home">
 						<Link to='/'>
-							<TopNavIcon/>
+							<TopNavIcon appear={'appear'}/>
 						</Link>
 					</div>
 					<div className="nav-item work hvr-pulse-shrink">
 						<Link to='/work'>
-							<h5>Works</h5>
+							<h6>Works</h6>
 						</Link>
 					</div>
 					<div className="nav-item contact hvr-pulse-shrink">
 						<Link to='/contact'>
-							<h5>Contact</h5>
+							<h6>Contact</h6>
 						</Link>
 					</div>
 				</div>

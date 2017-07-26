@@ -8,12 +8,13 @@ import Contact from 'Contact';
 import Home from 'Home';
 import WorkControls from 'WorkControls';
 import {CSSTransitionGroup} from 'react-transition-group';
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 import {Transition} from 'Transitions';
 import {mobileCheck} from 'utils';
 import Swipeable from 'react-swipeable';
 import {handleSwipeUp, handleSwipeDown} from 'utils';
 import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
+import Parallax from 'parallax-js';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -27,19 +28,20 @@ export default class App extends React.Component {
 			initial: false,
 			swipeable: false
 		}
+		this.isMobile = false;
 
 		window.mobileCheck = mobileCheck;
 		if (!window.mobileCheck()) {
 			this.handleResize = this.handleResize.bind(this);
 			window.addEventListener('resize', this.handleResize);
+		} else {
+			this.isMobile = true;
 		}
-
 		this.handleInit = this.handleInit.bind(this);
+		this.getRefreshAnimation = this.getRefreshAnimation.bind(this);
 
 	}
-	componentDidMount() {
-		console.log('did mount');
-	}
+	componentDidMount() {}
 
 	componentWillReceiveProps(nextProps, nextState) {
 		console.log('receiving at app')
@@ -75,7 +77,7 @@ export default class App extends React.Component {
 
 		}
 		clearTimeout(window.resizedFinished);
-		window.resizedFinished = setTimeout(setReRender.bind(this), 1000);
+		window.resizedFinished = setTimeout(setReRender.bind(this), 500);
 	}
 
 	handleSwipeable() {
@@ -119,6 +121,22 @@ export default class App extends React.Component {
 
 	}
 
+	getRefreshAnimation() {
+		let refreshTl = new TimelineMax(), {refreshPane} = this.refs;
+
+		refreshTl.fromTo(refreshPane, .5, {
+			visibility: 'hidden',
+			width: '0%',
+			ease: Power4.easeInOut
+		}, {
+			visibility: 'visible',
+			width: '100%',
+			ease: Power4.easeInOut
+		});
+
+		return refreshTl.reverse();
+	}
+
 	handleInit() {
 		this.setState({
 			...this.state,
@@ -131,14 +149,21 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		let clippedWidth = window.innerWidth * .80;
-		let clippedHeight = window.innerHeight * .80;
+		let clippedWidth = window.innerWidth;
+		let clippedHeight = window.innerHeight;
+		if (this.isMobile) {
+			clippedWidth = clippedWidth * .9;
+			clippedHeight = clippedHeight * .9;
+		} else if (clippedWidth > 1900) {
+			clippedWidth = clippedWidth * .80;
+			clippedHeight = clippedHeight * .80;
+		}
 
 		return (
 			<div className="root">
 				<Router>
-					<div className="container app-container click-through-child">
-						<TopNav/>
+					<div ref='scene' className="container app-container click-through-child">
+						<TopNav ref='TopNavIcon'/>
 						<Route render={({location, history, match}) => {
 							return (
 								<Switch >
@@ -147,12 +172,12 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-
-						<Hexagons ref='hexagons' reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<Hexagons ref='hexagons' onRefresh={this.getRefreshAnimation} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 40} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
 						<div className='vignette'></div>
+
 					</div>
 				</Router>
-
+				<div className='refresh-pane' ref='refreshPane'></div>
 			</div>
 		)
 	}

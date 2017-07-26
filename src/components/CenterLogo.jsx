@@ -30,8 +30,26 @@ export default class CenterLogo extends React.Component {
 
 	}
 
+	componentDidMount() {
+		setTimeout(() => this.updateAnimations(), 300);
+	}
+
+	componentWillReceiveProps(nextProps) {}
+
 	shouldComponentUpdate() {
-		return false;
+		return true;
+	}
+
+	componentWillUnmount() {
+		console.log('will unmount')
+		window.removeEventListener('deviceorientation', this.portraitGyro, true);
+		window.removeEventListener('mousemove', this.mouseMovement, true);
+
+		removeTlAnimation(this.bounceAnimation);
+		removeTlAnimation(this.floatAnimation);
+		this.bounceAnimation = null;
+		this.floatAnimation = null;
+
 	}
 
 	portraitGyro(e) {
@@ -83,17 +101,6 @@ export default class CenterLogo extends React.Component {
 		});
 	}
 
-	componentWillUnmount() {
-		window.removeEventListener('deviceorientation', this.portraitGyro, true);
-		window.removeEventListener('mousemove', this.mouseMovement, true);
-
-		removeTlAnimation(this.bounceAnimation);
-		removeTlAnimation(this.floatAnimation);
-		this.bounceAnimation = null;
-		this.floatAnimation = null;
-
-	}
-
 	getBounceAnimation() {
 		let elements = [
 			this.outline1,
@@ -123,10 +130,6 @@ export default class CenterLogo extends React.Component {
 
 		this.floatAnimation.play();
 		this.bounceAnimation.play();
-	}
-
-	componentDidMount() {
-		setTimeout(() => this.updateAnimations(), 1000);
 	}
 
 	getFloatAnimation() {
@@ -198,8 +201,6 @@ export default class CenterLogo extends React.Component {
 		});
 
 	}
-
-	componentWillReceiveProps(nextProps) {}
 
 	render() {
 		return (

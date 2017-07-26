@@ -19,7 +19,6 @@ export default class Home extends React.Component {
 	}
 	componentWillReceiveProps(nextProps) {}
 	componentDidMount() {
-		console.log('did mount');
 		this.props.onUnSwipeable();
 	}
 
