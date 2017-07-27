@@ -41,7 +41,9 @@ export default class App extends React.Component {
 		this.getRefreshAnimation = this.getRefreshAnimation.bind(this);
 
 	}
-	componentDidMount() {}
+	componentDidMount() {
+		console.log(this.hexagonRefs)
+	}
 
 	componentWillReceiveProps(nextProps, nextState) {
 		console.log('receiving at app')
@@ -54,7 +56,7 @@ export default class App extends React.Component {
 		}
 
 		if (this.state.hexagonVis !== nextState.hexagonVis) {
-			return true;
+			return false;
 		}
 
 		if (this.state.initial !== nextState.initial) {
@@ -70,14 +72,17 @@ export default class App extends React.Component {
 	handleResize() {
 		function setReRender() {
 
-			this.setState({
-				...this.state,
-				reRender: !this.state.reRender
-			});
+			this.hexagonRefs.refresh.play()
+			setTimeout(() => {
+				this.setState({
+					...this.state,
+					reRender: !this.state.reRender
+				});
+			}, 1000)
 
 		}
 		clearTimeout(window.resizedFinished);
-		window.resizedFinished = setTimeout(setReRender.bind(this), 500);
+		window.resizedFinished = setTimeout(setReRender.bind(this), 300);
 	}
 
 	handleSwipeable() {
@@ -99,7 +104,7 @@ export default class App extends React.Component {
 
 	renderHomePage(props) {
 		return (
-			<Swipeable trackMouse={true} delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+			<Swipeable trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
 				<Home onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
@@ -114,7 +119,7 @@ export default class App extends React.Component {
 		const CurrentPage = pages[props.match.params.page];
 
 		return (
-			<Swipeable trackMouse={true} delta={200} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+			<Swipeable trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
 				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
@@ -124,17 +129,19 @@ export default class App extends React.Component {
 	getRefreshAnimation() {
 		let refreshTl = new TimelineMax(), {refreshPane} = this.refs;
 
-		refreshTl.fromTo(refreshPane, .5, {
+		refreshTl.fromTo(refreshPane, .6, {
 			visibility: 'hidden',
 			width: '0%',
-			ease: Power4.easeInOut
+			ease: Power4.easeOut
 		}, {
+
 			visibility: 'visible',
 			width: '100%',
-			ease: Power4.easeInOut
+			ease: Power4.easeIn,
+			zIndex: 1000
 		});
 
-		return refreshTl.reverse();
+		return refreshTl.pause(0);
 	}
 
 	handleInit() {
@@ -154,15 +161,18 @@ export default class App extends React.Component {
 		if (this.isMobile) {
 			clippedWidth = clippedWidth * .9;
 			clippedHeight = clippedHeight * .9;
-		} else if (clippedWidth > 1900) {
-			clippedWidth = clippedWidth * .80;
-			clippedHeight = clippedHeight * .80;
+		} else if (clippedWidth > 1680) {
+			clippedWidth = clippedWidth * .9;
+			clippedHeight = clippedHeight * .9;
+		} else if (clippedWidth > 1439 && clippedWidth < 1680) {
+			clippedWidth = clippedWidth * .8;
+			clippedHeight = clippedHeight * .8;
 		}
 
 		return (
 			<div className="root">
 				<Router>
-					<div ref='scene' className="container app-container click-through-child">
+					<div ref='scene' className="container app-container">
 						<TopNav ref='TopNavIcon'/>
 						<Route render={({location, history, match}) => {
 							return (
@@ -172,7 +182,7 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-						<Hexagons ref='hexagons' onRefresh={this.getRefreshAnimation} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 40} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.getRefreshAnimation} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 80} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
 						<div className='vignette'></div>
 
 					</div>

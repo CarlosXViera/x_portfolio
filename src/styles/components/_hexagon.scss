@@ -6,20 +6,10 @@
   fill: $lighterTodayI;
 }
 
-.refresh-pane-container {
-  visibility: hidden;
-}
-
-.refresh-pane {
-  width: 0;
-  height: 100%;
-  fill: $todayII;
-  stroke: red;
-}
-
 .vignette {
+  pointer-events: none;
   position: absolute;
-  top: 0;
+  top: 7vh;
   opacity: 1;
   background-image: url('/assets/vignette-min.png');
   width: 100vw;

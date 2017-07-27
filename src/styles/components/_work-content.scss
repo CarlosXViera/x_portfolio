@@ -1,10 +1,14 @@
 .work-content-page {
+
+  overflow-y: scroll;
+
   .image-gallery-container {
     display: flex;
     align-items: center;
 
     .image-gallery {
       margin: auto;
+      max-width: 900px;
 
       .image-gallery-left-nav,
       .image-gallery-right-nav {

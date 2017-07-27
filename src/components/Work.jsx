@@ -3,11 +3,13 @@ import {BrowserRouter as Router, Route, NavLink, Switch} from 'react-router-dom'
 import WorkContent from 'WorkContent';
 import {CSSTransitionGroup} from 'react-transition-group';
 import NotifySwipe from 'NotifySwipe';
+import DrawSVGPlugin from 'DrawSVGPlugin';
+import {TimelineMax, Power4, Bounce, Elastic} from 'gsap';
 
 /* TODO: Cleanup SVG transforms/tags.
 */
 
-const SVG = ({location, match}) => {
+const SVG = ({location, match, musicPlayer}) => {
 	return (
 		<div className="col-sm work-content">
 			<svg id="work-item-svg" viewBox="0 0 707.8 483.1">
@@ -109,17 +111,23 @@ const SVG = ({location, match}) => {
 						<circle cx="201.6" cy="196.9" r="11.9" className="f"/>
 					</g>
 				</NavLink>
-				<NavLink className="click-through-child" to={`${match.url}/musicplayer`}>
+				<g onClick={musicPlayer.onMPMouseClick} onTouchEnd={musicPlayer.onMPMouseTouch} onMouseEnter={musicPlayer.onMPMouseEnter} onMouseLeave={musicPlayer.onMPMouseLeave} className="click-through-child" to={`${match.url}/musicplayer`}>
+					<path id="music-player-border" d="M703 201.8a9.6 9.6 0 0 0 4.3-7.5V70.8a9.6 9.6 0 0 0-4.3-7.5L596 1.5a9.6 9.6 0 0 0-8.7 0l-107 61.8a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 					<g id="music-player">
-						<path id="music-player-border" d="M703 201.8a9.6 9.6 0 0 0 4.3-7.5V70.8a9.6 9.6 0 0 0-4.3-7.5L596 1.5a9.6 9.6 0 0 0-8.7 0l-107 61.8a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
-						<circle cx="588.1" cy="134.8" r="75.7" className="b"/>
-						<path d="M574.3 117.3H585v38.3h-10.7z" className="d"/>
-						<path d="M590.8 117.3h10.8v38.3h-10.8z" className="d"/>
-						<path d="M588.4 51.3A83.2 83.2 0 0 1 650.6 79l8.6-8.7a95.4 95.4 0 0 0-71-31.2v12.3z" className="d"/>
+
+						<circle id='music-player-inner' cx="588.1" cy="134.8" r="75.7" className="b"/>
+						<g id="pause-button">
+							<path d="M574.3 117.3H585v38.3h-10.7z" className="d"/>
+							<path d="M590.8 117.3h10.8v38.3h-10.8z" className="d"/>
+						</g>
+						<g transform='translate(573.1, 112.8)' id="play-button">
+							<polygon points="39.72 22.93 19.86 34.4 0 45.87 0 22.93 0 0 19.86 11.47 39.72 22.93" fill="#7fda89"/>
+						</g>
 						<circle cx="588.1" cy="134.8" r="83.5" className="b"/>
 						<circle cx="588.1" cy="134.8" r="95.7" className="b"/>
+						<circle id='play-head' cx="588.1" cy="134.7" r="89.6" fill="none"/>
 					</g>
-				</NavLink>
+				</g>
 				<NavLink className="click-through-child" to={`${match.url}/hmce`}>
 					<g id="hcme">
 						<path id="hcme-border" d="M465 201.8a9.6 9.6 0 0 0 4.5-7.5V70.8a9.6 9.6 0 0 0-4.4-7.5L358 1.5a9.6 9.6 0 0 0-8.5 0l-107 61.8a9.6 9.6 0 0 0-4.4 7.5v123.5a9.6 9.6 0 0 0 4.5 7.5l107 61.8a9.6 9.6 0 0 0 8.6 0z" className="b"/>
@@ -139,26 +147,104 @@ const SVG = ({location, match}) => {
 export default class Work extends React.Component {
 	constructor(props) {
 		super(props)
+
+		this.getMPMouseOver = this.getMPMouseOver.bind(this);
 	}
 
+	onMPMouseTouch(e) {
+		e.preventDefault();
+		this.mpMouseOver.timeScale(3).play(0).call(() => this.props.history.push('/work/musicplayer'));
+	}
+
+	onMPMouseClick(e) {
+		e.preventDefault();
+		this.props.history.push('/work/musicplayer');
+	}
+
+	onMPMouseEnter() {
+		this.mpMouseOver.play(0);
+	}
+	onMPMouseLeave() {
+		this.mpMouseOver.reverse().eventCallback('onUpdate', (e) => {
+			if (this.mpMouseOver.time() <= .95 && this.mpMouseOver.reversed()) {
+				this.mpMouseOver.pause();
+			}
+		})
+	}
 	componentDidMount() {
 		this.props.onUnSwipeable();
+		this.mpMouseOver = this.getMPMouseOver();
 	}
 
 	renderWork(props) {
 		return (<WorkContent location={props.location} workId={props.match.params.workId}/>)
 	}
 
+	getMPMouseOver() {
+		let playhead = document.getElementById('play-head'),
+			musicPlayer = document.getElementById('music-player'),
+			playButton = document.getElementById('play-button'),
+			pauseButton = document.getElementById('pause-button'),
+			circleInner = document.getElementById('music-player-inner'),
+			playerTl = new TimelineMax();
+
+		playerTl.set(playhead, {
+			transformOrigin: '50% 50%',
+			strokeWidth: 12,
+			drawSVG: '0%',
+			stroke: '#7FDA89',
+			rotation: 270,
+			ease: Power4.easeOut
+		})
+		playerTl.set(pauseButton, {
+			transformOrigin: '50% 50%',
+			scale: 0
+		})
+		playerTl.fromTo(musicPlayer, 2, {
+			transformOrigin: '50% 50%',
+			opacity: 0,
+			scale: 3
+		}, {
+			scale: 1,
+			opacity: 1,
+			ease: Elastic.easeOut
+		})
+		playerTl.to(playButton, .3, {
+			transformOrigin: '50% 50%',
+
+			scale: 0,
+			ease: Power4.easeIn
+		})
+		playerTl.to(pauseButton, .5, {
+			transformOrigin: '50% 50%',
+			scale: 1,
+			ease: Bounce.easeOut
+		})
+
+		playerTl.to(playhead, 4, {drawSVG: '100%'})
+
+		return playerTl.pause(2).timeScale(1.5);
+
+	}
+
 	renderSvg(props)
 	{
+		let mouseProps = {
+			musicPlayer: {
+				onMPMouseEnter: this.onMPMouseEnter.bind(this),
+				onMPMouseLeave: this.onMPMouseLeave.bind(this),
+				onMPMouseTouch: this.onMPMouseTouch.bind(this),
+				onMPMouseClick: this.onMPMouseClick.bind(this)
+			}
+		}
 		return (
 			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-up" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 				<div key={location.key} className='row work-page'>
-					<SVG {...props}/>
-
+					<SVG {...props} {...mouseProps}/>
+					<NotifySwipe {...this.props}/>
 				</div>
 			</CSSTransitionGroup>
-		)
+		);
 
 	}
 

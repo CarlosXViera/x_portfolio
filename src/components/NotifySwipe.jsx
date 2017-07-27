@@ -146,7 +146,7 @@ export default class NofiySwipe extends React.Component {
 
 	render() {
 		return (
-			<div className='boom'>
+			<div className='notify-swipe'>
 				<Waypoint className="click-through-child" onEnter={(this.handleSwiperEnter.bind(this))} onLeave={this.handleSwipeLeave.bind(this)}>
 					{this.renderNotification(this.state.swipe)}
 				</Waypoint>

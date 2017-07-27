@@ -1,4 +1,6 @@
-.skill-buttons {}
+.empty-border-button {
+  cursor: pointer;
+}
 
 #skill-icons-item-svg {
   fill: $todayII;
@@ -17,11 +19,33 @@
     }
   }
 
-  #gears {}
+  #gears {
+    cursor: pointer;
+  }
 
   #laptop {
+    cursor: pointer;
+
     .inset {
       fill: $todayI;
     }
   }
+}
+
+#laptop-frame1 {
+
+  fill: $todayIII;
+  opacity: 0;
+}
+
+#laptop-frame2 {
+  fill: $todayIV;
+  opacity: 0;
+
+}
+
+#laptop-frame3 {
+
+  fill: $todayV;
+  opacity: 0;
 }

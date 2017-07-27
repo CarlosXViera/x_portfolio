@@ -28,9 +28,10 @@
 .refresh-pane {
   position: absolute;
   top: 0;
-  width: 100%;
+  width: 0;
   height: 100%;
   background-color: $todayII;
-  stroke: red;
-  z-index: 1000;
+  visibility: hidden;
+  z-index: -5;
+
 }

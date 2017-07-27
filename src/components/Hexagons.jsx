@@ -24,6 +24,7 @@ export default class Hexagons extends React.Component {
 		this.updateAnimations = this.updateAnimations.bind(this);
 		this.getWaveAnimation = this.getWaveAnimation.bind(this);
 		this.getMatrixAnimation = this.getMatrixAnimation.bind(this);
+		this.generateData = this.generateData.bind(this);
 
 	}
 
@@ -33,12 +34,11 @@ export default class Hexagons extends React.Component {
 			this.updateAnimations();
 			this.outerWaveAnimation.play()
 			TweenMax.ticker.fps(30)
-			TweenMax.ticker.lagSmoothing(1000, 1000)
+			TweenMax.ticker.lagSmoothing(250, 33)
 
 			this.refresh = this.props.onRefresh();
-			this.refresh.eventCallback('onComplete', () => this.refresh.reverse(0).delay(3));
 			this.refresh.eventCallback('onReverseComplete', () => this.outerWaveAnimation.play());
-		}, 400)
+		}, 301)
 
 	}
 
@@ -46,7 +46,6 @@ export default class Hexagons extends React.Component {
 		if (width != this.props.width || height != this.props.height) {
 			this.removeAnimations(this.outerWaveAnimation);
 			this.removeAnimations(this.matrixAnimation);
-			this.refresh.play();
 
 			this.setState({
 				...this.generateData(width, height)
@@ -63,6 +62,7 @@ export default class Hexagons extends React.Component {
 
 	componentDidUpdate() {
 		this.updateAnimations();
+		this.refresh.reverse(0);
 	}
 
 	componentWillUnmount() {
@@ -252,7 +252,7 @@ export default class Hexagons extends React.Component {
 			child.pause(0);
 			child.invalidate();
 		}
-		tl.kill()
+		tl.invalidate();
 
 	}
 
@@ -314,13 +314,13 @@ export default class Hexagons extends React.Component {
 
 	}) {
 		let amplitude = 1.2,
-			frequency = 40,
-			segments = rings.length * 40,
-			waveTl = new TimelineMax({repeat: -1});
+			frequency = 1,
+			segments = rings.length / 2,
+			waveTl = new TimelineMax({repeat: -1, repeatDelay: 5});
 
 		rings.forEach((layer, index) => {
 			let norm = index / segments;
-			waveTl.to(layer, 2, params, norm * frequency);
+			waveTl.to(layer, 2.5, params, norm * frequency);
 		})
 
 		return waveTl.addLabel('wave-animation').pause(0);

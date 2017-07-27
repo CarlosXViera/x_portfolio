@@ -32,9 +32,10 @@ export default class Home extends React.Component {
 				time: 300,
 				transition: 'slide-up'
 			}}>
-				<div key={this.props.location.key} className="col-sm home-content click-through-child">
-					<CenterLogo className="click-through click-through-child"/>
+				<div key={this.props.location.key} className="col-sm home-content">
+					<CenterLogo className=""/>
 					<MediaIcons onHover={this.handleHover.bind(this)}/>
+					<NotifySwipe {...this.props}/>
 				</div>
 			</Transition>
 		)

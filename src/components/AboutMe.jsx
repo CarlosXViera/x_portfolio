@@ -58,17 +58,17 @@ export default class AboutMe extends React.Component {
 				<Browser vis={this.state.visualization}/>
 				<SkillButtons handleClick={this.onClick.bind(this)}/>
 				<div className="row skill-selectors">
-					<div className="col-sm-4 skill-selectors-content-front-end empty-border-button" onClick={() => this.onClick('front-end')}>
+					<div className="col-sm-4 skill-selectors-content-front-end empty-border-button hvr-rectangle-out" onClick={() => this.onClick('front-end')}>
 						<h5>
 							<span className='code-arrows'>&#60;</span>/FrontEnd<span className='code-arrows'>&#62;</span>
 						</h5>
 					</div>
-					<div className="col-sm-4 skill-selectors-content-back-end empty-border-button" onClick={() => this.onClick('back-end')}>
+					<div className="col-sm-4 skill-selectors-content-back-end empty-border-button hvr-rectangle-out" onClick={() => this.onClick('back-end')}>
 						<h5>
 							<span className='code-arrows'>&#60;</span>/BackEnd<span className='code-arrows'>&#62;</span>
 						</h5>
 					</div>
-					<div className="col-sm-4 skill-selectors-content-dev-ops empty-border-button" onClick={() => this.onClick('front-end')}>
+					<div className="col-sm-4 skill-selectors-content-dev-ops empty-border-button hvr-rectangle-out" onClick={() => this.onClick('front-end')}>
 						<h5>
 							<span className='code-arrows'>&#60;</span>/DevOps<span className='code-arrows'>&#62;</span>
 						</h5>
@@ -84,7 +84,7 @@ export default class AboutMe extends React.Component {
 				transition: 'slide-up',
 				time: 2000
 			}}>
-				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
+				<div key={this.props.location.key} className="col-sm-12 col-lg-10 col-lg-offset-1 about-me-content">
 					<div ref='aboutMe' className="row page-title">
 						<div className="col-sm-6 col-sm-offset-3">
 							<h2>Hello,</h2>
@@ -94,7 +94,6 @@ export default class AboutMe extends React.Component {
 					<div className="row about-total">
 						{LeftContent()}
 						{this.renderRightContent()}
-
 					</div>
 					<div className="row">
 						<div className="col-sm-12">

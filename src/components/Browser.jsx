@@ -139,7 +139,7 @@ export default class Browser extends React.Component {
 	handleEnter() {
 		setTimeout(() => {
 			this.browserAnimation.play();
-		}, 300);
+		}, 500);
 
 	}
 	handleLeave() {

@@ -1,9 +1,7 @@
 .about-me-content {
   padding: 0;
-
   overflow-y: scroll;
   height: 92vh;
-  pointer-events: all;
 
   .code-arrows {
     color: $todayIV;
@@ -26,8 +24,6 @@
   }
 
   .about-total {
-    pointer-events: none;
-
     .skill-content {
       padding-top: 10px;
 
