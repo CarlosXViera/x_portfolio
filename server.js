@@ -61,6 +61,6 @@ app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname + '/public', 'index.html'))
 })
 
-app.post('/sayHello', handleEmailSubmit);
+app.post('/process_submit', handleEmailSubmit);
 
 app.listen(port, () => console.log('Server is up in port 3000'));
