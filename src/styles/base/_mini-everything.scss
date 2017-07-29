@@ -246,7 +246,7 @@ $form-back-color: rgba(0, 0,0,0);
 // Background color for forms
 $form-fore-color: $fore-color;
 // Text color for forms
-$form-border-style: $_1px solid $todayIV;
+$form-border-style: none;
 // Border style for forms
 $form-border-radius: 0;
 // Border radius for forms
@@ -273,11 +273,10 @@ $legend-fore-color: $form-fore-color;
 // Text color for legend
 $legend-padding: 0.125rem 0.25rem;
 // Padding for legend
-$label-padding: 0.25rem 0.5rem;
-// Padding for label
+$label-padding: 0.6rem 0.5rem; // Padding for label
 $input-group-name: 'input-group';
 // Class for input groups
-$include-fluid-input-group: true;
+$include-fluid-input-group: false;
 // Should fluid input grooups be included? (`true`/`false`) [1]
 $input-group-fluid-name: 'fluid';
 // Class name for fluid input groups
@@ -287,15 +286,15 @@ $input-group-vertical-name: 'vertical';
 // Class name for vertical input groups.
 $input-group-mobile-breakpoint: 767px;
 // Breakpoint for fluid input group mobile view
-$input-back-color: #fafafa;
+$input-back-color: transparent;
 // Background for input
 $input-fore-color: $fore-color;
 // Text color for input
-$input-border-style: $_1px solid #c9c9c9;
+$input-border-style: $_1px solid $todayII;
 // Border style for input
 $input-border-radius: 2*$_1px;
 // Border radius for input
-$input-margin: 0.25rem;
+$input-margin: 0;
 // Margin for input
 $input-padding: 0.5rem 0.75rem;
 // Padding for input
@@ -309,7 +308,7 @@ $input-readonly-back-color: #e5e5e5;
 // Background color for readonly input
 $input-readonly-border-color: #c9c9c9;
 // Border color for readonly input
-$input-placeholder-fore-color: #616161;
+$input-placeholder-fore-color: $todayI_transparent;
 // Text color for input placeholder
 $select-padding-right: 1.5rem;
 // Right padding for <select> element

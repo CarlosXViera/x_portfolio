@@ -123,7 +123,6 @@ export default class App extends React.Component {
 				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
-
 	}
 
 	getRefreshAnimation() {

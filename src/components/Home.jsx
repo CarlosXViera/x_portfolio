@@ -34,7 +34,11 @@ export default class Home extends React.Component {
 			}}>
 				<div key={this.props.location.key} className="col-sm home-content">
 					<CenterLogo className=""/>
-					<MediaIcons onHover={this.handleHover.bind(this)}/>
+					<div className="row social-media-icons">
+						<div className="col-sm-6 col-sm-offset-3 social-media-icons-content">
+							<MediaIcons translate={'translate(0,0)'} onHover={this.handleHover.bind(this)}/>
+						</div>
+					</div>
 					<NotifySwipe {...this.props}/>
 				</div>
 			</Transition>

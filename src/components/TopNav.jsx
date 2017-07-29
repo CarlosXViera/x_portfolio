@@ -7,6 +7,7 @@ import DefineGlasses from 'Glasses';
 import {TimelineMax, Back} from 'gsap';
 import NavButton from 'NavButton';
 import {SlideNav, LogoSubTitle, LogoButton} from 'MobileNav';
+import MediaIcons from 'MediaIcons';
 
 class TopNav extends React.Component {
 
@@ -85,10 +86,10 @@ class TopNav extends React.Component {
 		console.log('topnav updated');
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-
-		return nextState.show != this.state.show;
-	}
+	// shouldComponentUpdate(nextProps, nextState) {
+	//
+	// 	return nextState.show != this.state.show;
+	// }
 
 	handleClick() {
 		this.setState({
@@ -131,8 +132,19 @@ class TopNav extends React.Component {
 		)
 
 	}
+	showIcons(loc) {
+		return loc === '/'
+			? ''
+			: (
+				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+					<MediaIcons/>
+				</CSSTransitionGroup>
+
+			);
+	}
 
 	render() {
+		console.log(this.props);
 
 		/* TODO: DRY out render */
 
@@ -169,6 +181,10 @@ class TopNav extends React.Component {
 							<h6>Contact</h6>
 						</Link>
 					</div>
+					<div className='nav-item social hvr-pulse-shrink'>
+						{this.showIcons(this.props.location.pathname)}
+					</div>
+
 				</div>
 				<div className="col-sm-12 hidden-md hidden-lg nav-mobile-container">
 					<div className='row nav-mobile'>

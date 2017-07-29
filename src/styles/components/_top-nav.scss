@@ -204,7 +204,9 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  padding: 5px 25%;
+  margin-top: -2px;
+  padding: 0 25%;
+
   height: auto;
   text-align: center;
 
@@ -217,6 +219,28 @@
       font-weight: 100;
       text-align: center;
     }
+  }
+
+  .social {
+    position: absolute;
+    top: 20px;
+    left: 70%;
+  }
+
+  #social-media-icons-item-svg {
+    width: 60px;
+    height: 30px;
+
+    .icon-border {
+      fill: none;
+      stroke: $white;
+      stroke-miterlimit: 10;
+    }
+
+    .icon {
+      fill: $white;
+    }
+
   }
 
   .about,
@@ -247,7 +271,7 @@
 
   hr {
 
-    margin-top: 85px;
+    margin-top: 70px;
     margin-bottom: 0;
     width: 70vw;
     height: 1px;

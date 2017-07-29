@@ -1,29 +1,27 @@
 .social-media-icons {
-  width: 100vw;
-
   .social-media-icons-content {
     margin-top: 1.5rem;
     display: flex;
     justify-content: center;
-    width: 100px;
+    width: 200px;
     height: 30px;
 
-    #social-media-icons-item-svg {
-      width: 100px;
-      height: 30px;
+  }
 
-      .icon-border {
-        fill: none;
-        stroke: $white;
-        stroke-miterlimit: 10;
-      }
+}
 
-      .icon {
-        fill: $white;
-      }
+#social-media-icons-item-svg {
+  width: 100px;
+  height: 30px;
 
-    }
+  .icon-border {
+    fill: none;
+    stroke: $white;
+    stroke-miterlimit: 10;
+  }
 
+  .icon {
+    fill: $white;
   }
 
 }

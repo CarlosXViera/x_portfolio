@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const VENDORS = [
+	'whatwg-fetch',
 	'react', 'react-router-dom', 'd3-selection', 'node-uuid', 'gsap', 'react-image-gallery', 'react-router-transition', 'css-loader!mini.css', "react-swipeable", "react-transition-group"]
 
 module.exports = {

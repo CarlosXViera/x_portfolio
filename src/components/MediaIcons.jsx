@@ -100,15 +100,13 @@ class MediaIcons extends React.Component {
 
 	render() {
 		return (
-			<div className="row social-media-icons">
-				<div className="col-sm-6 col-sm-offset-3 social-media-icons-content">
-					<svg id="social-media-icons-item-svg" className="" viewBox=" 0 0 92.3 26">
-						{this.linkedInIcon()}
-						{this.gitHubIcon()}
-						{this.faceBookIcon()}
-					</svg>
-				</div>
-			</div>
+
+			<svg id="social-media-icons-item-svg" className="" viewBox=" 0 0 92.3 26">
+				{this.linkedInIcon()}
+				{this.gitHubIcon()}
+				{this.faceBookIcon()}
+			</svg>
+
 		)
 	}
 

@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 import NotifySwipe from 'NotifySwipe';
+import ContactForm from 'ContactForm';
+import {Transition} from 'Transitions';
 
 export default class Contact extends React.Component {
 	constructor(props) {
@@ -27,11 +29,36 @@ export default class Contact extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<div id="">
-					I’m a New York based web developer who has a *heart* for the design process. I tinker with many different types of media and absolutely love making ideas into reality. I have a bachelor’s of technology and currently an adjunct lecturer at New York City College of Technology. I’m a natural problem solver; I enjoy finding efficient solutions to complex problems. I’m also a data lover, I like to analyze and visualize data to expose trends, Baautem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et ac. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. I’m a New York based web developer who has a *heart* for the design process. I tinker with many different types of media and absolutely love making ideas into reality. I have a bachelor’s of technology and currently an adjunct lecturer at New York City College of Technology. I’m a natural problem solver; I enjoy finding efficient solutions to complex problems. I’m also a data lover, I like to analyze and visualize data to expose trends, Baautem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et ac. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+			<Transition settings={{
+				transition: 'slide-up',
+				time: 2000
+			}}>
+				<div key={this.props.location.key} className='row contact-page'>
+					<div className='col-sm col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 contact-page-content'>
+						<div className="row page-title">
+							<div className="col-sm-6 col-sm-offset-3">
+								<h2>Contact Me</h2>
+								<p className="title-divider">■ ■ ■ ■</p>
+							</div>
+						</div>
+						<div className='row contact-info'>
+							<div className='col-sm-8 col-sm-offset-2'>
+								<p id='contact-info-content'>
+									<span className='contact-span'>Email</span>: cx@viera.io
+									<br/>
+									<span className='contact-span'>Address</span>: 1296 Sheridan avenue, Bronx NY 10456.
+									<br/>
+									<span className='contact-span'>Telephone</span>: 347.284.7117
+								</p>
+							</div>
+						</div>
+						<div className="contact-container row">
+							<ContactForm/>
+						</div>
+					</div>
 				</div>
-			</div>
+				<NotifySwipe {...this.props}/>
+			</Transition>
 		)
 	}
 }

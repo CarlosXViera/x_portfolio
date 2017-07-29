@@ -1,5 +1,110 @@
-#huge {
-  width: 500px;
-  height: 500px;
-  background-color: $todayIII;
+#x-error {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 10px;
+  height: 10px;
+  width: 10px;
+  fill: #e84c3d;
+}
+
+.input-error {
+  box-shadow: inset 0 0 10px #e84c3d;
+  border-color: #e84c3d;
+}
+
+.error-box {
+  text-align: center;
+}
+
+.contact-page {
+  overflow-y: visible;
+
+  .page-title {
+    h2 {
+      white-space: nowrap;
+      font-size: 2.5rem;
+    }
+  }
+
+  .contact-container {
+    // border: solid 1px $todayII;
+    background-color: none;
+    border-radius: 4px;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    // box-shadow: 0 5px 10px rgba(0, 0, 0, 1);
+
+    .contact-form-container {
+      .square {
+        padding-top: 1rem;
+
+        input {
+          width: 100%;
+          font-size: 0.7rem;
+        }
+
+        .name {
+          .name-content {
+            label {
+              margin: 0;
+              padding: 0 0 0 1%;
+            }
+            padding-right: 2%;
+          }
+        }
+
+        .subject {
+          .subject-content {
+            label {
+              margin: 0;
+              padding: 0 0 0 1%;
+            }
+            padding-left: 2%;
+          }
+        }
+
+        .email {
+          label {
+            margin: 0;
+            padding: 0 0 0 1%;
+          }
+
+          .email-content {}
+        }
+
+      }
+
+      .message {
+        margin: 0;
+        padding: 0;
+        margin-top: 0.3rem;
+
+        .message-content {
+          width: 100%;
+          height: 20vh;
+          font-size: 0.7rem;
+        }
+      }
+
+    }
+
+    .submit {
+      .submit-button {
+        margin: auto;
+        color: white;
+        font-family: lekton_regular;
+        border: 1px solid $todayII;
+      }
+    }
+  }
+}
+
+.contact-info {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.contact-span {
+  color: $todayIV;
 }
