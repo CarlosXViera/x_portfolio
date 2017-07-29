@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {select, selection} from 'd3-selection';
 
 export default class BackEndVisual extends React.Component {
 	constructor(props) {

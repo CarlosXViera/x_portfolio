@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react'
-import {importTemplates} from 'utils'
 import {withRouter} from 'react-router-dom';
 import uuid from 'node-uuid'
 import {TweenMax, TimeLineMax, Sine, Bounce, Power4} from 'gsap';

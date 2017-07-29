@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {select, selection} from 'd3-selection';
 import DefineGlasses from 'Glasses';
 import {TimelineMax, Bounce, Back} from "gsap";
 import DrawSVGPlugin from 'DrawSVGPlugin';

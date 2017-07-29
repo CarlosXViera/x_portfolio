@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import {select, selection} from 'd3-selection';
 import FrontEndVisual from 'FrontEndVisual';
 import BackEndVisual from 'BackEndVisual';
 import DevOpsVisual from 'DevOpsVisual';

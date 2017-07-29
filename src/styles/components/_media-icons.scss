@@ -6,22 +6,22 @@
     width: 200px;
     height: 30px;
 
-  }
+    #social-media-icons-item-svg {
+      width: 100px;
+      height: 30px;
 
-}
+      .icon-border {
+        fill: none;
+        stroke: $white;
+        stroke-miterlimit: 10;
+      }
 
-#social-media-icons-item-svg {
-  width: 100px;
-  height: 30px;
+      .icon {
+        fill: $white;
+      }
 
-  .icon-border {
-    fill: none;
-    stroke: $white;
-    stroke-miterlimit: 10;
-  }
+    }
 
-  .icon {
-    fill: $white;
   }
 
 }

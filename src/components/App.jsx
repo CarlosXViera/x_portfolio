@@ -14,7 +14,6 @@ import {mobileCheck} from 'utils';
 import Swipeable from 'react-swipeable';
 import {handleSwipeUp, handleSwipeDown} from 'utils';
 import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
-import Parallax from 'parallax-js';
 
 export default class App extends React.Component {
 	constructor(props) {

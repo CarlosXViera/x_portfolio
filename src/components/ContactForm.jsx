@@ -27,7 +27,7 @@ export default class ContactForm extends React.Component {
 	}
 	submitForm() {
 
-		fetch('/sayHello', {
+		fetch('/process_submit', {
 			mode: 'no-cors',
 			method: 'POST',
 			headers: {
