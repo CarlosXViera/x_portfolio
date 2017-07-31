@@ -48,10 +48,10 @@ let handleEmailSubmit = ({
 
 }
 
-app.use(express.static(path.join(process.env.PWD, 'public')));
+app.use(express.static(path.join(process.env.PWD, '/public')));
 
 app.get('*', (req, res) => {
-	res.sendFile(path.resolve(path.join(process.env.PWD, 'public'), 'index.html'))
+	res.sendFile(path.resolve(path.join(process.env.PWD, '/public'), 'index.html'))
 })
 
 app.post('/process_submit', handleEmailSubmit);
