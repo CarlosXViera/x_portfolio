@@ -7,20 +7,21 @@
 .content {}
 
 .page-title {
+  padding-left: 1rem;
   text-align: center;
-  margin-top: 15px;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
 
   h2 {
     font-size: 3.5rem;
     padding: 0;
-    margin-bottom: 0;
   }
 
   .title-divider {
+    text-align: center;
     color: $todayII;
     font-size: 6px;
-    margin: 0;
-    padding: 0;
+
     margin-bottom: 10px;
   }
 }

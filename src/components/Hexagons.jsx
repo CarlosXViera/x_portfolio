@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {withRouter} from 'react-router-dom';
 import uuid from 'node-uuid'
-import {TweenMax, TimeLineMax, Sine, Bounce, Power4} from 'gsap';
+import {TweenMax, TimeLineMax, Sine, Bounce, Power4} from 'gsap/src/minified/TweenMax.min';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
 import {pad, shuffle, getRandomFloat, getRandomInt, transpose} from 'utils';
@@ -16,8 +16,8 @@ export default class Hexagons extends React.Component {
 			...data
 		}
 
-		this.outerWaveAnimation = null;
-		this.matrixAnimaton = null;
+		//this.outerWaveAnimation = null;
+		//this.matrixAnimaton = null;
 		this.hexagonRefs = {};
 		this.handleMouseOver = this.handleMouseOver.bind(this);
 		this.updateAnimations = this.updateAnimations.bind(this);
@@ -28,20 +28,18 @@ export default class Hexagons extends React.Component {
 	}
 
 	componentDidMount() {
-
 		setTimeout(() => {
 			this.updateAnimations();
+			this.props.onCreate('onReverseComplete', () => this.outerWaveAnimation.play());
 			this.outerWaveAnimation.play()
 			TweenMax.ticker.fps(30)
-			TweenMax.ticker.lagSmoothing(250, 33)
-
-			this.refresh = this.props.onRefresh();
-			this.refresh.eventCallback('onReverseComplete', () => this.outerWaveAnimation.play());
+			TweenMax.ticker.lagSmoothing(250, 33);
 		}, 301)
 
 	}
 
 	componentWillReceiveProps({width, height}) {
+
 		if (width != this.props.width || height != this.props.height) {
 			this.removeAnimations(this.outerWaveAnimation);
 			this.removeAnimations(this.matrixAnimation);
@@ -53,7 +51,6 @@ export default class Hexagons extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-
 		return (JSON.stringify(nextProps) !== JSON.stringify(this.props)) && JSON.stringify(nextState) !== JSON.stringify(this.state);
 	}
 
@@ -61,12 +58,10 @@ export default class Hexagons extends React.Component {
 
 	componentDidUpdate() {
 		this.updateAnimations();
-		this.refresh.reverse(0);
+		this.props.onRefreshReverse()
 	}
 
-	componentWillUnmount() {
-		console.log('unmount');
-	}
+	componentWillUnmount() {}
 
 	offsetToCubeCoords(hex) {
 		let x = hex.col - (hex.row + (hex.row & 1)) / 2;
@@ -243,7 +238,7 @@ export default class Hexagons extends React.Component {
 	}
 
 	removeAnimations(tl) {
-		tl.pause(0);
+
 		for (let child of tl.getChildren(false, true, false)) {
 			for (let target of child.target) {
 				TweenMax.set(target, {clearProps: 'all'});
@@ -251,7 +246,6 @@ export default class Hexagons extends React.Component {
 			child.pause(0);
 			child.invalidate();
 		}
-		tl.invalidate();
 
 	}
 

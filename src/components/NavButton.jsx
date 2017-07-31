@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {TimelineMax, Power4, Bounce} from 'gsap';
+import {TimelineMax, Power4, Bounce} from 'gsap/src/minified/TweenMax.min';
 
 export default class NavButton extends React.Component {
 

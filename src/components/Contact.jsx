@@ -34,7 +34,7 @@ export default class Contact extends React.Component {
 				time: 2000
 			}}>
 				<div key={this.props.location.key} className='row contact-page'>
-					<div className='col-sm col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 contact-page-content'>
+					<div className='col-sm col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4 contact-page-content'>
 						<div className="row page-title">
 							<div className="col-sm-6 col-sm-offset-3">
 								<h2>Contact Me</h2>

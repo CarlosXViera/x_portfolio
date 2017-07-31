@@ -4,7 +4,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
 import DefineGlasses from 'Glasses';
-import {TimelineMax, Back} from 'gsap';
+import {TimelineMax, Back} from 'gsap/src/minified/TweenMax.min';
 import NavButton from 'NavButton';
 import {SlideNav, LogoSubTitle, LogoButton} from 'MobileNav';
 import MediaIcons from 'MediaIcons';
@@ -16,7 +16,8 @@ class TopNav extends React.Component {
 		this.colors = ['#259073', '#7FDA89', '#C8E98E', '#E6F99D']
 
 		this.state = {
-			show: false
+			show: false,
+			atHome: this.props.location.pathname === '/'
 		}
 		this.mouseOverHome = this.mouseOverHome.bind(this);
 	}
@@ -50,7 +51,7 @@ class TopNav extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this.hoverArrows = this.getTopNavHover(), 300)
+		setTimeout(() => this.hoverArrows = this.getTopNavHover(), 300);
 
 	}
 
@@ -78,18 +79,25 @@ class TopNav extends React.Component {
 		return arrowsTl.pause(0);
 	}
 
-	componentWillReceiveProps() {
-		console.log('receiving');
+	componentWillReceiveProps({location}) {
+		location.pathname === '/'
+			? this.setState({atHome: true})
+			: this.setState({atHome: false});
 	}
 
-	componentDidUpdate() {
-		console.log('topnav updated');
-	}
+	componentDidUpdate() {}
 
-	// shouldComponentUpdate(nextProps, nextState) {
-	//
-	// 	return nextState.show != this.state.show;
-	// }
+	shouldComponentUpdate(nextProps, nextState) {
+		if (nextState.atHome != this.state.atHome) {
+			return true;
+		} else if (nextState.show != this.state.show) {
+			return true;
+		} else {
+			return false;
+		}
+
+		// return nextState.show != this.state.show;
+	}
 
 	handleClick() {
 		this.setState({
@@ -132,20 +140,16 @@ class TopNav extends React.Component {
 		)
 
 	}
-	showIcons(loc) {
-		return loc === '/'
-			? ''
-			: (
-				<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-					<MediaIcons/>
-				</CSSTransitionGroup>
 
-			);
+	showIcons(loc) {
+		return loc
+			? (
+				<div></div>
+			)
+			: (<MediaIcons key={uuid('mediaIcon')}/>);
 	}
 
 	render() {
-		console.log(this.props);
-
 		/* TODO: DRY out render */
 
 		return (
@@ -181,8 +185,12 @@ class TopNav extends React.Component {
 							<h6>Contact</h6>
 						</Link>
 					</div>
-					<div className='nav-item social hvr-pulse-shrink'>
-						{this.showIcons(this.props.location.pathname)}
+					<div className='nav-item social'>
+
+						<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+							{this.showIcons(this.state.atHome)}
+						</CSSTransitionGroup>
+
 					</div>
 
 				</div>

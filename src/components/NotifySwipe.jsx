@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {handleSwipeUp, handleSwipeDown} from 'utils';
 import Waypoint from 'react-waypoint';
-import {TimelineMax, TweenLite, Bounce} from 'gsap';
+import {TimelineMax, TweenLite, Bounce} from 'gsap/src/minified/TweenMax.min';
 import DrawSVGPlugin from 'DrawSVGPlugin';
 
 export default class NofiySwipe extends React.Component {

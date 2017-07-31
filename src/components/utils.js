@@ -1,8 +1,3 @@
-import {
-	selection,
-	select
-} from 'd3-selection';
-
 export function handleSwipeUp(props, possible) {
 	let urls = ['/', '/about', '/work', '/contact'],
 		index = urls.indexOf(props.location.pathname),

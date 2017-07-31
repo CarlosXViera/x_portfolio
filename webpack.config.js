@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const VENDORS = [
 	'whatwg-fetch',
-	'react', 'react-router-dom', 'node-uuid', 'gsap', 'react-image-gallery', 'react-router-transition', 'css-loader!mini.css', "react-swipeable", "react-transition-group"]
+	'react', 'react-router-dom', 'node-uuid', 'gsap/src/minified/TweenMax.min.js', 'react-image-gallery', 'react-router-transition', 'css-loader!mini.css', "react-swipeable", "react-transition-group"]
 
 module.exports = {
 	entry: {
@@ -82,5 +82,5 @@ module.exports = {
 		historyApiFallback: true,
 		host: "0.0.0.0",
 		disableHostCheck: true
-	}
+	},
 };

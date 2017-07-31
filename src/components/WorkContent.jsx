@@ -41,7 +41,9 @@ class WorkContent extends React.Component {
 	}
 
 	componentWillReceiveProps(a, b) {
+
 		if (this.props.location.pathname !== a.location.pathname) {
+
 			this.setState({
 				...ContentApi.getEverything(a.workId),
 				currentPage: a.workId,
@@ -67,13 +69,6 @@ class WorkContent extends React.Component {
 		return (<button className='image-gallery-left-nav hvr-backward' disabled={disabled} onClick={onClick}/>)
 	}
 
-	nextOrPrev(dir) {
-		this.setState({
-			...this.state,
-			direction: dir
-		})
-	}
-
 	shouldComponentUpdate(a) {
 		return (this.props.location.pathname !== a.location.pathname);
 	}
@@ -83,7 +78,7 @@ class WorkContent extends React.Component {
 		return !beenHere
 			? (
 				<div className="row image-gallery-container">
-					<div className="col-sm-12 col-md-8 col-md-offset-2">
+					<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
 						<ImageGallery {...settings}></ImageGallery>
 					</div>
 				</div>
@@ -91,7 +86,7 @@ class WorkContent extends React.Component {
 			: (
 				<CSSTransitionGroup transitionName={dir} transitionAppear={true} transitionAppearTimeout={300} transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 					<div key={uuid('key')} className="row image-gallery-container">
-						<div className="col-sm-12 col-md-8 col-md-offset-2">
+						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
 							<ImageGallery {...settings}></ImageGallery>
 						</div>
 					</div>
@@ -120,13 +115,13 @@ class WorkContent extends React.Component {
 					</div>
 					{this.renderGallery(this.state.alreadyBeenHere, settings, this.state.direction)}
 					<div className="row project-descriptor responsive-padding">
-						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 description">
 							<p>
 								{this.state.description}
 							</p>
 						</div>
 					</div>
-					<WorkControls onNextOrPrev={this.nextOrPrev.bind(this)} currentPage={this.state.currentPage}/>
+					<WorkControls onNextOrPrev={this.props.onNextOrPrev} currentPage={this.state.currentPage}/>
 				</div>
 			</SwitchAnimation>
 		)

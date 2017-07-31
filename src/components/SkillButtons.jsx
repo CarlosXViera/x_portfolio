@@ -1,5 +1,5 @@
 import React from 'react';
-import {TimelineMax, Back, Power4} from 'gsap';
+import {TimelineMax, Back, Power4} from 'gsap/src/minified/TweenMax.min';
 
 const Server = (transform) => {
 	return (

@@ -13,7 +13,7 @@ import {Transition} from 'Transitions';
 import {mobileCheck} from 'utils';
 import Swipeable from 'react-swipeable';
 import {handleSwipeUp, handleSwipeDown} from 'utils';
-import {TweenMax, TimeLineMax, Sine, Bounce} from 'gsap';
+import {TweenMax, TimelineMax, Bounce, Sine} from 'gsap/src/minified/TweenMax.min';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -40,12 +40,21 @@ export default class App extends React.Component {
 		this.getRefreshAnimation = this.getRefreshAnimation.bind(this);
 
 	}
-	componentDidMount() {
-		console.log(this.hexagonRefs)
+	componentDidMount() {}
+
+	createRefresh(type, cb) {
+		this.refresh = this.getRefreshAnimation();
+		this.refresh.eventCallback(type, cb);
 	}
 
-	componentWillReceiveProps(nextProps, nextState) {
-		console.log('receiving at app')
+	componentWillReceiveProps(nextProps, nextState) {}
+
+	refreshPlay() {
+		this.refresh.play();
+	}
+
+	refreshReverse() {
+		this.refresh.reverse(0);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -71,13 +80,13 @@ export default class App extends React.Component {
 	handleResize() {
 		function setReRender() {
 
-			this.hexagonRefs.refresh.play()
+			this.refresh.play();
 			setTimeout(() => {
 				this.setState({
 					...this.state,
 					reRender: !this.state.reRender
 				});
-			}, 1000)
+			}, 1500)
 
 		}
 		clearTimeout(window.resizedFinished);
@@ -97,9 +106,7 @@ export default class App extends React.Component {
 		});
 	}
 
-	componentDidUpdate() {
-		console.log('updatedd');
-	}
+	componentDidUpdate() {}
 
 	renderHomePage(props) {
 		return (
@@ -125,9 +132,10 @@ export default class App extends React.Component {
 	}
 
 	getRefreshAnimation() {
-		let refreshTl = new TimelineMax(), {refreshPane} = this.refs;
 
-		refreshTl.fromTo(refreshPane, .6, {
+		let refreshTl = new TimelineMax();
+
+		refreshTl.fromTo(this.refreshPane, .6, {
 			visibility: 'hidden',
 			width: '0%',
 			ease: Power4.easeOut
@@ -171,7 +179,7 @@ export default class App extends React.Component {
 			<div className="root">
 				<Router>
 					<div ref='scene' className="container app-container">
-						<TopNav ref='TopNavIcon'/>
+						<TopNav/>
 						<Route render={({location, history, match}) => {
 							return (
 								<Switch >
@@ -180,12 +188,16 @@ export default class App extends React.Component {
 								</Switch>
 							);
 						}}/>
-						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.getRefreshAnimation} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 80} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 80} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
 						<div className='vignette'></div>
 
 					</div>
 				</Router>
-				<div className='refresh-pane' ref='refreshPane'></div>
+				<div className='refresh-pane' ref={(r) => {
+					if (r === null)
+						return;
+					this.refreshPane = r
+				}}></div>
 			</div>
 		)
 	}

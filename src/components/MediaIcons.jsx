@@ -1,5 +1,5 @@
 import React from 'react';
-import {TweenLite} from "gsap";
+import {TweenLite} from "gsap/src/minified/TweenMax.min";
 import DrawSVGPlugin from 'DrawSVGPlugin';
 
 class MediaIcons extends React.Component {

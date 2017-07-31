@@ -9,11 +9,14 @@
     "serve": "webpack-dev-server --inline --content-base public/",
     "webdriver-launch": "./node_modules/.bin/wdio wdio.conf.js & WEBDRIVER=$!"
   },
+  "engines":{
+    "node": "8.1.x",
+    "npm": "5.0.x"
+  },
   "author": "CarlosXViera",
   "license": "None",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "d3-selection": "^0.9.0",
     "express": "^4.14.1",
     "gsap": "^1.19.1",
     "mini.css": "^2.3.1",

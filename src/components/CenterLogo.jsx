@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import DefineGlasses from 'Glasses';
-import {TimelineMax, Bounce, Back} from "gsap";
+import {TimelineMax, Bounce, Back} from "gsap/src/minified/TweenMax.min";
 import DrawSVGPlugin from 'DrawSVGPlugin';
 import {mobileCheck, removeTlAnimation} from 'utils';
 
@@ -141,12 +141,6 @@ export default class CenterLogo extends React.Component {
 
 		floatTl.to(this.glassesTotal, 2, params).addLabel('glasses-float');
 		return floatTl.pause(0);
-	}
-
-	onRef = (ref) => {
-		this.setState({
-			g: select(ref)
-		}, () => {})
 	}
 
 	mouseMovement(e) {

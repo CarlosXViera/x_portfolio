@@ -4,7 +4,7 @@ import WorkContent from 'WorkContent';
 import {CSSTransitionGroup} from 'react-transition-group';
 import NotifySwipe from 'NotifySwipe';
 import DrawSVGPlugin from 'DrawSVGPlugin';
-import {TimelineMax, Power4, Bounce, Elastic, Sine} from 'gsap';
+import {TimelineMax, Power4, Bounce, Sine} from 'gsap/src/minified/TweenMax.min';
 import {shuffle} from 'utils';
 
 /* TODO: Cleanup SVG transforms/tags.
@@ -115,7 +115,7 @@ const SVG = ({
 					<circle cx="189.3" cy="61.6" r="11.9" className="f node"/>
 					<circle cx="201.6" cy="196.9" r="11.9" className="f node"/>
 				</g>
-				<g {...mpProps} className="click-through-child" to={`${match.url}/musicplayer`}>
+				<g {...mpProps} className="click-through-child">
 					<path id="music-player-border" d="M703 201.8a9.6 9.6 0 0 0 4.3-7.5V70.8a9.6 9.6 0 0 0-4.3-7.5L596 1.5a9.6 9.6 0 0 0-8.7 0l-107 61.8a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 					<g id="music-player">
 						<circle id='music-player-inner' cx="588.1" cy="134.8" r="75.7" className="b"/>
@@ -156,19 +156,45 @@ export default class Work extends React.Component {
 		this.getDSMouseOver = this.getDSMouseOver.bind(this);
 		this.getPGMouseOver = this.getPGMouseOver.bind(this);
 		this.getHCMouseOver = this.getHCMouseOver.bind(this);
+		this.nextOrPrev = this.nextOrPrev.bind(this);
 
+		this.state = {
+			direction: 'example'
+		};
 	}
 
 	componentDidMount() {
 		this.props.onUnSwipeable();
-		this.mpMouseOver = this.getMPMouseOver();
-		this.dsMouseOver = this.getDSMouseOver();
-		this.pgMouseOver = this.getPGMouseOver();
-		this.hcMouseOver = this.getHCMouseOver();
+		this.initializeTweens();
+
+	}
+
+	initializeTweens() {
+		if (document.getElementById('work-item-svg')) {
+			this.mpMouseOver = this.getMPMouseOver();
+			this.dsMouseOver = this.getDSMouseOver();
+			this.pgMouseOver = this.getPGMouseOver();
+			this.hcMouseOver = this.getHCMouseOver();
+		}
+
+	}
+
+	componentWillUnmount() {}
+
+	removeAnimations(tl) {
+		console.log(tl);
+		tl.pause(0);
+		tl.invalidate();
+
+	}
+
+	nextOrPrev(dir) {
+		console.log(this);
+		this.direction = dir;
 	}
 
 	renderWork(props) {
-		return (<WorkContent location={props.location} workId={props.match.params.workId}/>)
+		return (<WorkContent location={props.location} onNextOrPrev={this.nextOrPrev} workId={props.match.params.workId}/>)
 	}
 
 	getHCMouseOver() {
@@ -285,7 +311,7 @@ export default class Work extends React.Component {
 		}, {
 			scale: 1,
 			opacity: 1,
-			ease: Elastic.easeOut
+			ease: Bounce.easeOut
 		})
 		playerTl.to(playButton, .3, {
 			transformOrigin: '50% 50%',
@@ -374,7 +400,7 @@ export default class Work extends React.Component {
 
 	onMPMouseLeave() {
 		this.mpMouseOver.reverse(8).eventCallback('onUpdate', (e) => {
-			if (this.mpMouseOver.time() <= 1.2 && this.mpMouseOver.reversed()) {
+			if (this.mpMouseOver.time() <= 2 && this.mpMouseOver.reversed()) {
 				this.mpMouseOver.pause();
 			}
 		})
@@ -425,7 +451,7 @@ export default class Work extends React.Component {
 			<Route render={({location, history, match}) => {
 				return (
 					<Switch>
-						<Route path={`${match.url}/:workId`} component={this.renderWork}/>
+						<Route path={`${match.url}/:workId`} component={this.renderWork.bind(this)}/>
 						<Route path={match.url} component={this.renderSvg.bind(this)}/>
 					</Switch>
 				)

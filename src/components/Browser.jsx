@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import FrontEndVisual from 'FrontEndVisual';
 import BackEndVisual from 'BackEndVisual';
 import DevOpsVisual from 'DevOpsVisual';
-import {TimelineMax, TweenMax, Power4, Bounce} from 'gsap';
+import {TimelineMax, TweenMax, Power4, Bounce} from 'gsap/src/minified/TweenMax.min';
 import DrawSVGPlugin from 'DrawSVGPlugin';
 import Waypoint from 'react-waypoint';
 
