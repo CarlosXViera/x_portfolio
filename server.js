@@ -55,10 +55,10 @@ app.use((req, res, next) => {
 	}
 });
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(process.env.PWD + '/public'));
 
 app.get('*', (req, res) => {
-	res.sendFile(path.resolve(__dirname + '/public', 'index.html'))
+	res.sendFile(path.resolve(process.env.PWD + '/public', 'index.html'))
 })
 
 app.post('/process_submit', handleEmailSubmit);
