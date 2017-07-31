@@ -4,6 +4,7 @@ var nodemailer = require('nodemailer');
 var bodyParser = require('body-parser');
 
 
+process.env.PWD = process.cwd();
 const port = process.env.PORT || 3000;
 
 var app = express();
@@ -55,10 +56,10 @@ app.use((req, res, next) => {
 	}
 });
 
-app.use(express.static(process.env.PWD + '/public'));
+app.use(express.static(path.join(process.env.PWD, 'public')));
 
 app.get('*', (req, res) => {
-	res.sendFile(path.resolve(process.env.PWD + '/public', 'index.html'))
+	res.sendFile(path.resolve(path.join(process.env.PWD, 'public'), 'index.html'))
 })
 
 app.post('/process_submit', handleEmailSubmit);
