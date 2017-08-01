@@ -110,7 +110,7 @@ export default class App extends React.Component {
 
 	renderHomePage(props) {
 		return (
-			<Swipeable trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+			<Swipeable className='app-total' trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
 				<Home onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
@@ -125,7 +125,7 @@ export default class App extends React.Component {
 		const CurrentPage = pages[props.match.params.page];
 
 		return (
-			<Swipeable trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
+			<Swipeable className='app-total' trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
 				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
@@ -178,18 +178,19 @@ export default class App extends React.Component {
 		return (
 			<div className="root">
 				<Router>
-					<div ref='scene' className="container app-container">
+					<div className="container app-container">
+
+						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 80} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<div className='vignette'></div>
 						<TopNav/>
 						<Route render={({location, history, match}) => {
 							return (
-								<Switch >
+								<Switch>
 									<Route path={`${match.url}:page`} component={this.renderMainPages.bind(this)}/>
 									<Route path='/' component={this.renderHomePage.bind(this)}/>
 								</Switch>
 							);
 						}}/>
-						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 80} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
-						<div className='vignette'></div>
 
 					</div>
 				</Router>

@@ -5,15 +5,3 @@
 .innerHexagon {
   fill: $lighterTodayI;
 }
-
-.vignette {
-  pointer-events: none;
-  position: absolute;
-  top: 3vh;
-  opacity: 1;
-  background-image: url('/vig.png');
-  width: 100vw;
-  height: 100vh;
-  background-size: 100% 100%;
-  z-index: -1;
-}
