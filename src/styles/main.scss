@@ -43,7 +43,7 @@ svg#main {
   margin: 0;
   padding: 0;
   position: absolute;
-  top: 3.5vh;
+  top: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
@@ -53,7 +53,7 @@ svg#main {
 .vignette {
   pointer-events: none;
   position: absolute;
-  top: 3vh;
+  top: 0;
   opacity: 1;
   background-image: url('/assets/vignette-min.png');
   width: 100vw;

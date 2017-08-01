@@ -53,7 +53,7 @@ module.exports = {
 			root: path.resolve(__dirname),
 			verbose: true,
 			dry: false,
-			exclude: ['fonts', 'favicon.ico', 'assets', 'vig.png']
+			exclude: ['fonts', 'favicon.png', 'assets']
 		}),
 		new HtmlWebpackPlugin({
 			template: 'src/index.html'

@@ -28,10 +28,8 @@ export default class ContactForm extends React.Component {
 	submitForm() {
 
 		fetch('/process_submit', {
-			mode: 'no-cors',
 			method: 'POST',
 			headers: {
-
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},

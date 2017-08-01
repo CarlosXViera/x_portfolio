@@ -70,9 +70,11 @@ class TopNav extends React.Component {
 			ease: Back.easeInOut
 		});
 
-		arrowsTl.to(glasses, .5, {
+		arrowsTl.fromTo(glasses, .5, {
 			transformOrigin: '50% 50%',
-			scale: .4,
+			scale: .9
+		}, {
+			scale: 1.4,
 			ease: Back.easeInOut
 		}, .7);
 
