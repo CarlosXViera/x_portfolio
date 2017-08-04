@@ -40,7 +40,6 @@ export default class CenterLogo extends React.Component {
 	}
 
 	componentWillUnmount() {
-		console.log('will unmount')
 		window.removeEventListener('deviceorientation', this.portraitGyro, true);
 		window.removeEventListener('mousemove', this.mouseMovement, true);
 

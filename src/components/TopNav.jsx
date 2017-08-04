@@ -1,13 +1,13 @@
 import React, {PropTypes} from 'react';
 import TopNavIcon from 'TopNavIcon';
 import {Link, withRouter} from 'react-router-dom';
-import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'node-uuid';
 import DefineGlasses from 'Glasses';
 import {TimelineMax, Back} from 'gsap/src/minified/TweenMax.min';
 import NavButton from 'NavButton';
 import {SlideNav, LogoSubTitle, LogoButton} from 'MobileNav';
 import MediaIcons from 'MediaIcons';
+import {CSSTransitionGroup} from 'react-transition-group';
 
 class TopNav extends React.Component {
 
@@ -156,46 +156,63 @@ class TopNav extends React.Component {
 
 		return (
 			<div className="row top-nav click-through-child">
-				<div className="middle-line hidden-sm ">
-					<hr></hr>
-				</div>
+				<div className="col-sm-2 col-md-offset-1 col-lg-offset-2 nav hidden-sm">
+					<div onMouseOver={this.mouseOverHome} ref='topper' className="nav-item home">
+						<Link to={{
+							pathname: '/',
+							state: {
+								fromNav: true
+							}
+						}}>
+							<TopNavIcon appear={'appear'}/>
+						</Link>
+					</div>
 
-				<div className="col-sm-6 col-sm-offset-3 nav hidden-sm ">
-
-					<div className="nav-item about hvr-pulse-shrink">
-						<Link to='/about' className="">
+					<div className="nav-item about hvr-underline-from-center hvr-grow">
+						<Link to={{
+							pathname: '/about',
+							state: {
+								fromNav: true
+							}
+						}}>
 							<h6>About Me</h6>
 						</Link>
 					</div>
-					<div className="nav-item blog hvr-pulse-shrink">
+					<div className="nav-item blog hvr-underline-from-center hvr-grow">
 						<a href="http://blog.viera.io">
 							<h6>Blog</h6>
 						</a>
 					</div>
-					<div onMouseOver={this.mouseOverHome} ref='topper' className="nav-item home">
-						<Link to='/'>
-							<TopNavIcon appear={'appear'}/>
-						</Link>
-					</div>
-					<div className="nav-item work hvr-pulse-shrink">
-						<Link to='/work'>
+
+					<div className="nav-item work hvr-underline-from-center hvr-grow">
+						<Link to={{
+							pathname: '/work',
+							state: {
+								fromNav: true
+							}
+						}}>
 							<h6>Works</h6>
 						</Link>
 					</div>
-					<div className="nav-item contact hvr-pulse-shrink">
-						<Link to='/contact'>
+					<div className="nav-item contact hvr-underline-from-center hvr-grow">
+						<Link to={{
+							pathname: '/contact',
+							state: {
+								fromNav: true
+							}
+						}}>
 							<h6>Contact</h6>
 						</Link>
 					</div>
-					<div className='nav-item social'>
+				</div>
 
-						<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
-							{this.showIcons(this.state.atHome)}
-						</CSSTransitionGroup>
-
-					</div>
+				<div className='col-sm-1 col-sm-offset-8 col-md-offset-7 col-lg-offset-5 nav-item social hidden-sm'>
+					<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+						{this.showIcons(this.state.atHome)}
+					</CSSTransitionGroup>
 
 				</div>
+
 				<div className="col-sm-12 hidden-md hidden-lg nav-mobile-container">
 					<div className='row nav-mobile'>
 						{this.renderSlideIn(this.state.show)}

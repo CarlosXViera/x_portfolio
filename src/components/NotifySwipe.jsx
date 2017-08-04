@@ -13,7 +13,6 @@ export default class NofiySwipe extends React.Component {
 
 		}
 
-		console.log(this.state)
 		this.swipeAnimation = new TimelineMax();
 		this.mouseScrollAnimation = new TimelineMax();
 
@@ -116,8 +115,7 @@ export default class NofiySwipe extends React.Component {
 	}
 
 	handleSwipeLeave() {
-		this.props.onUnSwipeable()
-		console.log('leaving');
+		this.props.onUnSwipeable();
 	}
 
 	renderNotification(scroll) {

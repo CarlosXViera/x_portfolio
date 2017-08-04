@@ -1,8 +1,7 @@
 import React from 'react';
-import {CSSTransitionGroup} from 'react-transition-group';
-import {Transition} from 'Transitions';
 import {Link} from 'react-router-dom';
 import DefineGlasses from 'Glasses';
+import {Transition} from 'Transitions';
 
 export const LogoButton = () => {
 	return (

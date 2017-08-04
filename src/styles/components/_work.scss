@@ -1,20 +1,20 @@
 .work-page {
-  margin: 0;
-  padding: 0;
-  display: flex;
+  width: 100vw;
+  height: 100vh;
 
   .notify-swipe {
     height: 10vh;
-    margin-top: -10vh;
+    margin-top: 10vh;
   }
 
   .work-content {
-    height: 80vh;
-    width: 100vw;
-    overflow-y: scroll;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .work-item {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
 
     .a,
     .b,
@@ -53,8 +53,8 @@
     }
 
     #work-item-svg {
-      width: 708px;
-      height: 484px;
+      width: 100%;
+      max-width: 708px;
 
       #hcme {
 
@@ -67,6 +67,7 @@
       }
 
       #deep-space-border,
+      #gravesends-border,
       #hcme-border,
       #music-player-border,
       #pressing-game-border {

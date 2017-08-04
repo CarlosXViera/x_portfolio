@@ -10,6 +10,10 @@
   font-family: 'lekton_regular';
   src: url('/fonts/Lekton-Regular.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'molengo';
+  src: url('/fonts/Molengo-Regular.ttf') format('truetype');
+}
 
 /* == COLORS == */
 $lighterTodayI: #0c192a;
@@ -25,6 +29,12 @@ $todayV: #E6F99D;
 $red: red;
 $transparent: rgba(0,0,0,0);
 // $todayI_transparent: rgba(4,17,34, .5);
+
+$lightgrey: #4E4D4A;
+$darkergray: #353432;
+$grassgreen: #94BA65;
+$lightwater: #2790B0;
+$darkwater: #2B4E72;
 
 $todayI_transparent: rgba(255,255,255, .5);
 

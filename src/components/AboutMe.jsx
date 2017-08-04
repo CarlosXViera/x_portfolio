@@ -2,8 +2,7 @@ import React, {PropTypes} from 'react';
 import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
 import {RouteTransition} from 'react-router-transition';
-import {CSSTransitionGroup} from 'react-transition-group';
-import {Transition} from 'Transitions';
+
 import NotifySwipe from 'NotifySwipe';
 import Waypoint from 'react-waypoint';
 
@@ -19,8 +18,19 @@ const LeftContent = () => {
 			</div>
 			<div className="row bio-text">
 				<div className="col-sm text-content">
+					<h6>
+						A little about me...</h6>
 					<p>
-						I’m a New York based web developer who has a *heart* for the design process. I tinker with many different types of media and absolutely love making ideas into reality. I have a bachelor’s of technology and currently an adjunct lecturer at New York City College of Technology. I’m a natural problem solver; I enjoy finding efficient solutions to complex problems. I’m also a data lover, I like to analyze and visualize data to expose trends and provide meaningingful information. I enjoy the challenge changing landscape and working with new technologies, frameworks provide. Some programmers may loathe deviating from their comfort zone. I on the other find comfort in the uncomfortable. Baautem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et ac. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. I’m a New York based web developer who has a *heart* for the design process. I tinker with many different types of media and absolutely love making ideas into reality. I have a bachelor’s of technology and currently an adjunct lecturer at New York City College of Technology. I’m a natural problem solver; I enjoy finding efficient solutions to complex problems. I’m also a data lover, I like to analyze and visualize data to expose trends, Baautem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et ac. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+						I'm Carlos and I'm a tinkerer. I make things and break things and everything in between. Formally, however, I specialize in web development, adjunct at New York City College of Technology, and freelance on occasion. Recently received my Bachelors in Technology (Woo hoo!) and looking to work with start ups, or create my own. Some of my skills include; frontend, backend, design, mobile development and all the other good stuff.
+						<br/>
+						<span>Check the neat little browser on the right form more --></span>
+					</p>
+
+					<h6>
+						A little about programming...</h6>
+
+					<p>
+						I love programming, friends say all I do is talk code (kind of weird because I think we all talk code, just not that's system-specific) I stared this journey about five or so years ago and it was love at first sight, just like the movie "Her", but without the mustache. Programming is modern day magic, it's art, its communication, and medium of self-reflection. To quote Kyle Simpson, who took the words out of my mouth, "...Code is at first and foremost a means of human communication, and only as a side-effect does it instruct the computer."
 					</p>
 				</div>
 			</div>
@@ -32,58 +42,51 @@ const LeftContent = () => {
 				</div>
 			</div>
 		</div>
-	)
-};
-
-export default class AboutMe extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			visualization: 'default'
+		) }; export default class AboutMe extends React.Component {constructor(props) {
+			super(props)
+			this.state = {
+				visualization: 'default'
+			}
 		}
-	}
 
-	onClick(type) {
-		this.setState({visualization: type});
+		onClick(type) {
+			this.setState({visualization: type});
 
-	}
+		}
 
-	componentDidMount() {
-		this.props.onUnSwipeable();
-	}
+		componentDidMount() {
+			this.props.onUnSwipeable();
+		}
 
-	renderRightContent() {
-		return (
-			<div className="col-sm-12 col-md-6 skill-content">
-				<Browser vis={this.state.visualization}/>
-				<SkillButtons handleClick={this.onClick.bind(this)}/>
-				<div className="row skill-selectors">
-					<div className="col-sm-4 skill-selectors-content-front-end empty-border-button hvr-rectangle-out" onClick={() => this.onClick('front-end')}>
-						<h5>
-							<span className='code-arrows'>&#60;</span>/FrontEnd<span className='code-arrows'>&#62;</span>
-						</h5>
-					</div>
-					<div className="col-sm-4 skill-selectors-content-back-end empty-border-button hvr-rectangle-out" onClick={() => this.onClick('back-end')}>
-						<h5>
-							<span className='code-arrows'>&#60;</span>/BackEnd<span className='code-arrows'>&#62;</span>
-						</h5>
-					</div>
-					<div className="col-sm-4 skill-selectors-content-dev-ops empty-border-button hvr-rectangle-out" onClick={() => this.onClick('front-end')}>
-						<h5>
-							<span className='code-arrows'>&#60;</span>/DevOps<span className='code-arrows'>&#62;</span>
-						</h5>
+		renderRightContent() {
+			return (
+				<div className="col-sm-12 col-md-6 skill-content">
+					<Browser vis={this.state.visualization}/>
+					<SkillButtons handleClick={this.onClick.bind(this)}/>
+					<div className="row skill-selectors">
+						<div className="col-sm-4 skill-selectors-content-front-end empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('front-end')}>
+							<h6>
+								<span className='code-arrows'>&#60;</span>/FrontEnd<span className='code-arrows'>&#62;</span>
+							</h6>
+						</div>
+						<div className="col-sm-4 skill-selectors-content-back-end empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('back-end')}>
+							<h6>
+								<span className='code-arrows'>&#60;</span>/BackEnd<span className='code-arrows'>&#62;</span>
+							</h6>
+						</div>
+						<div className="col-sm-4 skill-selectors-content-dev-ops empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('front-end')}>
+							<h6>
+								<span className='code-arrows'>&#60;</span>/DevOps<span className='code-arrows'>&#62;</span>
+							</h6>
+						</div>
 					</div>
 				</div>
-			</div>
-		)
-	}
+			)
+		}
 
-	render() {
-		return (
-			<Transition settings={{
-				transition: 'slide-up',
-				time: 2000
-			}}>
+		render() {
+			console.log(this.props.swipeType);
+			return (
 				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
 					<div ref='aboutMe' className="row page-title">
 						<div className="col-sm">
@@ -95,13 +98,22 @@ export default class AboutMe extends React.Component {
 						{LeftContent()}
 						{this.renderRightContent()}
 					</div>
+					<div className='row'>
+						<div className='col-sm-6 col-sm-offset-3
+							col-md-2 col-md-offset-5 col-lg-2 col-lg-offset-5 resume'>
+
+							<a href="/assets/resume.pdf" download="resume.pdf" className='resume-button hvr-rectangle-out'>
+								<h6>Download Resume</h6>
+							</a>
+
+						</div>
+					</div>
 					<div className="row">
 						<div className="col-sm-12">
 							<NotifySwipe {...this.props}/>
 						</div>
 					</div>
 				</div>
-			</Transition>
-		)
-	}
+			)
+		}
 }

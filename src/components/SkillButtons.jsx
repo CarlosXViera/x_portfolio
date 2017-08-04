@@ -99,7 +99,6 @@ export default class App extends React.Component {
 	laptopMouseOver(e) {
 		e.stopPropagation();
 
-		console.log(this);
 		this.onLaptopMouseOver.mouseOver.play();
 	}
 	laptopMouseOut(e) {

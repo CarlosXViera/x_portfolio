@@ -7,17 +7,18 @@ import Work from 'Work';
 import Contact from 'Contact';
 import Home from 'Home';
 import WorkControls from 'WorkControls';
-import {CSSTransitionGroup} from 'react-transition-group';
 import uuid from 'uuid';
-import {Transition} from 'Transitions';
 import {mobileCheck} from 'utils';
 import Swipeable from 'react-swipeable';
-import {handleSwipeUp, handleSwipeDown} from 'utils';
+import {handleSwipeUp, handleSwipeDown, handleSwipeRight, handleSwipeLeft} from 'utils';
 import {TweenMax, TimelineMax, Bounce, Sine} from 'gsap/src/minified/TweenMax.min';
+import {CSSTransitionGroup} from 'react-transition-group'
 
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.swipeType = 'bounce';
 
 		this.state = {
 			orientation: 'landscape',
@@ -28,10 +29,12 @@ export default class App extends React.Component {
 			swipeable: false
 		}
 		this.isMobile = false;
-
+		this.handleResize = this.handleResize.bind(this);
+		this.setReRender = this.setReRender.bind(this);
 		window.mobileCheck = mobileCheck;
+
+		this.id = null;
 		if (!window.mobileCheck()) {
-			this.handleResize = this.handleResize.bind(this);
 			window.addEventListener('resize', this.handleResize);
 		} else {
 			this.isMobile = true;
@@ -77,20 +80,19 @@ export default class App extends React.Component {
 
 	}
 
+	setReRender() {
+		this.refresh.play();
+		setTimeout(() => {
+			this.setState({
+				...this.state,
+				reRender: !this.state.reRender
+			});
+		}, 1000);
+	}
+
 	handleResize() {
-		function setReRender() {
-
-			this.refresh.play();
-			setTimeout(() => {
-				this.setState({
-					...this.state,
-					reRender: !this.state.reRender
-				});
-			}, 1500)
-
-		}
-		clearTimeout(window.resizedFinished);
-		window.resizedFinished = setTimeout(setReRender.bind(this), 300);
+		clearTimeout(this.id);
+		this.id = setTimeout(() => this.setReRender(), 500);
 	}
 
 	handleSwipeable() {
@@ -109,24 +111,43 @@ export default class App extends React.Component {
 	componentDidUpdate() {}
 
 	renderHomePage(props) {
+		this.swipeType = 'bounce';
+
 		return (
-			<Swipeable className='app-total' trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
-				<Home onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
+			<Swipeable className='app-total' stopPropagation={true} trackMouse={true} delta={1} onSwipedRight={() => {
+				this.swipeType = 'slideright';
+				handleSwipeRight(props);
+			}} onSwipedLeft={() => {
+				this.swipeType = 'slideleft';
+				handleSwipeLeft(props);
+			}}>
+				<Home onSwipeable={this.handleSwipeable.bind(this)} swipeType={this.swipeType} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
 
 	}
 	renderMainPages(props) {
+
+		this.swipeType = 'bounce';
+
 		let pages = {
 			work: Work,
 			about: AboutMe,
 			contact: Contact
 		};
+
 		const CurrentPage = pages[props.match.params.page];
 
 		return (
-			<Swipeable className='app-total' trackMouse={true} delta={300} onSwipedDown={() => handleSwipeDown(props, this.state.swipeable)} onSwipedUp={() => handleSwipeUp(props, this.state.swipeable)}>
-				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
+
+			<Swipeable className='app-total' stopPropagation={true} trackMouse={true} delta={1} onSwipedRight={() => {
+				this.swipeType = 'slideright';
+				handleSwipeRight(props);
+			}} onSwipedLeft={() => {
+				this.swipeType = 'slideleft';
+				handleSwipeLeft(props);
+			}}>
+				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} swipeType={this.swipeType} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
 	}
@@ -175,20 +196,25 @@ export default class App extends React.Component {
 			clippedHeight = clippedHeight * .8;
 		}
 
+		console.log(this.swipeType)
+
 		return (
 			<div className="root">
+				<div className='header'></div>
 				<Router>
 					<div className="container app-container">
-
-						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight - 80} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
 						<div className='vignette'></div>
 						<TopNav/>
+
 						<Route render={({location, history, match}) => {
 							return (
-								<Switch>
-									<Route path={`${match.url}:page`} component={this.renderMainPages.bind(this)}/>
-									<Route path='/' component={this.renderHomePage.bind(this)}/>
-								</Switch>
+								<CSSTransitionGroup className='move-contatiner' transitionName={this.swipeType} component='div' transitionEnterTimeout={1000} transitionLeaveTimeout={900}>
+									<Switch key={location.key} location={location}>
+										<Route path={`${match.url}:page`} component={this.renderMainPages.bind(this)}/>
+										<Route path='/' component={this.renderHomePage.bind(this)}/>
+									</Switch>
+								</CSSTransitionGroup>
 							);
 						}}/>
 
@@ -199,6 +225,7 @@ export default class App extends React.Component {
 						return;
 					this.refreshPane = r
 				}}></div>
+				<div className='footer'></div>
 			</div>
 		)
 	}

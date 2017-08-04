@@ -20,6 +20,32 @@ export function handleSwipeDown(props, possible) {
 	props.history.push(urls[previous]);
 }
 
+export function handleSwipeLeft(props) {
+	let urls = ['/', '/about', '/work', '/contact'],
+		index = urls.indexOf(props.location.pathname),
+		next = index + 1;
+
+	if (next > urls.length - 1)
+		return;
+	props.history.push(urls[next], {
+		fromNav: false
+	});
+}
+
+export function handleSwipeRight(props) {
+	let urls = ['/', '/about', '/work', '/contact'],
+		index = urls.indexOf(props.location.pathname),
+		previous = index - 1;
+
+	if (previous < 0) {
+		return;
+	}
+
+	props.history.push(urls[previous], {
+		fromNav: false
+	});
+}
+
 export function removeTlAnimation(tl) {
 	tl.pause(0);
 	tl.kill();

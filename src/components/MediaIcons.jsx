@@ -58,8 +58,6 @@ class MediaIcons extends React.Component {
 
 		preventDefault();
 
-		console.log(preventDefault);
-
 	}
 
 	faceBookIcon() {

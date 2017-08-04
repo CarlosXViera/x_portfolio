@@ -14,7 +14,7 @@ $fore-color: $white;
 $back-color: $background;
 // Default font stack for all elements:
 // Body background color
-$base-font-family: 'lekton_regular,-apple-system, BlinkMacSystemFont,\"Segoe UI\",\"Roboto\", \"Droid Sans\",\"Helvetica Neue\", Helvetica, Arial, sans-serif';
+$base-font-family: 'molengo,-apple-system, BlinkMacSystemFont,\"Segoe UI\",\"Roboto\", \"Droid Sans\",\"Helvetica Neue\", Helvetica, Arial, sans-serif';
 // OS X and iOS system fonts (San Francisco) -> Windows system fonts -> Android system fonts (newer and older) -> Fallback fonts
 $base-root-font-size: 16px;
 // Root font sizing for all elements [1]
@@ -46,7 +46,7 @@ $heading-line-height: 1.2em;
 // Line height for all headings
 $heading-margin: 0.75rem 0.5rem;
 // Margin for all headings
-$heading-font-weight: 500;
+$heading-font-weight: 300;
 // Font weight for all headings
 $heading-smalltext-fore-color: $todayV;
 // <small> color in headings
@@ -68,8 +68,8 @@ $horizontal-rule-line-height: 1.25em;
 // <hr> line height
 $horizontal-rule-margin: 0.5rem;
 // <hr> margin
-$horizontal-rule-border-style: $_1px solid $todayIV; // Border style for horizontal rules (used in the <hr> element's border-top)
-$horizontal-rule-fancy-style: true;
+$horizontal-rule-border-style: $_1px solid $todayI; // Border style for horizontal rules (used in the <hr> element's border-top)
+$horizontal-rule-fancy-style: false;
 // Should a fancy styling be applied for the <hr> element (`true`/`false`) [5]
 $horizontal-rule-fancy-gradient: "to right, #7FDA89, #C8E98E, #E6F99D";
 // Gradient style for fancy horizontal rule

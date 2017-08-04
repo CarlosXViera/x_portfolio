@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react'
 import {withRouter} from 'react-router-dom';
 import uuid from 'node-uuid'
 import {TweenMax, TimeLineMax, Sine, Bounce, Power4} from 'gsap/src/minified/TweenMax.min';
-import {CSSTransitionGroup} from 'react-transition-group';
 import {Transition} from 'Transitions';
 import {pad, shuffle, getRandomFloat, getRandomInt, transpose} from 'utils';
 
