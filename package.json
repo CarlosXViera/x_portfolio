@@ -17,6 +17,7 @@
   "license": "None",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "classnames": "^2.2.5",
     "express": "^4.14.1",
     "gsap": "^1.19.1",
     "mini.css": "^2.3.1",

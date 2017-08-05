@@ -8,15 +8,18 @@ import {CSSTransitionGroup} from 'react-transition-group';
 const SwitchAnimation = ({children, location, beenHere}) => {
 	let cssTransitionProps = beenHere
 		? {
-			transitionName: 'example',
+			transitionName: 'slideleft',
 			transitionEnter: false,
-			transitionLeave: false
+			transitionLeave: false,
+			transitionAppearTimeout: 500,
+			transitionEnterTimeout: 500,
+			transitionLeaveTimeout: 500
 		}
 		: {
 			transitionName: 'slide-up',
 			transitionAppear: true,
-			transitionAppearTimeout: 300,
-			transitionEnterTimeout: 300,
+			transitionAppearTimeout: 500,
+			transitionEnterTimeout: 500,
 			transitionLeaveTimeout: 300
 		};
 
@@ -56,7 +59,7 @@ class WorkContent extends React.Component {
 	renderImgs() {
 		let arr = this.state.images;
 		return arr.map((filename, index) => {
-			return {original: `/assets/${filename}.png`, sizes: '507x900'}
+			return {original: `/assets/${filename}.png`, sizes: '507x900', thumbnail: `/assets/thumbnail-${filename}.png`}
 		});
 	}
 
@@ -103,25 +106,23 @@ class WorkContent extends React.Component {
 		}
 
 		return (
-			<SwitchAnimation {...this.props} beenHere={this.state.alreadyBeenHere}>
-				<div key={this.props.location.key} className="col-sm-12 work-content-page">
-					<div className="row page-title">
-						<div className="col-sm-12">
-							<h2>{this.state.title}</h2>
-							<p className="title-divider">■ ■ ■ ■</p>
-						</div>
+			<div key={this.props.location.key} className="col-sm-12 work-content-page">
+				<div className="row page-title">
+					<div className="col-sm-12">
+						<h2>{this.state.title}</h2>
+						<p className="title-divider">■ ■ ■ ■</p>
 					</div>
-					{this.renderGallery(this.state.alreadyBeenHere, settings, this.state.direction)}
-					<div className="row project-descriptor responsive-padding">
-						<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 description">
-							<p>
-								{this.state.description}
-							</p>
-						</div>
-					</div>
-					<WorkControls onNextOrPrev={this.props.onNextOrPrev} currentPage={this.state.currentPage}/>
 				</div>
-			</SwitchAnimation>
+				{this.renderGallery(this.state.alreadyBeenHere, settings, this.state.direction)}
+				<div className="row project-descriptor">
+					<div className="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 description">
+						<p>
+							{this.state.description}
+						</p>
+					</div>
+				</div>
+				<WorkControls onNextOrPrev={this.props.onNextOrPrev} currentPage={this.state.currentPage}/>
+			</div>
 		)
 	}
 }

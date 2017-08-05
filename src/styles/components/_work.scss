@@ -31,7 +31,7 @@
       stroke-miterlimit: 10;
     }
 
-    .c {
+    #deep-space {
       clip-path: url("#a");
     }
 
@@ -77,4 +77,13 @@
 
   }
 
+}
+
+.disable-multiple {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  margin: 0;
+  padding: 0;
+  position: absolute;
 }

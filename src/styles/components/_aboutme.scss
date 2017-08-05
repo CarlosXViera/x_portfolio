@@ -92,7 +92,7 @@
 
   .resume-button {
     cursor: pointer;
-    margin-top: 1.8rem;
+    margin-top: 1rem;
     border: solid 1px $todayII;
     border-radius: 2px;
     text-align: center;
@@ -102,4 +102,19 @@
     height: 40px;
   }
 
+}
+
+.profile {
+  margin-top: 1rem;
+  padding: 1rem;
+
+  h6 {
+    color: $todayIV;
+    margin-bottom: 2rem;
+  }
+
+  img {
+    border-radius: 50%;
+
+  }
 }

@@ -1,8 +1,6 @@
 import React, {PropTypes} from 'react';
 import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
-import {RouteTransition} from 'react-router-transition';
-
 import NotifySwipe from 'NotifySwipe';
 import Waypoint from 'react-waypoint';
 
@@ -100,12 +98,19 @@ const LeftContent = () => {
 					</div>
 					<div className='row'>
 						<div className='col-sm-6 col-sm-offset-3
-							col-md-2 col-md-offset-5 col-lg-2 col-lg-offset-5 resume'>
+							col-md-4 col-md-offset-4 hex profile'>
+							<h6>A little about... what I look like while at the beach in freezing cold weather.
+							</h6>
+							<img src='/assets/profile.png'></img>
 
+						</div>
+					</div>
+					<div className='row'>
+						<div className='col-sm-6 col-sm-offset-3
+							col-md-2 col-md-offset-5 col-lg-2 col-lg-offset-5 resume'>
 							<a href="/assets/resume.pdf" download="resume.pdf" className='resume-button hvr-rectangle-out'>
 								<h6>Download Resume</h6>
 							</a>
-
 						</div>
 					</div>
 					<div className="row">

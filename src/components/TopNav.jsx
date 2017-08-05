@@ -161,7 +161,7 @@ class TopNav extends React.Component {
 						<Link to={{
 							pathname: '/',
 							state: {
-								fromNav: true
+								transition: 'bounce'
 							}
 						}}>
 							<TopNavIcon appear={'appear'}/>
@@ -172,7 +172,7 @@ class TopNav extends React.Component {
 						<Link to={{
 							pathname: '/about',
 							state: {
-								fromNav: true
+								transition: 'bounce'
 							}
 						}}>
 							<h6>About Me</h6>
@@ -188,7 +188,7 @@ class TopNav extends React.Component {
 						<Link to={{
 							pathname: '/work',
 							state: {
-								fromNav: true
+								transition: 'bounce'
 							}
 						}}>
 							<h6>Works</h6>
@@ -198,7 +198,7 @@ class TopNav extends React.Component {
 						<Link to={{
 							pathname: '/contact',
 							state: {
-								fromNav: true
+								transition: 'bounce'
 							}
 						}}>
 							<h6>Contact</h6>

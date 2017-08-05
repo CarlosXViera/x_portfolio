@@ -228,25 +228,25 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   }
 
   &.left {
-    margin-right: 5px;
+    margin-right: 0;
     @media (max-width: $ig-screen-sm-min) {
-      margin-right: 3px;
+      margin-right: 0;
     }
   }
 
   &.right {
-    margin-left: 5px;
+    margin-left: 0;
     @media (max-width: $ig-screen-sm-min) {
-      margin-left: 3px;
+      margin-left: 0;
     }
   }
 }
 
 .image-gallery-thumbnails {
   overflow: hidden;
-  padding: 5px 0;
+  padding: 0;
   @media (max-width: $ig-screen-sm-min) {
-    padding: 3px 0;
+    padding: 0;
   }
 
   .image-gallery-thumbnails-container {
@@ -260,16 +260,16 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 
 .image-gallery-thumbnail {
   display: inline-block;
-  border: 4px solid transparent;
+  border: 0 solid transparent;
   transition: border 0.3s ease-out;
   width: 100px;
   @media (max-width: $ig-screen-sm-min) {
-    border: 3px solid transparent;
+    border: 0 solid transparent;
     width: 75px;
   }
 
   + .image-gallery-thumbnail {
-    margin-left: 2px;
+    margin-left: 0;
   }
 
   img {
@@ -278,9 +278,9 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
   }
 
   &.active {
-    border: 4px solid $ig-blue;
+    border: 1px solid $todayIII;
     @media (max-width: $ig-screen-sm-min) {
-      border: 3px solid $ig-blue;
+      border: 1px solid $todayIII;
     }
   }
 }

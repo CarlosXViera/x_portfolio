@@ -12,13 +12,24 @@ import {mobileCheck} from 'utils';
 import Swipeable from 'react-swipeable';
 import {handleSwipeUp, handleSwipeDown, handleSwipeRight, handleSwipeLeft} from 'utils';
 import {TweenMax, TimelineMax, Bounce, Sine} from 'gsap/src/minified/TweenMax.min';
-import {CSSTransitionGroup} from 'react-transition-group'
+import {CSSTransitionGroup} from 'react-transition-group';
+
+export const RoutesTransition = ({children, location: {
+		state
+	}}) => {
+
+	let transition = state && state.transition;
+
+	return (
+		<CSSTransitionGroup className=' row move-contatiner' transitionName={transition || 'bouce'} component='div' transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+			{children}
+		</CSSTransitionGroup>
+	)
+}
 
 export default class App extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.swipeType = 'bounce';
 
 		this.state = {
 			orientation: 'landscape',
@@ -111,24 +122,15 @@ export default class App extends React.Component {
 	componentDidUpdate() {}
 
 	renderHomePage(props) {
-		this.swipeType = 'bounce';
 
 		return (
-			<Swipeable className='app-total' stopPropagation={true} trackMouse={true} delta={1} onSwipedRight={() => {
-				this.swipeType = 'slideright';
-				handleSwipeRight(props);
-			}} onSwipedLeft={() => {
-				this.swipeType = 'slideleft';
-				handleSwipeLeft(props);
-			}}>
-				<Home onSwipeable={this.handleSwipeable.bind(this)} swipeType={this.swipeType} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
+			<Swipeable className='app-total' stopPropagation={true} trackMouse={true} delta={100} onSwipedRight={() => handleSwipeRight(props)} onSwipedLeft={() => handleSwipeLeft(props)}>
+				<Home onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
 
 	}
 	renderMainPages(props) {
-
-		this.swipeType = 'bounce';
 
 		let pages = {
 			work: Work,
@@ -140,14 +142,8 @@ export default class App extends React.Component {
 
 		return (
 
-			<Swipeable className='app-total' stopPropagation={true} trackMouse={true} delta={1} onSwipedRight={() => {
-				this.swipeType = 'slideright';
-				handleSwipeRight(props);
-			}} onSwipedLeft={() => {
-				this.swipeType = 'slideleft';
-				handleSwipeLeft(props);
-			}}>
-				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} swipeType={this.swipeType} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
+			<Swipeable className='app-total col-sm' stopPropagation={true} trackMouse={true} delta={100} onSwipedRight={() => handleSwipeRight(props)} onSwipedLeft={() => handleSwipeLeft(props)}>
+				<CurrentPage onSwipeable={this.handleSwipeable.bind(this)} onUnSwipeable={this.handleUnSwipeable.bind(this)} {...props}/>
 			</Swipeable>
 		)
 	}
@@ -196,11 +192,9 @@ export default class App extends React.Component {
 			clippedHeight = clippedHeight * .8;
 		}
 
-		console.log(this.swipeType)
-
 		return (
 			<div className="root">
-				<div className='header'></div>
+				<div className='header hidden-sm'></div>
 				<Router>
 					<div className="container app-container">
 						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
@@ -209,12 +203,12 @@ export default class App extends React.Component {
 
 						<Route render={({location, history, match}) => {
 							return (
-								<CSSTransitionGroup className='move-contatiner' transitionName={this.swipeType} component='div' transitionEnterTimeout={1000} transitionLeaveTimeout={900}>
+								<RoutesTransition location={location}>
 									<Switch key={location.key} location={location}>
 										<Route path={`${match.url}:page`} component={this.renderMainPages.bind(this)}/>
 										<Route path='/' component={this.renderHomePage.bind(this)}/>
 									</Switch>
-								</CSSTransitionGroup>
+								</RoutesTransition>
 							);
 						}}/>
 

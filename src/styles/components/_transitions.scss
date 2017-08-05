@@ -98,8 +98,40 @@
 }
 
 //cubic-bezier(0.68, -0.55, 0.265, 1.55) easback
+//slide-up
+.slide-up-enter {
+  pointer-events: none;
+  transform: translateY(800px);
+  position: absolute;
+  opacity: 0.01;
+}
 
+.slide-up-enter-active {
+  pointer-events: none;
+  transform: translateY(0px);
+  position: absolute;
+  opacity: 1;
+  transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.slide-up-leave {
+  pointer-events: none;
+  transform: translateY(0px);
+  position: absolute;
+  opacity: 1;
+}
+
+.slide-up-leave-active {
+  pointer-events: none;
+  transform: translateY(800px);
+  position: absolute;
+  opacity: 0.01;
+  transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+//bounce
 .bounce-enter {
+  pointer-events: none;
   transform-origin: 50% 50%;
   transform: scale(0);
   position: absolute;
@@ -108,6 +140,7 @@
 }
 
 .bounce-enter-active {
+  pointer-events: none;
   transform-origin: 50% 50%;
   transform: scale(1);
   position: absolute;
@@ -116,6 +149,7 @@
 }
 
 .bounce-leave {
+  pointer-events: none;
   transform-origin: 50% 50%;
   transform: scale(1);
   position: absolute;
@@ -123,6 +157,7 @@
 }
 
 .bounce-leave-active {
+  pointer-events: none;
   transform-origin: 50% 50%;
   transform: scale(.01);
   position: absolute;
@@ -131,12 +166,15 @@
 }
 
 .bounce-appear {
+  pointer-events: none;
   transform-origin: 50% 50%;
   position: absolute;
   opacity: 0.01;
 }
 
 .bounce-appear-active {
+
+  pointer-events: none;
   transform-origin: 50% 50%;
   position: absolute;
   opacity: 1;
@@ -145,34 +183,40 @@
 
 //fast fade
 .example-enter {
+  pointer-events: none;
   position: absolute;
   z-index: 1;
   opacity: 0.01;
 }
 
 .example-enter-active {
+  pointer-events: none;
   position: absolute;
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
 
 .example-leave {
+  pointer-events: none;
   position: absolute;
   opacity: 1;
 }
 
 .example-leave-active {
+  pointer-events: none;
   position: absolute;
   opacity: 0.01;
   transition: all 500ms ease-in;
 }
 
 .example-appear {
+  pointer-events: none;
   position: absolute;
   opacity: 0.01;
 }
 
 .example-appear-active {
+  pointer-events: none;
   position: absolute;
   opacity: 1;
   transition: opacity 0.5s ease-in;
@@ -180,19 +224,22 @@
 
 ///slideright
 .slideright-enter {
+  pointer-events: none;
   position: fixed;
   transform: translateX(-1000px);
 
 }
 
 .slideright-enter.slideright-enter-active {
+  pointer-events: none;
 
   position: fixed;
   transform: translateX(0px);
-  transition: all 1000ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
 }
 
 .slideright-leave {
+  pointer-events: none;
 
   position: fixed;
   opacity: 1;
@@ -200,27 +247,30 @@
 }
 
 .slideright-leave.slideright-leave-active {
-
+  pointer-events: none;
   position: fixed;
   opacity: 0.01;
   transform: translateX(400px);
-  transition: all 900ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
 }
 /////New
 .slideleft-enter {
+  pointer-events: none;
   position: fixed;
   transform: translateX(1000px);
 
 }
 
 .slideleft-enter.slideleft-enter-active {
+  pointer-events: none;
 
   position: fixed;
   transform: translateX(0px);
-  transition: all 1000ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
 }
 
 .slideleft-leave {
+  pointer-events: none;
 
   position: fixed;
   opacity: 1;
@@ -228,18 +278,21 @@
 }
 
 .slideleft-leave.slideleft-leave-active {
+  pointer-events: none;
 
   position: fixed;
   opacity: 0.01;
   transform: translateX(-400px);
-  transition: all 900ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
 }
 
 .slideleft-appear {
+  pointer-events: none;
   opacity: 0.01;
 }
 
 .slideleft-appear.slideleft-appear-active {
+  pointer-events: none;
   opacity: 1;
   transition: opacity 0.5s cubic-bezier(0.895, 0.030, 0.685, 0.220);
 }

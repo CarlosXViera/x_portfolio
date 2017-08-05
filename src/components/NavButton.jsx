@@ -77,11 +77,13 @@ export default class NavButton extends React.Component {
 		return exitTl;
 	}
 
-	handleExitClick() {
+	handleExitClick(e) {
+		e.stopPropagation();
 
 		this.exitSettingAnimation.reverse(0);
 	}
-	handleSettingClick() {
+	handleSettingClick(e) {
+		e.stopPropagation();
 		this.settingAnimation.reverse(0);
 	}
 	handleExitOnRef(ref) {

@@ -1,10 +1,8 @@
 .work-content-page {
   overflow-y: scroll;
+  height: 90vh;
 
   .image-gallery-container {
-    display: flex;
-    align-items: center;
-
     .image-gallery {
       margin: auto;
       max-width: 900px;

@@ -1,6 +1,18 @@
 import React from 'react';
+import classNames from 'classnames';
 
-const Eye = (props) => {
+export const WorkItems = (props) => {
+	return (
+		<div className="col-sm-10 col-sm-offset-1 col-lg-6 col-lg-offset-3 work-content">
+			<div className='work-item'>
+				<SVG {...props}/>
+			</div>
+		</div>
+
+	)
+}
+
+export const Eye = (props) => {
 	return (
 		<g clipPath="url(#blink)" {...props} id='eye'>
 			<path fill="#7fda89" d="M46.92.34A46.57 46.57 0 1 0 93.48 46.9 46.57 46.57 0 0 0 46.92.35zm0 52.73a6.16 6.16 0 1 1 6.16-6.16 6.16 6.16 0 0 1-6.16 6.2z"/>
@@ -12,7 +24,16 @@ const Eye = (props) => {
 	)
 }
 
-export const SVG = ({gsProps, dsProps, pgProps, mpProps, hcProps}) => {
+export const SVG = ({
+	gsProps,
+	dsProps,
+	pgProps,
+	mpProps,
+	hcProps,
+	disabledStatus
+}) => {
+
+	let workItemClass = classNames({disableAll: disabledStatus});
 	return (
 		<svg id="work-item-svg" viewBox="0 0 707.8 483.1">
 			<defs>
@@ -23,12 +44,12 @@ export const SVG = ({gsProps, dsProps, pgProps, mpProps, hcProps}) => {
 					<path id='blink-path' fill="none" d="M0 .34h160.5v93.14H0z"/>
 				</clipPath>
 			</defs>
-			<g {...gsProps} id='gravesends-eye'>
+			<g {...gsProps} id='gravesends-eye' className={workItemClass}>
 				<path id="gravesends-border" className="click-through-child" d="M346.5 408.2a9.6 9.6 0 0 0 4.3-7.5V277.2a9.6 9.6 0 0 0-4.3-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0l-107 61.7a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 				<Eye transform='translate(190,290)'/>
 			</g>
 
-			<g {...dsProps} id="deep-space" className="c">
+			<g {...dsProps} id="deep-space" className={workItemClass}>
 				<path id="deep-space-border" d="M583.8 408.2a9.6 9.6 0 0 0 4.3-7.5V277.2a9.6 9.6 0 0 0-4.2-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0l-107 61.7a9.6 9.6 0 0 0-4.2 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5L468 470a9.6 9.6 0 0 0 8.8 0z" className="b"/>
 				<circle cx="351.4" cy="354.1" r="128.5" className="b"/>
 				<circle cx="401.9" cy="307.6" r="5.8" className="b"/>
@@ -92,7 +113,7 @@ export const SVG = ({gsProps, dsProps, pgProps, mpProps, hcProps}) => {
 				<path className='d star' d="M398 222.8l-.2-.6-.5.3.3-.6-.6-.2.6-.2-.3-.6.5.3.2-.6.2.6.6-.3-.3.6.6.2h-.5l.3.7-.6-.3-.2.6"/>
 				<path className='d star' d="M489.4 355l-.2-.6-.6.2.3-.5h-.7l.6-.3-.4-.5.6.2.2-.5.2.4.5-.2-.2.5.6.2h-.6l.3.6-.4-.2-.2.5"/>
 			</g>
-			<g {...pgProps} id="pressing-game">
+			<g {...pgProps} id="pressing-game" className={workItemClass}>
 				<path id="pressing-game-border" d="M227.5 202a9.6 9.6 0 0 0 4.3-7.5V71a9.6 9.6 0 0 0-4.3-7.5l-107-61.8a9.6 9.6 0 0 0-8.7 0L4.8 63.5A9.6 9.6 0 0 0 .5 71v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 				<path d="M17.5 164.5l184 32.4" className="e link"/>
 				<path d="M121 211.4L97.5 128" className="e link"/>
@@ -116,7 +137,7 @@ export const SVG = ({gsProps, dsProps, pgProps, mpProps, hcProps}) => {
 				<circle cx="189.3" cy="61.6" r="11.9" className="f node"/>
 				<circle cx="201.6" cy="196.9" r="11.9" className="f node"/>
 			</g>
-			<g {...mpProps} className="click-through-child">
+			<g {...mpProps} className={workItemClass}>
 				<path id="music-player-border" d="M703 201.8a9.6 9.6 0 0 0 4.3-7.5V70.8a9.6 9.6 0 0 0-4.3-7.5L596 1.5a9.6 9.6 0 0 0-8.7 0l-107 61.8a9.6 9.6 0 0 0-4.3 7.5v123.5a9.6 9.6 0 0 0 4.3 7.5l107 61.8a9.6 9.6 0 0 0 8.7 0z" className="b"/>
 				<g id="music-player">
 					<circle id='music-player-inner' cx="588.1" cy="134.8" r="75.7" className="b"/>
@@ -132,7 +153,7 @@ export const SVG = ({gsProps, dsProps, pgProps, mpProps, hcProps}) => {
 					<circle id='play-head' cx="588.1" cy="134.7" r="89.6" fill="none"/>
 				</g>
 			</g>
-			<g id="hcme" {...hcProps}>
+			<g id="hcme" {...hcProps} className={workItemClass}>
 				<path id="hcme-border" d="M465 201.8a9.6 9.6 0 0 0 4.5-7.5V70.8a9.6 9.6 0 0 0-4.4-7.5L358 1.5a9.6 9.6 0 0 0-8.5 0l-107 61.8a9.6 9.6 0 0 0-4.4 7.5v123.5a9.6 9.6 0 0 0 4.5 7.5l107 61.8a9.6 9.6 0 0 0 8.6 0z" className="b"/>
 				<g id='hcme-path'>
 					<g id='hcme-item'>
