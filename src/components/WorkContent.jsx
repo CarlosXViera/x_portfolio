@@ -122,6 +122,7 @@ class WorkContent extends React.Component {
 					</div>
 				</div>
 				<WorkControls onNextOrPrev={this.props.onNextOrPrev} currentPage={this.state.currentPage}/>
+				<div className='empty-space'></div>
 			</div>
 		)
 	}

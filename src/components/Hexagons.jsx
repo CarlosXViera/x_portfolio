@@ -384,7 +384,7 @@ export default class Hexagons extends React.Component {
 	render() {
 		let {hexagonsAttrs} = this.state;
 		return (
-			<svg data-depth="0.00" ref="hexcontainer" className='hexcontainer' id="main" viewBox={this.props.viewBox}>
+			<svg data-depth="0.00" ref="hexcontainer" className='hexcontainer' id="main" width={`${window.innerWidth}px`} height={`${window.innerHeight + 100}px`} viewBox={this.props.viewBox}>
 
 				<g data-depth="0.50" className='hexagons' transform='translate(1,0)'>
 					{this.renderHexagons(hexagonsAttrs)}

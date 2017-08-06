@@ -174,30 +174,28 @@ export default class App extends React.Component {
 		});
 	}
 
-	clip(number, min, max) {
-		return Math.max(min, Math.min(number, max));
+	resolutionAdjust(d) {
+		if (this.isMobile) {
+			d = d * .9;
+		} else if (d > 1680) {
+			d = d * .9;
+		} else if (d > 1439 && d < 1680) {
+			d = d * .8;
+		}
+
+		return d;
 	}
 
 	render() {
-		let clippedWidth = window.innerWidth;
-		let clippedHeight = window.innerHeight;
-		if (this.isMobile) {
-			clippedWidth = clippedWidth * .9;
-			clippedHeight = clippedHeight * .9;
-		} else if (clippedWidth > 1680) {
-			clippedWidth = clippedWidth * .9;
-			clippedHeight = clippedHeight * .9;
-		} else if (clippedWidth > 1439 && clippedWidth < 1680) {
-			clippedWidth = clippedWidth * .8;
-			clippedHeight = clippedHeight * .8;
-		}
+		let clippedWidth = this.resolutionAdjust(window.innerWidth);
+		let clippedHeight = this.resolutionAdjust(window.innerHeight);
 
 		return (
 			<div className="root">
 				<div className='header hidden-sm'></div>
 				<Router>
 					<div className="container app-container">
-						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 0 ${clippedWidth} ${clippedHeight}`}/>
+						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 50 ${clippedWidth} ${clippedHeight}`}/>
 						<div className='vignette'></div>
 						<TopNav/>
 

@@ -9,6 +9,7 @@ export function handleSwipeUp(props, possible) {
 }
 
 export function handleSwipeDown(props, possible) {
+
 	let urls = ['/', '/about', '/work', '/contact'],
 		index = urls.indexOf(props.location.pathname),
 		previous = index - 1;
@@ -25,7 +26,7 @@ export function handleSwipeLeft(props) {
 		index = urls.indexOf(props.location.pathname),
 		next = index + 1;
 
-	if (next > urls.length - 1)
+	if (next > urls.length - 1 || !urls.includes(props.location.pathname))
 		return;
 	props.history.push(urls[next], {
 		transition: 'slideleft'
@@ -37,7 +38,9 @@ export function handleSwipeRight(props) {
 		index = urls.indexOf(props.location.pathname),
 		previous = index - 1;
 
-	if (previous < 0) {
+
+
+	if (previous < 0 || !urls.includes(props.location.pathname)) {
 		return;
 	}
 
