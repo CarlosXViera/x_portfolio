@@ -3,8 +3,6 @@ const path = require('path');
 var nodemailer = require('nodemailer');
 var bodyParser = require('body-parser');
 
-
-process.env.PWD = process.cwd();
 const port = process.env.PORT || 3000;
 
 var app = express();
@@ -48,10 +46,10 @@ let handleEmailSubmit = ({
 
 }
 
-app.use(express.static(path.join(process.env.PWD, '/public')));
+app.use(express.static(__dirname + '/public'));
 
 app.get('*', (req, res) => {
-	res.sendFile(path.resolve(path.join(process.env.PWD, '/public'), 'index.html'))
+	res.sendFile(path.resolve(__dirname + '/public', 'index.html'))
 })
 
 app.post('/process_submit', handleEmailSubmit);
