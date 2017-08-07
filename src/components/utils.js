@@ -33,6 +33,14 @@ export function handleSwipeLeft(props) {
 	});
 }
 
+export function importAll(r) {
+	let images = {};
+	r.keys().map((item, index) => {
+		images[item.replace('./', '')] = r(item);
+	});
+	return images;
+};
+
 export function handleSwipeRight(props) {
 	let urls = ['/', '/about', '/work', '/contact'],
 		index = urls.indexOf(props.location.pathname),

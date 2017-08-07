@@ -43,7 +43,18 @@ module.exports = {
 					path.resolve(__dirname, './node_modules/react-image-slider/lib/')]
 					}
 			}]
-		}]
+		},
+			{
+				test: /\.(jpe?g|png|gif|svg)$/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 40000
+						}
+		},
+		 'image-webpack-loader']
+	 }]
 	},
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin({

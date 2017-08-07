@@ -4,6 +4,7 @@ import uuid from 'node-uuid';
 import ContentApi from 'ContentApi';
 import WorkControls from 'WorkControls';
 import {CSSTransitionGroup} from 'react-transition-group';
+import {importAll} from 'utils';
 
 const SwitchAnimation = ({children, location, beenHere}) => {
 	let cssTransitionProps = beenHere
@@ -57,9 +58,15 @@ class WorkContent extends React.Component {
 	}
 
 	renderImgs() {
+		let workImages = importAll(require.context('../assets/workImgs', false, /\.(png|jpe?g|svg)$/));
+		console.log(workImages);
 		let arr = this.state.images;
 		return arr.map((filename, index) => {
-			return {original: `/assets/${filename}.png`, sizes: '507x900', thumbnail: `/assets/thumbnail-${filename}.png`}
+			return {
+				original: workImages[filename + '.png'],
+				sizes: '507x900',
+				thumbnail: workImages['thumbnail-' + filename + '.png']
+			}
 		});
 	}
 
