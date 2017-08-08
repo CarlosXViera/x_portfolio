@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 import {importAll} from 'utils';
 import {mapKeys, mapValues, pickBy} from 'lodash';
 import {CSSTransitionGroup} from 'react-transition-group';
-import uuid from 'node-uuid';
 
 export default class SkillItems extends React.Component {
 	constructor(props) {
@@ -25,7 +24,8 @@ export default class SkillItems extends React.Component {
 				'd3',
 				'bootstrap',
 				'sass',
-				'webpack'
+				'webpack',
+				'javascript'
 			],
 			backEnd: [
 				'aws',
@@ -50,15 +50,32 @@ export default class SkillItems extends React.Component {
 			return {dataURL: v, tags}
 		})
 	}
+
+	getConstrainedSkills() {}
 	renderList(category) {
+		console.log(this.getImagesWithTags());
 
 		let filteredSkills = pickBy(this.getImagesWithTags(), (v, k) => v.tags.includes(category));
 
-		return Object.keys(filteredSkills).map((d, i) => {
-			return (
+		let spacing = 19.4,
+			topValue = 0 + .5,
+			leftValue = -spacing + .5;
 
+		return Object.keys(filteredSkills).map((d, i) => {
+			leftValue += spacing;
+			if (leftValue >= 90) {
+				topValue += spacing + 13.5;
+				leftValue = .5;
+			}
+			let transitionDelay = `${i * .05}s`,
+				left = `${leftValue}%`,
+				top = `${topValue}%`;
+
+			return (
 				<div key={d} className='skill' style={{
-					transitionDelay: `${ (i + 1) * .10}s`
+					transitionDelay,
+					left,
+					top
 				}}>
 					<img src={filteredSkills[d].dataURL}/>
 				</div>
@@ -68,11 +85,9 @@ export default class SkillItems extends React.Component {
 	}
 	render() {
 		return (
-
-			<CSSTransitionGroup transitionName={'bounce-skill'} className='col-sm skill-items' transitionAppear={true} transitionAppearTimeout={2000} component='div' transitionEnterTimeout={2000} transitionLeaveTimeout={2000}>
+			<CSSTransitionGroup className='col-sm skill-items' transitionName={'bounce-skill'} component='div' transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
 				{this.renderList(this.props.category)}
 			</CSSTransitionGroup>
-
 		);
 	}
 }

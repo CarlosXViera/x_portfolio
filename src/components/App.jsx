@@ -13,6 +13,7 @@ import Swipeable from 'react-swipeable';
 import {handleSwipeUp, handleSwipeDown, handleSwipeRight, handleSwipeLeft} from 'utils';
 import {TweenMax, TimelineMax, Bounce, Sine} from 'gsap/src/minified/TweenMax.min';
 import {CSSTransitionGroup} from 'react-transition-group';
+import vignette from '../assets/vignette-min.png';
 
 export const RoutesTransition = ({children, location: {
 		state
@@ -174,21 +175,23 @@ export default class App extends React.Component {
 		});
 	}
 
-	resolutionAdjust(d) {
+	resolutionAdjust(w, h) {
 		if (this.isMobile) {
-			d = d * .9;
-		} else if (d > 1680) {
-			d = d * .9;
-		} else if (d > 1439 && d < 1680) {
-			d = d * .8;
+			w = w * .9;
+			h = h * .9;
+		} else if (w > 1680) {
+			w = w * .9;
+			h = h * .9;
+		} else if (w > 1439 && w < 1680) {
+			w = w * .8;
+			h = h * .8;
 		}
 
-		return d;
+		return {clippedWidth: w, clippedHeight: h}
 	}
 
 	render() {
-		let clippedWidth = this.resolutionAdjust(window.innerWidth);
-		let clippedHeight = this.resolutionAdjust(window.innerHeight);
+		let {clippedWidth, clippedHeight} = this.resolutionAdjust(window.innerWidth, window.innerHeight);
 
 		return (
 			<div className="root">
@@ -196,7 +199,9 @@ export default class App extends React.Component {
 				<Router>
 					<div className="container app-container">
 						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 50 ${clippedWidth} ${clippedHeight}`}/>
-						<div className='vignette'></div>
+						<div className='vignette' style={{
+							backgroundImage: `url(${vignette})`
+						}}></div>
 						<TopNav/>
 
 						<Route render={({location, history, match}) => {

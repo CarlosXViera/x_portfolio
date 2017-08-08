@@ -53,7 +53,24 @@ module.exports = {
 							limit: 40000
 						}
 		},
-		 'image-webpack-loader']
+					{
+						loader: 'image-webpack-loader',
+						query: {
+							mozjpeg: {
+								progressive: true,
+							},
+							gifsicle: {
+								interlaced: false,
+							},
+							optipng: {
+								optimizationLevel: 7,
+							},
+							pngquant: {
+								quality: '75-90',
+								speed: 3,
+							}
+						}
+		 }]
 	 }]
 	},
 	plugins: [

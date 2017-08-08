@@ -3,6 +3,7 @@ import Browser from 'Browser';
 import SkillButtons from 'SkillButtons';
 import NotifySwipe from 'NotifySwipe';
 import Waypoint from 'react-waypoint';
+import profile from '../assets/profile.png';
 
 const LeftContent = () => {
 	return (
@@ -97,10 +98,10 @@ const LeftContent = () => {
 					</div>
 					<div className='row'>
 						<div className='col-sm-6 col-sm-offset-3
-							col-md-4 col-md-offset-4 hex profile'>
+							col-md-2 col-md-offset-5  hex profile'>
 							<h6>A little about... what I look like while at the beach in freezing cold weather.
 							</h6>
-							<img src='/assets/profile.png'></img>
+							<img src={profile}></img>
 						</div>
 					</div>
 					<div className='row'>
