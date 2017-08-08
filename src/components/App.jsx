@@ -21,7 +21,7 @@ export const RoutesTransition = ({children, location: {
 	let transition = state && state.transition;
 
 	return (
-		<CSSTransitionGroup className=' row move-contatiner' transitionName={transition || 'bouce'} component='div' transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+		<CSSTransitionGroup className=' row move-contatiner' transitionName={transition || 'bounce'} component='div' transitionEnterTimeout={500} transitionLeaveTimeout={500}>
 			{children}
 		</CSSTransitionGroup>
 	)

@@ -62,17 +62,17 @@ const LeftContent = () => {
 					<Browser vis={this.state.visualization}/>
 					<SkillButtons handleClick={this.onClick.bind(this)}/>
 					<div className="row skill-selectors">
-						<div className="col-sm-4 skill-selectors-content-front-end empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('front-end')}>
+						<div className="col-sm-4 skill-selectors-content-front-end empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('frontEnd')}>
 							<h6>
 								<span className='code-arrows'>&#60;</span>/FrontEnd<span className='code-arrows'>&#62;</span>
 							</h6>
 						</div>
-						<div className="col-sm-4 skill-selectors-content-back-end empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('back-end')}>
+						<div className="col-sm-4 skill-selectors-content-back-end empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('backEnd')}>
 							<h6>
 								<span className='code-arrows'>&#60;</span>/BackEnd<span className='code-arrows'>&#62;</span>
 							</h6>
 						</div>
-						<div className="col-sm-4 skill-selectors-content-dev-ops empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('front-end')}>
+						<div className="col-sm-4 skill-selectors-content-dev-ops empty-border-button hvr-rectangle-out skill-select" onClick={() => this.onClick('devOps')}>
 							<h6>
 								<span className='code-arrows'>&#60;</span>/DevOps<span className='code-arrows'>&#62;</span>
 							</h6>
@@ -83,7 +83,6 @@ const LeftContent = () => {
 		}
 
 		render() {
-			console.log(this.props.swipeType);
 			return (
 				<div key={this.props.location.key} className="col-sm-12 col-lg-8 col-lg-offset-2 about-me-content">
 					<div ref='aboutMe' className="row page-title">
@@ -102,7 +101,6 @@ const LeftContent = () => {
 							<h6>A little about... what I look like while at the beach in freezing cold weather.
 							</h6>
 							<img src='/assets/profile.png'></img>
-
 						</div>
 					</div>
 					<div className='row'>

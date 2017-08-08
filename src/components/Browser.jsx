@@ -5,6 +5,7 @@ import DevOpsVisual from 'DevOpsVisual';
 import {TimelineMax, TweenMax, Power4, Bounce} from 'gsap/src/minified/TweenMax.min';
 import DrawSVGPlugin from 'DrawSVGPlugin';
 import Waypoint from 'react-waypoint';
+import SkillItems from 'SkillItems';
 
 export default class Browser extends React.Component {
 	constructor(props) {
@@ -19,27 +20,6 @@ export default class Browser extends React.Component {
 
 	}
 	componentWillReceiveProps(nextProps) {}
-
-	renderVisualization(vis) {
-		switch (vis) {
-			case 'front-end':
-				return (<FrontEndVisual/>);
-				break;
-			case 'back-end':
-				return (<BackEndVisual/>);
-				break;
-			case 'dev-ops':
-				return (<DevOpsVisual/>);
-				break;
-			default:
-				return (
-					<g id="default-vis">
-						<text fill="white" transform="translate(200, 200)">Default Visualisation</text>
-					</g>
-				);
-		}
-
-	}
 
 	getBrowserAnimation() {
 		let {
@@ -146,11 +126,13 @@ export default class Browser extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.vis);
 
 		return (
 			<Waypoint onEnter={this.handleEnter.bind(this)} onLeave={this.handleLeave.bind(this)}>
 				<div className="row browser">
 					<div className="col-sm browser-content">
+						<SkillItems category={this.props.vis}/>
 						<svg id="browser-item-svg" viewBox="0 0 604.8 403.7">
 							<path ref='browserMenuBar' d="M602.2.5H2.6A2 2 0 0 0 .6 2V46a2 2 0 0 1 2-1.6h599.6a2 2 0 0 1 2 1.6V2a2 2 0 0 0-2-1.5z" className="a"/>
 							<path ref="filledTab" d="M175.3 44c-1.6 0-2.2-1-1.2-2.4l16-22.8a6.6 6.6 0 0 1 5-2.5h55a6.2 6.2 0 0 1 4.7 2.6L269 41.4c1 1.4.3 2.6-1.3 2.6z" className="b"/>
@@ -161,7 +143,7 @@ export default class Browser extends React.Component {
 							<circle ref="expandCircle" cx="37.6" cy="24.4" r="6" className="a"/>
 							<circle ref="emptyCircle" cx="55.6" cy="24.2" r="6" className="a"/>
 							<path ref="exitX" transform="translate(-.2, -.5)" d="M20.4 27H20l-1.5-2-1.3 2h-.6l1.7-2.4-1.7-2.4h.5l1.5 2 1.4-2h.4l-1.6 2.4c.8 1 1.6 2.5 1.6 2.5z" className="b"/>
-							<path ref="expandPlus" d="M35 24h2.4v-2.4h.5V24h2.4v.6H38v2.6h-.6v-2.6h-2.5z" className="b"/> {this.renderVisualization(this.props.vis)}
+							<path ref="expandPlus" d="M35 24h2.4v-2.4h.5V24h2.4v.6H38v2.6h-.6v-2.6h-2.5z" className="b"/>
 						</svg>
 					</div>
 				</div>

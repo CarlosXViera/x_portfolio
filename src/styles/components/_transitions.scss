@@ -181,6 +181,60 @@
   transition: opacity 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+//bounce-skill
+
+.bounce-skill-enter {
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: scale(0);
+  opacity: 0.01;
+}
+
+.bounce-skill-enter-active {
+
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  opacity: 1;
+  transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+}
+
+.bounce-skill-leave {
+
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: scale(1);
+  opacity: 1;
+
+}
+
+.bounce-skill-leave-active {
+
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: scale(.01);
+  opacity: 0.01;
+  transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.bounce-skill-appear {
+
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: scale(0);
+  opacity: 0.01;
+}
+
+.bounce-skill-appear-active {
+
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  transform: scale(2);
+  opacity: 1;
+  transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
 //fast fade
 .example-enter {
   pointer-events: none;

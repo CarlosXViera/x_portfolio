@@ -1,0 +1,18 @@
+.skill-items {
+  padding: 5%;
+  margin: 0;
+
+  position: absolute;
+  top: 10.8%;
+  bottom: 1%;
+  width: 98.6%;
+  border: solid 1px $todayIII;
+
+  .skill {
+    margin: auto auto 4.6%;
+    float: left;
+    width: 10%;
+    height: 10%;
+    display: inline;
+  }
+}

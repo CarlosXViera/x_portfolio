@@ -139,7 +139,7 @@ export default class App extends React.Component {
 
 	renderServer(onClick) {
 		return (
-			<g id="server" onMouseLeave={this.serverMouseOut} onMouseEnter={this.serverMouseOver} onClick={() => onClick('back-end')}>
+			<g id="server" onMouseLeave={this.serverMouseOut} onMouseEnter={this.serverMouseOver} onClick={() => onClick('backEnd')}>
 				<g ref={r => this.server1 = r}>
 					<Server/>
 				</g>
@@ -159,7 +159,7 @@ export default class App extends React.Component {
 
 	renderLaptop(onClick) {
 		return (
-			<g id="laptop" onMouseLeave={this.laptopMouseOut} onMouseEnter={this.laptopMouseOver} onClick={() => onClick('front-end')}>
+			<g id="laptop" onMouseLeave={this.laptopMouseOut} onMouseEnter={this.laptopMouseOver} onClick={() => onClick('frontEnd')}>
 				<path d="M94.2 4.4H15.8A3.5 3.5 0 0 0 12.3 8v53a3.5 3.5 0 0 0 3.5 3.4h78.4a3.5 3.5 0 0 0 3.5-3.5V8a3.5 3.5 0 0 0-3.5-3.6zM94 57.6H16v-49H94z" ref={ref => this.latopFrame = ref} className="d"/>
 				<rect id='laptop-frame1' ref={ref => this.frame1 = ref} width="27.3" height="45.3" x="18.6" y="11" rx="2" ry="2"/>
 				<rect id='laptop-frame2' width="44.1" ref={ref => this.frame2 = ref} height="20.3" x="47.6" y="12" rx="2" ry="2"/>
@@ -174,7 +174,7 @@ export default class App extends React.Component {
 
 	renderGears(onClick) {
 		return (
-			<g id="gears" onMouseEnter={this.gearsMouseOver} onMouseLeave={this.gearsMouseOut} onClick={() => onClick('dev-ops')}>
+			<g id="gears" onMouseEnter={this.gearsMouseOver} onMouseLeave={this.gearsMouseOut} onClick={() => onClick('devOps')}>
 				<path ref={ref => this.gearTop = ref} className="d" d="M394.2 55.4l2.5-1.4a1 1 0 0 0 .6-1 14.4 14.4 0 0 1 0-1.8.7.7 0 0 0-.4-.7l-2.3-1.3a.5.5 0 0 1-.3-.7c.4-1 1-2.2 1.2-3.4 0-.3.4-.3.7-.3l2.5.4a.7.7 0 0 0 .8-.2c.3-.6.8-1 1.2-1.7a.8.8 0 0 0 0-.5c-.2-.8-.5-1.7-1-2.5 0-.3 0-.5.3-.7l3-2a.5.5 0 0 1 .8 0l1.8 1.8a.7.7 0 0 0 .8.3 15 15 0 0 1 2-.5.7.7 0 0 0 .5-.7c0-.7.3-1.6.5-2.5a.4.4 0 0 1 .5-.3h3.6c.4 0 .5 0 .6.5 0 .8.3 1.7.4 2.5a.7.7 0 0 0 .6.7 11.4 11.4 0 0 1 1.7.5.8.8 0 0 0 1 0c.6-.8 1.4-1.4 2.2-2l3.6 2.6-1.3 2.8a.8.8 0 0 0 0 1c.5.5.8 1 1 1.6a1 1 0 0 0 .8.3c1 0 1.8 0 2.7-.2a.5.5 0 0 1 .6.4l1 3.4c0 .3 0 .5-.3.6l-2.3 1.3a.7.7 0 0 0-.5.7v2a.7.7 0 0 0 .4.6L428 56a.4.4 0 0 1 .2.7l-1.2 3.3a.5.5 0 0 1-.6.5L424 60a.7.7 0 0 0-.7.4c-.4.6-1 1-1.2 1.6a1 1 0 0 0 0 .8l1 2.5a.5.5 0 0 1-.2.6l-3 2a.5.5 0 0 1-.7 0l-1.8-2a.7.7 0 0 0-.8 0l-1.8.5c-.3 0-.5.2-.6.5l-.6 2.5a.6.6 0 0 1-.8.6h-3.3c-.4 0-.5 0-.6-.6 0-.8-.3-1.7-.5-2.5a1 1 0 0 0-.5-.7 17.8 17.8 0 0 0-2-.7.8.8 0 0 0-.6 0l-2 2a.5.5 0 0 1-.7 0l-2.8-2.2a.5.5 0 0 1-.2-.8l1-2.3a.7.7 0 0 0 0-1l-1-1.5a.8.8 0 0 0-.7-.3H396a.6.6 0 0 1-.7-.3l-1-3.8zm27-2.6a9.7 9.7 0 1 0-10.2 9.5 9.7 9.7 0 0 0 10-9.5z"/>
 				<path ref={ref => this.gearBottom = ref} d="M415 31.8l2.8-2.5a1.3 1.3 0 0 0 .5-1.6 19 19 0 0 1-.5-2.2.8.8 0 0 0-.7-.8l-3.2-1a.6.6 0 0 1-.5-.8l.5-5c0-.3.3-.5.7-.5l3.3-.3a1 1 0 0 0 1-.6l1-2.6a1 1 0 0 0 0-.8l-2-3c-.3-.2-.4-.5 0-1 1-1 2-2 3-3.3a.7.7 0 0 1 1-.2l3 1.6a1 1 0 0 0 1 0 19.7 19.7 0 0 1 2.2-1.2 1 1 0 0 0 .6-1V1.7c0-.4.2-.6.6-.7l4.6-1a.6.6 0 0 1 .8.4c.5 1 1 2 1.4 3.2a1 1 0 0 0 1 .7 15 15 0 0 1 2.3.2 1 1 0 0 0 1.2-.4l2.4-3L448 3l-.8 3.7a1 1 0 0 0 .5 1.4l1.7 1.6a1.2 1.2 0 0 0 1 .2l3.3-1a.7.7 0 0 1 1 .4c.6 1.3 1.4 2.7 2.2 4a.6.6 0 0 1-.2 1l-2.6 2.3a1 1 0 0 0-.3 1c.3.7.5 1.5.6 2.3a1 1 0 0 0 .7.8c1.2.5 2.3 1 3.4 1.2a.6.6 0 0 1 .4.8c0 1.5-.2 3-.4 4.6a.7.7 0 0 1-.7.8c-1.2 0-2.3.2-3.4.3a1 1 0 0 0-1 .7c-.2.8-.7 1.5-1 2.4a1.3 1.3 0 0 0 0 1l2 2.8a.6.6 0 0 1 0 1l-3 3.4a.7.7 0 0 1-1 0l-3-1.6a1 1 0 0 0-1 0l-2.2 1.3a1 1 0 0 0-.6 1v3.2c0 .5-.2.8-.8 1-1.5 0-3 .4-4.3.8a.7.7 0 0 1-1-.6c-.4-1-.8-2-1.4-3a1.2 1.2 0 0 0-.7-.6 23.4 23.4 0 0 0-2.7-.3 1 1 0 0 0-1 .3l-2 3a.6.6 0 0 1-1 .2l-4.2-2a.7.7 0 0 1-.5-1l.8-3.2a1 1 0 0 0-.3-1l-2-1.8a1 1 0 0 0-.8-.2l-3.4 1a.7.7 0 0 1-1-.4l-2.6-4.4zm33.7-11.5a12.7 12.7 0 1 0-10 15.2 12.8 12.8 0 0 0 10-15.2z" className="d"/>
 				<rect fill='rgba(0,0,0,0)' x='390' width='75' height='65'></rect>
