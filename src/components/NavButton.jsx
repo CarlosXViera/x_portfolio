@@ -114,7 +114,7 @@ export default class NavButton extends React.Component {
 
 	render() {
 		return (
-			<div className="col-sm-2 col-sm-offset-5 nav-button-container">
+			<div className="col-sm-2 col-sm-offset-8 nav-button-container">
 				{this.renderMenuButton(this.props.show)}
 			</div>
 		)

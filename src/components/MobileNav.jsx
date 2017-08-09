@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 import DefineGlasses from 'Glasses';
 import {CSSTransitionGroup} from 'react-transition-group'
 
-export const LogoButton = () => {
+export const LogoButton = ({onHide}) => {
 	return (
-		<div className="col-sm-2 mobile-logo-button-container">
+		<div className="col-sm-2 mobile-logo-button-container" onClick={onHide}>
 			<Link to={{
 				pathname: '/',
 				state: {
@@ -20,9 +20,9 @@ export const LogoButton = () => {
 	)
 }
 
-export const SlideNav = () => {
+export const Nav = ({onClick}) => {
 	return (
-		<div className='slide-nav'>
+		<div className='slide-nav' onClick={onClick}>
 			<Link className='slide-nav-item' to={{
 				pathname: '/about',
 				state: {
@@ -54,21 +54,25 @@ export const SlideNav = () => {
 	)
 }
 
-export const LogoSubTitle = ({show}) => {
-	const sub = !show
-		? (
-			<small>Viera.io
-				<br/>Web Developer</small>
-		)
-		: '';
-
+export const LogoSubTitle = () => {
 	return (
-		<div className="col-sm-3 logo-subtitle">
+		<div className='logo-subtitle'>
 			<h5>
-				<CSSTransitionGroup transitionName='slideleft' transitionEnterTimeout={500} transitionLeaveTimeout={500}>
-					{sub}
-				</CSSTransitionGroup>
+				<small>Viera.io
+					<br/>Web Developer</small>
 			</h5>
 		</div>
 	)
+}
+
+export const MobileNav = ({onShow, onHide}) => {
+
+	return (
+		<CSSTransitionGroup component='div' transitionName="nav-slide-up" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+			{onShow
+				? <Nav key={'mobile-nav'} onClick={onHide}/>
+				: <LogoSubTitle key={'logo-subtitle'} onClick={onHide}/>}
+		</CSSTransitionGroup>
+	)
+
 }

@@ -5,7 +5,7 @@ import uuid from 'node-uuid';
 import DefineGlasses from 'Glasses';
 import {TimelineMax, Back} from 'gsap/src/minified/TweenMax.min';
 import NavButton from 'NavButton';
-import {SlideNav, LogoSubTitle, LogoButton} from 'MobileNav';
+import {MobileNav, LogoButton} from 'MobileNav';
 import MediaIcons from 'MediaIcons';
 import {CSSTransitionGroup} from 'react-transition-group';
 
@@ -20,6 +20,9 @@ class TopNav extends React.Component {
 			atHome: this.props.location.pathname === '/'
 		}
 		this.mouseOverHome = this.mouseOverHome.bind(this);
+
+		this.handleShow = this.handleShow.bind(this);
+		this.handleHide = this.handleHide.bind(this);
 	}
 
 	componentDidMount() {}
@@ -126,23 +129,6 @@ class TopNav extends React.Component {
 		this.hoverArrows.restart();
 	}
 
-	renderSlideIn(show) {
-		let slide = show
-			? (
-				<div onClick={this.handleHide.bind(this)}>
-					<SlideNav/>
-				</div>
-			)
-			: '';
-		return (
-
-			<CSSTransitionGroup transitionName="bounce" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
-				{slide}
-			</CSSTransitionGroup>
-		)
-
-	}
-
 	showIcons(loc) {
 		return loc
 			? (
@@ -167,7 +153,6 @@ class TopNav extends React.Component {
 							<TopNavIcon appear={'appear'}/>
 						</Link>
 					</div>
-
 					<div className="nav-item about hvr-underline-from-center hvr-grow">
 						<Link to={{
 							pathname: '/about',
@@ -183,7 +168,6 @@ class TopNav extends React.Component {
 							<h6>Blog</h6>
 						</a>
 					</div>
-
 					<div className="nav-item work hvr-underline-from-center hvr-grow">
 						<Link to={{
 							pathname: '/work',
@@ -205,7 +189,6 @@ class TopNav extends React.Component {
 						</Link>
 					</div>
 				</div>
-
 				<div className='col-sm-1 col-sm-offset-8 col-md-offset-7 col-lg-offset-5 nav-item social hidden-sm'>
 					<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="slide-left" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
 						{this.showIcons(this.state.atHome)}
@@ -215,10 +198,9 @@ class TopNav extends React.Component {
 
 				<div className="col-sm-12 hidden-md hidden-lg nav-mobile-container">
 					<div className='row nav-mobile'>
-						{this.renderSlideIn(this.state.show)}
-						<LogoButton/>
-						<LogoSubTitle show={this.state.show}/>
-						<NavButton ref="navButton" show={this.state.show} onShow={this.handleShow.bind(this)} onHide={this.handleHide.bind(this)}/>
+						<LogoButton onHide={this.handleHide}/>
+						<NavButton ref="navButton" show={this.state.show} onShow={this.handleShow} onHide={this.handleHide}/>
+						<MobileNav onShow={this.state.show} onHide={this.handleHide}/>
 					</div>
 				</div>
 

@@ -84,11 +84,14 @@
 }
 
 .logo-subtitle {
-  padding-left: 10px;
+  position: absolute;
+  left: 20vw;
+  top: 1.2vh;
+
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: 9vh;
+  height: 6vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -96,11 +99,6 @@
   -ms-flex-align: center;
   align-items: center;
   white-space: nowrap;
-  background: -webkit-gradient(linear, left top, left bottom, from($todayI), color-stop($todayII), to($todayI)) left $todayI no-repeat;
-  background: -webkit-linear-gradient(top, $todayI, $todayII, $todayI) left $todayI no-repeat;
-  background: -o-linear-gradient(top, $todayI, $todayII, $todayI) left $todayI no-repeat;
-  background: linear-gradient(to bottom, $todayI, $todayII, $todayI) left $todayI no-repeat;
-  background-size: 1px 60%;
 
   h5 {
     small {
@@ -137,15 +135,16 @@
 .nav-mobile {
   -webkit-box-shadow: 0 3px rgba(0,0,0,.3);
   box-shadow: 0 3px rgba(0,0,0,.3);
-  height: 8.2vh;
+  height: 9vh;
   width: 100vw;
   padding: 0 0 5px;
+  background-color: $todayI;
   /* gradient can be an image */
-  background: -webkit-gradient( linear, right top, left top, from($todayI), color-stop($todayV), color-stop($todayIII), color-stop($todayII), color-stop($todayIII), color-stop($todayV), to($todayI)) left bottom $todayI no-repeat;
-  background: -webkit-linear-gradient( right, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI) left bottom $todayI no-repeat;
-  background: -o-linear-gradient( right, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI) left bottom $todayI no-repeat;
-  background: linear-gradient( to left, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI) left bottom $todayI no-repeat;
-  background-size: 100% 1px;
+  // background: -webkit-gradient( linear, right top, left top, from($todayI), color-stop($todayV), color-stop($todayIII), color-stop($todayII), color-stop($todayIII), color-stop($todayV), to($todayI)) left bottom $todayI no-repeat;
+  // background: -webkit-linear-gradient( right, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI) left bottom $todayI no-repeat;
+  // background: -o-linear-gradient( right, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI) left bottom $todayI no-repeat;
+  // background: linear-gradient( to left, $todayI, $todayV, $todayIII, $todayII, $todayIII, $todayV, $todayI) left bottom $todayI no-repeat;
+  // background-size: 100% 1px;
   /* if linear-gradient, we need to resize it */
 
   .nav-button-container {
