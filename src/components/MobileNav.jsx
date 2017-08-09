@@ -65,7 +65,7 @@ export const LogoSubTitle = ({show}) => {
 	return (
 		<div className="col-sm-3 logo-subtitle">
 			<h5>
-				<CSSTransitionGroup transitionName='slide-left' transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+				<CSSTransitionGroup transitionName='slideleft' transitionEnterTimeout={500} transitionLeaveTimeout={500}>
 					{sub}
 				</CSSTransitionGroup>
 			</h5>

@@ -15,8 +15,6 @@ export default class Hexagons extends React.Component {
 			...data
 		}
 
-		//this.outerWaveAnimation = null;
-		//this.matrixAnimaton = null;
 		this.hexagonRefs = {};
 		this.handleMouseOver = this.handleMouseOver.bind(this);
 		this.updateAnimations = this.updateAnimations.bind(this);
@@ -29,8 +27,8 @@ export default class Hexagons extends React.Component {
 	componentDidMount() {
 		setTimeout(() => {
 			this.updateAnimations();
-			this.props.onCreate('onReverseComplete', () => this.outerWaveAnimation.play());
-			this.outerWaveAnimation.play()
+			this.props.onCreate('onReverseComplete', () => this.matrixAnimation.play());
+			this.matrixAnimation.play()
 			TweenMax.ticker.fps(30)
 			TweenMax.ticker.lagSmoothing(250, 33);
 		}, 301)
@@ -237,7 +235,8 @@ export default class Hexagons extends React.Component {
 	}
 
 	removeAnimations(tl) {
-
+		tl.pause(0);
+		tl.invalidate();
 		for (let child of tl.getChildren(false, true, false)) {
 			for (let target of child.target) {
 				TweenMax.set(target, {clearProps: 'all'});
@@ -263,12 +262,15 @@ export default class Hexagons extends React.Component {
 			let lineTl = new TimelineMax(),
 				stroke = fills[getRandomInt(0, 6)],
 				speed = getRandomFloat(.1, 5),
-				lineDelay = 5 * getRandomInt(0, 10),
+				lineDelay = 5 * getRandomInt(0, 20),
 				linePosition = rowIndex / rowArr;
 
 			row.forEach((col, colIndex, colArr) => {
 				let hexagon = this.refs[col.pRef],
 					placement = colIndex / colArr,
+					fromParams = {
+						strokeOpacity: 0
+					},
 					params = {
 						transformOrigin: '50% 50%',
 						strokeOpacity: 1,
@@ -281,11 +283,8 @@ export default class Hexagons extends React.Component {
 						ease: Power4.easeIn,
 						opacity: speed
 					};
-				// lineTl.add(TweenMax.set(hexagon, {
-				// 	stroke: 'transparent',
-				// 	strokeOpacity: 1
-				// }, "+=2"), "+=2")
-				lineTl.add(TweenMax.to(hexagon, speed, params), placement);
+
+				lineTl.add(TweenMax.fromTo(hexagon, speed, fromParams, params), placement);
 
 			})
 			lineTl.addLabel(`line-${rowIndex}`);

@@ -20,7 +20,7 @@ export default class WorkControls extends React.Component {
 				<Link to={{
 					pathname: nextPage,
 					state: {
-						transition: 'slideright'
+						transition: 'slideleft'
 					}
 				}} replace>
 					<RightArrow/>
@@ -40,7 +40,7 @@ export default class WorkControls extends React.Component {
 				<Link to={{
 					pathname: prevPage,
 					state: {
-						transition: 'slideleft'
+						transition: 'slideright'
 					}
 				}} replace>
 					<LeftArrow/>

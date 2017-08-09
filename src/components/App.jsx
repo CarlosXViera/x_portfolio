@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Redirect, withRouter} from 'react-router-dom';
 import Hexagons from 'Hexagons';
 import TopNav from 'TopNav';
 import AboutMe from 'AboutMe';
@@ -14,6 +14,35 @@ import {handleSwipeUp, handleSwipeDown, handleSwipeRight, handleSwipeLeft} from 
 import {TweenMax, TimelineMax, Bounce, Sine} from 'gsap/src/minified/TweenMax.min';
 import {CSSTransitionGroup} from 'react-transition-group';
 import vignette from '../assets/vignette-min.png';
+import classNames from 'classnames';
+
+const Header = withRouter(({isMobile, location: {
+		pathname
+	}}) => {
+	let headerClass = classNames({
+		'header': isMobile,
+		'header-mobile': !isMobile,
+		'about-header': pathname === '/about',
+		'home-header': pathname === '/',
+		'contact-header': pathname === '/contact',
+		'work-header': pathname === '/work'
+	})
+	return <div className={headerClass}></div>;
+});
+
+const Footer = withRouter(({isMobile, location: {
+		pathname
+	}}) => {
+	let footerClass = classNames({
+		'footers': isMobile,
+		'footer-mobile': !isMobile,
+		'about-footer': pathname === '/about',
+		'home-footer': pathname === '/',
+		'contact-footer': pathname === '/contact',
+		'work-footer': pathname === '/work'
+	})
+	return <div className={footerClass}></div>;
+});
 
 export const RoutesTransition = ({children, location: {
 		state
@@ -32,25 +61,25 @@ export default class App extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.handleResize = this.handleResize.bind(this);
+		this.setReRender = this.setReRender.bind(this);
+		window.mobileCheck = mobileCheck;
+
 		this.state = {
 			orientation: 'landscape',
 			hexagonVis: 'default',
 			show: false,
 			reRender: false,
 			initial: false,
-			swipeable: false
+			swipeable: false,
+			isMobile: !window.mobileCheck()
 		}
-		this.isMobile = false;
-		this.handleResize = this.handleResize.bind(this);
-		this.setReRender = this.setReRender.bind(this);
-		window.mobileCheck = mobileCheck;
 
 		this.id = null;
 		if (!window.mobileCheck()) {
 			window.addEventListener('resize', this.handleResize);
-		} else {
-			this.isMobile = true;
 		}
+
 		this.handleInit = this.handleInit.bind(this);
 		this.getRefreshAnimation = this.getRefreshAnimation.bind(this);
 
@@ -176,9 +205,9 @@ export default class App extends React.Component {
 	}
 
 	resolutionAdjust(w, h) {
-		if (this.isMobile) {
-			w = w * .9;
-			h = h * .9;
+		if (!this.state.isMobile) {
+			w = w * .85;
+			h = h * .85;
 		} else if (w > 1680) {
 			w = w * .9;
 			h = h * .9;
@@ -193,15 +222,22 @@ export default class App extends React.Component {
 	render() {
 		let {clippedWidth, clippedHeight} = this.resolutionAdjust(window.innerWidth, window.innerHeight);
 
+		console.log
+		let header = classNames({
+			'header': this.state.isMobile,
+			'header-mobile': !this.state.isMobile
+		});
+
 		return (
 			<div className="root">
-				<div className='header hidden-sm'></div>
+
 				<Router>
 					<div className="container app-container">
-						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 50} height={clippedHeight + 50} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 50 ${clippedWidth} ${clippedHeight}`}/>
+						<Hexagons ref={r => this.hexagonRefs = r} onRefresh={this.refreshPlay.bind(this)} onCreate={this.createRefresh.bind(this)} onRefreshReverse={this.refreshReverse.bind(this)} reRender={this.state.reRender} width={clippedWidth + 75} height={clippedHeight + 75} initial={this.state.initial} onInit={this.handleInit} viewBox={`0 50 ${clippedWidth} ${clippedHeight}`}/>
 						<div className='vignette' style={{
 							backgroundImage: `url(${vignette})`
 						}}></div>
+						<Header isMobile={this.state.isMobile}/>
 						<TopNav/>
 
 						<Route render={({location, history, match}) => {
@@ -214,7 +250,7 @@ export default class App extends React.Component {
 								</RoutesTransition>
 							);
 						}}/>
-
+						<Footer isMobile={this.state.isMobile}/>
 					</div>
 				</Router>
 				<div className='refresh-pane' ref={(r) => {
@@ -222,7 +258,7 @@ export default class App extends React.Component {
 						return;
 					this.refreshPane = r
 				}}></div>
-				<div className='footer'></div>
+
 			</div>
 		)
 	}

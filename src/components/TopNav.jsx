@@ -136,7 +136,7 @@ class TopNav extends React.Component {
 			: '';
 		return (
 
-			<CSSTransitionGroup component='span' transitionAppear={true} transitionAppearTimeout={300} transitionName="example" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+			<CSSTransitionGroup transitionName="bounce" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
 				{slide}
 			</CSSTransitionGroup>
 		)

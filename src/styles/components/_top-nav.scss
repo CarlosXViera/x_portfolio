@@ -1,4 +1,6 @@
 .top-nav {
+  z-index: 20;
+
   .social {
     #social-media-icons-item-svg {
       .icon-border {
@@ -86,7 +88,7 @@
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: 8vh;
+  height: 9vh;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
