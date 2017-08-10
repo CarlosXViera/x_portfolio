@@ -123,7 +123,7 @@
 
 .nav-slide-up-leave-active {
   pointer-events: none;
-  transform: translateY(-18vh);
+  transform: translateY(-8vh);
   position: absolute;
   opacity: 0.01;
   transition: all 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -306,76 +306,64 @@
 ///slideright
 .slideright-enter {
   pointer-events: none;
-  position: fixed;
-  transform: translateX(-1000px);
-
+  position: absolute;
+  transform: translateX(-100vw) scale(.5);
 }
 
 .slideright-enter.slideright-enter-active {
   pointer-events: none;
-
-  position: fixed;
-  transform: translateX(0px);
-  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  position: absolute;
+  transform: translateX(0vw) scale(1);
+  transition: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }
 
 .slideright-leave {
   pointer-events: none;
-
-  position: fixed;
-  opacity: 1;
-  transform: translateX(0px);
+  position: absolute;
+  transform: translateX(0px) scale(1);
 }
 
 .slideright-leave.slideright-leave-active {
   pointer-events: none;
-  position: fixed;
-  opacity: 0.01;
-  transform: translateX(400px);
-  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  position: absolute;
+  transform: translateX(100vw) scale(.5);
+  transition: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }
 /////New
 .slideleft-enter {
   pointer-events: none;
-  position: fixed;
-  transform: translateX(1000px);
+  position: absolute;
+  transform: translateX(100vw) scale(.5);
 
 }
 
 .slideleft-enter.slideleft-enter-active {
   pointer-events: none;
-
-  position: fixed;
-  transform: translateX(0px);
-  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  position: absolute;
+  transform: translateX(0px) scale(1);
+  transition: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }
 
 .slideleft-leave {
   pointer-events: none;
-
-  position: fixed;
-  opacity: 1;
-  transform: translateX(0px);
+  position: absolute;
+  transform: translateX(0px) scale(1);
 }
 
 .slideleft-leave.slideleft-leave-active {
   pointer-events: none;
-
-  position: fixed;
-  opacity: 0.01;
-  transform: translateX(-400px);
-  transition: all 500ms cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  position: absolute;
+  transform: translateX(-100vw) scale(.5);
+  transition: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }
 
 .slideleft-appear {
   pointer-events: none;
-  opacity: 0.01;
 }
 
 .slideleft-appear.slideleft-appear-active {
   pointer-events: none;
-  opacity: 1;
-  transition: opacity 0.5s cubic-bezier(0.895, 0.030, 0.685, 0.220);
+  transition: opacity 0.5s cubic-bezier(0.645, 0.045, 0.355, 1.000);
 }
 
 //transition: all 0.5s cubic-bezier(0.895, 0.030, 0.685, 0.220);

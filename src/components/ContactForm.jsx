@@ -25,6 +25,26 @@ export default class ContactForm extends React.Component {
 
 		this.submitForm = this.submitForm.bind(this);
 	}
+	clearForm() {
+		this.setState({
+			name: '',
+			email: '',
+			subject: '',
+			message: '',
+			formErrors: {
+				name: '',
+				email: '',
+				subject: '',
+				message: ''
+			},
+			nameValid: false,
+			emailValid: false,
+			subjectValid: false,
+			messageValid: false,
+			formValid: false
+		});
+	}
+
 	submitForm() {
 
 		fetch('/process_submit', {
@@ -34,7 +54,11 @@ export default class ContactForm extends React.Component {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({name: this.state.name, email: this.state.email, subject: this.state.subject, message: this.state.message})
-		})
+		});
+
+		this.clearForm();
+		this.props.onShow();
+
 	}
 
 	handleUserInput(e) {
@@ -137,9 +161,7 @@ export default class ContactForm extends React.Component {
 						</div>
 					</div>
 					<FormErrors formErrors={this.state.formErrors}/>
-
 				</div>
-
 			</div>
 
 		);

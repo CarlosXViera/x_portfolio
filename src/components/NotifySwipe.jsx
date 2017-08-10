@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {handleSwipeUp, handleSwipeDown} from 'utils';
 import Waypoint from 'react-waypoint';
-import {TimelineMax, TweenLite, Bounce} from 'gsap/src/minified/TweenMax.min';
+import {TimelineMax, Bounce} from 'gsap/src/minified/TweenMax.min';
 import DrawSVGPlugin from 'DrawSVGPlugin';
 
 export default class NofiySwipe extends React.Component {
@@ -44,11 +44,18 @@ export default class NofiySwipe extends React.Component {
 			transformOrigin: '50%, 50%',
 			opacity: 1,
 			drawSVG: '100%'
-		}).to(swiper, 1, {
+		}).fromTo(swiper, 1, {
 			transformOrigin: '50%, 50%',
-			scale: 1.2,
-			y: -60,
+
+			x: 11,
 			opacity: 0,
+			yoyo: true,
+			repeat: 4
+		}, {
+			transformOrigin: '50%, 50%',
+			x: -11,
+			opacity: 1,
+			yoyo: true,
 			repeat: 4
 		}).to([
 			swiper, phone
@@ -59,51 +66,29 @@ export default class NofiySwipe extends React.Component {
 	}
 
 	animateScroll() {
+		let mouseTl = new TimelineMax();
+		let {mouse, pointer} = this.refs;
 
-		let mouse = this.refs.mouse;
-		let circle1 = this.refs.circle1;
-		let circle2 = this.refs.circle2;
-		let circle3 = this.refs.circle3;
-
-		TweenMax.to(mouse, 0, {
-			transformOrigin: '50%, 50%',
-			opacity: 0,
+		mouseTl.fromTo(mouse, 2, {
 			drawSVG: '0%'
-		});
-
-		TweenMax.to([
-			circle1, circle2, circle3
-		], 0, {opacity: 0});
-
-		this.swipeAnimation.to(mouse, 1, {
+		}, {
 			opacity: 1,
 			drawSVG: '100%'
 		})
-
-		this.mouseScrollAnimation.to(circle1, .2, {
-			transformOrigin: '50%, 50%',
+		mouseTl.fromTo(pointer, 1, {
+			x: -20
+		}, {
 			opacity: 1,
-			scale: 1.2,
-			repeat: 1,
-			yoyo: true
-		}).to(circle2, .2, {
-			transformOrigin: '50%, 50%',
-			opacity: 1,
-			scale: 1.2,
-			repeat: 1,
-			yoyo: true
-		}).to(circle3, .2, {
-			transformOrigin: '50%, 50%',
-			opacity: 1,
-			scale: 1.2,
-			repeat: 1,
-			yoyo: true
-		}).repeat(3).eventCallback('onComplete', () => {
-			TweenMax.to(mouse, 1, {
-				drawSVG: '0%',
-				opacity: 0
-			})
-		})
+			x: 40
+		});
+		mouseTl.to(pointer, 1, {
+			opacity: 0,
+			x: -20
+		});
+		mouseTl.to(mouse, 1, {
+			drawSVG: '0%',
+			opacity: 0
+		});
 	}
 
 	componentDidMount() {
@@ -119,21 +104,20 @@ export default class NofiySwipe extends React.Component {
 	}
 
 	renderNotification(scroll) {
+		let style = {
+			opacity: '0'
+		};
 		return scroll
 			? (
-				<svg className="click-through-child" className="swipe" viewBox="0 0 43 75">
-					<circle ref="swiper" cx="21.5" cy="60.5" r="9.5"/>
+				<svg className="click-through-child" className="swipe" viewBox="0 0 75 75">
 					<rect ref="swipePhone" width="42" height="74" x=".5" y=".5" rx="5" ry="5"/>
+					<circle ref="swiper" cx="21.5" cy="37.5" r="9.5"/>
 				</svg>
 			)
 			: (
-				<svg className="click-through-child" className="scroll" viewBox="0 0 42.73 70.49">
-					<rect ref='mouse' width="42.23" height="69.99" x=".25" y=".25" rx="17.5" ry="17.5"/>
-					<g >
-						<circle ref='circle1' cx="21.37" cy="20.74" r="1.63"/>
-						<circle ref='circle2' cx="21.37" cy="26.9" r="1.63"/>
-						<circle ref='circle3' cx="21.37" cy="33.06" r="1.63"/>
-					</g>
+				<svg transform='scale(3)' className="scroll" viewBox="0 0 70 42">
+					<rect style={style} ref='mouse' width="68" height="40" x="1" y="1" rx="1" ry="1"/>
+					<path style={style} ref='pointer' stroke='#FFF' fill='#FFF' d="M28.1 24l1.1 2.2a.6.6 0 0 1-.3.8l-.7.4a.6.6 0 0 1-.9-.3l-1-2c-.1-.2-.2-.2-.3 0l-1.1 1.1c-.1.1-.2.2-.4.1a.4.4 0 0 1-.2-.4v-3.2-4a.4.4 0 0 1 .2-.4.3.3 0 0 1 .4.1l1.5 1.6 1.3 1.3 2.1 2.1c.1.1.2.2.2.3a.4.4 0 0 1-.4.3h-1.5zm-3.5-1.7v3.4c0 .1 0 .2.1.2s.2-.1.2-.1l1-1c.4-.4.4-.4.7.1l1 2c.2.3.3.4.6.2l.5-.3c.4-.2.4-.3.2-.7l-1-2.1c-.2-.3-.1-.4.2-.4h1.2c.1 0 .3 0 .3-.1s-.1-.2-.2-.3l-3.7-3.6-.9-.9c-.1-.1-.1-.2-.3-.1s-.1.2-.1.3.2 2.3.2 3.5z"/>
 				</svg>
 			)
 

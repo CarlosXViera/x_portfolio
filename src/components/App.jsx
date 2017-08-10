@@ -21,7 +21,7 @@ const Header = withRouter(({isMobile, location: {
 	}}) => {
 	let headerClass = classNames({
 		'header': isMobile,
-		'header-mobile': !isMobile,
+		'header-mobile': !isMobile || window.innerWidth < 768,
 		'about-header': pathname === '/about',
 		'home-header': pathname === '/',
 		'contact-header': pathname === '/contact',
@@ -212,8 +212,8 @@ export default class App extends React.Component {
 			w = w * .9;
 			h = h * .9;
 		} else if (w > 1439 && w < 1680) {
-			w = w * .8;
-			h = h * .8;
+			w = w * .9;
+			h = h * .9;
 		}
 
 		return {clippedWidth: w, clippedHeight: h}

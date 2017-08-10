@@ -110,3 +110,29 @@
 .contact-span {
   color: $todayIV;
 }
+
+.contact-submit {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  margin: 0;
+
+  .contact-submit-content {
+    background-color: $todayII;
+    box-shadow: 0 2px 1px black;
+    margin-top: 26vh;
+    width: 16rem;
+    height: 9rem;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

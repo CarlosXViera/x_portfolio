@@ -29,7 +29,7 @@ export default class Hexagons extends React.Component {
 			this.updateAnimations();
 			this.props.onCreate('onReverseComplete', () => this.matrixAnimation.play());
 			this.matrixAnimation.play()
-			TweenMax.ticker.fps(30)
+			TweenMax.ticker.fps(15)
 			TweenMax.ticker.lagSmoothing(250, 33);
 		}, 301)
 
@@ -262,10 +262,11 @@ export default class Hexagons extends React.Component {
 			let lineTl = new TimelineMax(),
 				stroke = fills[getRandomInt(0, 6)],
 				speed = getRandomFloat(.1, 5),
-				lineDelay = 5 * getRandomInt(0, 20),
+				lineDelay = 3.5 * getRandomInt(0, rowArr.length),
 				linePosition = rowIndex / rowArr;
 
 			row.forEach((col, colIndex, colArr) => {
+				let innerLineTl = new TimelineMax();
 				let hexagon = this.refs[col.pRef],
 					placement = colIndex / colArr,
 					fromParams = {
@@ -284,7 +285,7 @@ export default class Hexagons extends React.Component {
 						opacity: speed
 					};
 
-				lineTl.add(TweenMax.fromTo(hexagon, speed, fromParams, params), placement);
+				lineTl.add(innerLineTl.set(hexagon, {clearProps: 'stroke, stroke-opacity'}).fromTo(hexagon, speed, fromParams, params).set(hexagon, {clearProps: 'stroke, stroke-opacity, opacity'}), placement);
 
 			})
 			lineTl.addLabel(`line-${rowIndex}`);
