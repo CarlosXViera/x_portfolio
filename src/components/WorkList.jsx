@@ -282,19 +282,21 @@ export default class WorkList extends React.Component {
 	}
 
 	onGSMouseTouch(e) {
+		e.stopPropagation();
 		this.setDisable()
 		e.preventDefault();
 		this.gsMouseOver.timeScale(3).play(0).call(() => this.props.history.push('/work/gravesendseye', this.contentTransition));
 	}
 
 	onGSMouseClick(e) {
+		e.stopPropagation();
 		this.setDisable()
 		e.preventDefault();
 		this.props.history.push('/work/gravesendseye', this.contentTransition);
 	}
 
 	onGSMouseEnter(e) {
-		e.preventDefault()
+		e.preventDefault();
 		this.gsMouseOver.play(0);
 	}
 
@@ -304,14 +306,16 @@ export default class WorkList extends React.Component {
 	}
 
 	onHCMouseTouch(e) {
-		this.setDisable()
+		e.stopPropagation();
 		e.preventDefault();
+		this.setDisable();
 		this.hcMouseOver.timeScale(3).play(0).call(() => this.props.history.push('/work/hmce', this.contentTransition));
 	}
 
 	onHCMouseClick(e) {
-		this.setDisable()
 		e.preventDefault();
+		e.stopPropagation();
+		this.setDisable();
 		this.props.history.push('/work/hmce', this.contentTransition);
 	}
 
@@ -324,13 +328,16 @@ export default class WorkList extends React.Component {
 	}
 
 	onDSMouseTouch(e) {
-		this.setDisable()
+		this.setDisable();
+		e.stopPropagation();
 		this.dsMouseOver.timeScale(3).play(0).call(() => this.props.history.push('/work/deepspace', this.contentTransition));
 	}
 
 	onDSMouseClick(e) {
-		this.setDisable()
+		e.stopPropagation();
+		this.setDisable();
 		e.preventDefault();
+
 		this.props.history.push('/work/deepspace', this.contentTransition);
 	}
 
@@ -343,14 +350,16 @@ export default class WorkList extends React.Component {
 	}
 
 	onPGMouseTouch(e) {
-		this.setDisable()
 		e.preventDefault();
+		e.stopPropagation();
+		this.setDisable();
 		this.pgMouseOver.timeScale(3).play(0).call(() => this.props.history.push('/work/pressinggame', this.contentTransition));
 	}
 
 	onPGMouseClick(e) {
-		this.setDisable()
 		e.preventDefault();
+		e.stopPropagation();
+		this.setDisable();
 		this.props.history.push('/work/pressinggame', this.contentTransition);
 	}
 
@@ -363,16 +372,16 @@ export default class WorkList extends React.Component {
 	}
 
 	onMPMouseTouch(e) {
-		this.setDisable()
 		e.preventDefault();
-
+		e.stopPropagation();
+		this.setDisable();
 		this.mpMouseOver.timeScale(3).play(0).call(() => this.props.history.push('/work/musicplayer', this.contentTransition));
 	}
 
 	onMPMouseClick(e) {
-		this.setDisable()
 		e.preventDefault();
-
+		e.stopPropagation();
+		this.setDisable();
 		this.props.history.push('/work/musicplayer', this.contentTransition);
 	}
 

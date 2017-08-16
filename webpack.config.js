@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//const CompressionPlugin = require("compression-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const VENDORS = [
