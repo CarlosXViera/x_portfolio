@@ -224,8 +224,8 @@ export default class App extends React.Component {
 
 		console.log
 		let header = classNames({
-			'header': this.state.isMobile,
-			'header-mobile': !this.state.isMobile
+			'header': window.innerWidth > 770,
+			'header-mobile': window.innerWidth < 770
 		});
 
 		return (
