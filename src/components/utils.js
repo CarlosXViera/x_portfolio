@@ -58,15 +58,15 @@ export function handleSwipeRight(props) {
 }
 
 export function debounce(func, wait, immediate) {
-	var timeout;
+	let timeout;
 	return function () {
-		var context = this,
+		let context = this,
 			args = arguments;
-		var later = function () {
+		let later = function () {
 			timeout = null;
 			if (!immediate) func.apply(context, args);
 		};
-		var callNow = immediate && !timeout;
+		let callNow = immediate && !timeout;
 		clearTimeout(timeout);
 		timeout = setTimeout(later, wait);
 		if (callNow) func.apply(context, args);
@@ -103,13 +103,11 @@ export function polarToRectangular(radius, degrees) {
 }
 
 export function shuffle(array) {
-	for (var i = array.length - 1; i > 0; i--) {
-		var j = Math.floor(Math.random() * (i + 1));
-		var temp = array[i];
-		array[i] = array[j];
-		array[j] = temp;
-	}
-	return array;
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
 export function transpose(matrix) {

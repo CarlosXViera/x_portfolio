@@ -66,7 +66,8 @@ export default class WorkList extends React.Component {
 
 	componentDidMount() {
 		this.props.onUnSwipeable();
-		this.initializeTweens();
+		setTimeout(() => this.initializeTweens(), 300);
+
 
 	}
 
@@ -96,6 +97,8 @@ export default class WorkList extends React.Component {
 	getGSMouseOver() {
 		let blink = document.getElementById('blink-path');
 		let eye = document.getElementById('eye');
+
+		console.log(eye);
 		let eyeTl = new TimelineMax();
 
 		eyeTl.to(eye, .35, {
@@ -161,7 +164,7 @@ export default class WorkList extends React.Component {
 	}
 
 	getDSMouseOver() {
-		let stars = shuffle(document.getElementsByClassName('star'));
+		let stars = document.getElementsByClassName('star');
 		let starsTl = new TimelineMax({repeat: 1, yoyo: true});
 
 		starsTl.staggerTo(stars, 1, {

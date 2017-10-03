@@ -88,20 +88,20 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
 		}),
-		new webpack.optimize.UglifyJsPlugin({
-			mangle: true,
-			compress: {
-				warnings: false, // Suppress uglification warnings
-				pure_getters: false,
-				unsafe: true,
-				unsafe_comps: true,
-				screw_ie8: true
-			},
-			output: {
-				comments: false,
-			},
-			exclude: [/\.min\.js$/gi] // skip pre-minified libs
-		})
+		// new webpack.optimize.UglifyJsPlugin({
+		// 	mangle: true,
+		// 	compress: {
+		// 		warnings: false, // Suppress uglification warnings
+		// 		pure_getters: false,
+		// 		unsafe: true,
+		// 		unsafe_comps: true,
+		// 		screw_ie8: true
+		// 	},
+		// 	output: {
+		// 		comments: false,
+		// 	},
+		// 	exclude: [/\.min\.js$/gi] // skip pre-minified libs
+		// })
 	],
 	devServer: {
 		contentBase: path.join(__dirname, "public"),
